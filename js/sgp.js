@@ -158,6 +158,7 @@
 		if(target.getElementById('gp2_protect')&&!(Passwd)) {
 			if(!(confirm('It appears that SuperGenPass has already been \nrun on this page. Are you sure you want to \nrun it again?'))) return false;
 			if(target.getElementById('gp2_protect')) target.body.removeChild(target.getElementById('gp2_protect'));
+			if(target.getElementById('gp2_content')) target.body.removeChild(target.getElementById('gp2_content'));
 			AllowAutoPop=false;
 		}
 
@@ -195,7 +196,7 @@
 				'div',
 				Array(),
 				Array(Array('margin','0'),Array('padding','6px 0 6px 8px'),Array('width','auto'),Array('background','#456'),Array('color','#fff'),FontStyle,Array('fontWeight','bold'),Array('cursor','move')),
-				Array(),
+				Array(Array('mousedown',gp2_drag_start)),
 				Array(
 					gp2_make(
 						'a',
@@ -204,22 +205,16 @@
 						Array(),
 						Array(target.createTextNode('SuperGenPass'))
 					),
-					target.createTextNode(' 1.2'+String.fromCharCode(160)+' '+String.fromCharCode(160)+' '),
+					target.createTextNode(' 1.3'+String.fromCharCode(160)+' '+String.fromCharCode(160)+' '),
 					gp2_make(
 						'a',
 						Array(Array('href','#')),
 						Array(Array('color','#abc'),Array('font','10px sans-serif'),Array('fontWeight','bold'),Array('textDecoration','none'),Array('cursor','pointer')),
-						Array(Array('onclick','gp2_close')),
+						Array(Array('click',gp2_close)),
 						Array(target.createTextNode('[close]'))
 					)
 				)
 			);
-
-		if(TitleBar.addEventListener) { 
-			TitleBar.addEventListener('mousedown',gp2_drag_start,false);
-		} else if(TitleBar.attachEvent) {
-			TitleBar.attachEvent('onmousedown',gp2_drag_start);
-		}
 
 		var ParentDiv=
 			gp2_make(
@@ -284,9 +279,10 @@
 						}
 
 						PasswdField.style.background='#fff';
-						PasswdField.onchange=null;
-						PasswdField.click=null;
-						PasswdField.ondblclick=null;
+						gp2_detach_method(PasswdField,'keydown',gp2_react);
+						gp2_detach_method(PasswdField,'change',gp2_react);
+						gp2_detach_method(PasswdField,'dblclick',gp2_populate);
+						gp2_detach_method(PasswdField,'dblclick',gp2_use_as_master);
 
 					}
 				}
@@ -357,16 +353,18 @@
 					PasswdTarget.style.background='#9fc';
 					PasswdTarget.value=PassCand;
 					PasswdTarget.focus();
-					PasswdTarget.onchange=gp2_unprotect;
+					gp2_attach_method(PasswdTarget,'keydown',gp2_react);
+					gp2_attach_method(PasswdTarget,'change',gp2_react);
 					Populated++;
-				} else if(HarvestPasswd&&PasswdTarget.value==Passwd&&Populated==0) {
+				} else if(PasswdTarget.value==Passwd&&Populated==0) {
 					PasswdTarget.style.background='#9cf';
-					PasswdTarget.onchange=gp2_remove_color;
-					PasswdTarget.ondblclick=gp2_populate;
 					PasswdTarget.blur();
+					gp2_attach_method(PasswdTarget,'keydown',gp2_react);
+					gp2_attach_method(PasswdTarget,'change',gp2_react);
+					gp2_attach_method(PasswdTarget,'dblclick',gp2_populate);
 					Unpopulated++;
 				} else {
-					PasswdTarget.ondblclick=gp2_populate;
+					gp2_attach_method(PasswdTarget,'dblclick',gp2_populate);
 					Unpopulated++;
 				}
 
@@ -420,7 +418,7 @@
 									'a',
 									Array(Array('href','#')),
 									Array(Array('color','#456'),FontStyle),
-									Array(Array('onclick','gp2_reveal_pass')),
+									Array(Array('click',gp2_reveal_pass)),
 									Array(target.createTextNode('Show/hide'))
 								)
 							)
@@ -450,7 +448,7 @@
 									'a',
 									Array(Array('href','#')),
 									Array(Array('color','#456'),FontStyle),
-									Array(Array('onclick','gp2_reveal_master_pass')),
+									Array(Array('click',gp2_reveal_master_pass)),
 									Array(target.createTextNode('Show/hide'))
 								)
 							)
@@ -472,7 +470,7 @@
 									'form',
 									Array(Array('name','gp2_advanced'),Array('action','http://localhost:9/'),Array('autocomplete','off')),
 									Array(Array('margin','0'),Array('padding','0')),
-									Array(Array('onsubmit','gp2_submit')),
+									Array(),
 									Array(
 										gp2_make(
 											'input',
@@ -508,7 +506,7 @@
 											'input',
 											Array(Array('type','password'),Array('id','gp2_advanced_master_passwd'),Array('value',Passwd)),
 											Array(Array('margin','3px 0 10px 0'),Array('width','150px'),InputFontStyle),
-											Array(Array('onkeydown','gp2_retry_advanced_listen')),
+											Array(Array('keypress',gp2_retry_advanced_listen)),
 											Array()
 										),
 										target.createElement('br'),
@@ -518,7 +516,7 @@
 											'input',
 											Array(Array('type','text'),Array('id','gp2_advanced_domain'),Array('size','15'),Array('value',Domain)),
 											Array(Array('margin','3px 0 10px 0'),Array('width','150px'),InputFontStyle),
-											Array(Array('onkeydown','gp2_retry_advanced_listen')),
+											Array(Array('keypress',gp2_retry_advanced_listen)),
 											Array()
 										),
 										target.createElement('br'),
@@ -528,7 +526,7 @@
 											'input',
 											Array(Array('type','text'),Array('id','gp2_advanced_len'),Array('size','4'),Array('value',Len)),
 											Array(Array('margin','3px 0 10px 0'),Array('width','40px'),InputFontStyle),
-											Array(Array('onkeydown','gp2_retry_advanced_listen')),
+											Array(Array('keypress',gp2_retry_advanced_listen)),
 											Array()
 										),
 										target.createElement('br'),
@@ -536,7 +534,7 @@
 											'input',
 											Array(Array('type','button'),Array('value','Regenerate')),
 											Array(Array('margin','0 0 5px 0'),Array('height','20px'),FontStyle),
-											Array(Array('onclick','gp2_retry_advanced')),
+											Array(Array('click',gp2_retry_advanced)),
 											Array()
 										)
 									)
@@ -553,14 +551,14 @@
 									'a',
 									Array(Array('href','#'),Array('id','gp2_contract_link')),
 									Array(Array('display','none'),Array('color','#000'),FontStyle),
-									Array(Array('onclick','gp2_contract')),
+									Array(Array('click',gp2_contract)),
 									Array(target.createTextNode('<< Hide regenerate form'))
 								),
 								gp2_make(
 									'a',
 									Array(Array('href','#'),Array('id','gp2_expand_link')),
 									Array(Array('color','#000'),FontStyle),
-									Array(Array('onclick','gp2_expand')),
+									Array(Array('click',gp2_expand)),
 									Array(target.createTextNode('Regenerate password >>'))
 								)
 							)
@@ -578,8 +576,9 @@
 
 				if(PasswdFields[i][2]) {
 					PasswdTarget = target.forms[PasswdFields[i][0]].elements[PasswdFields[i][1]];
-					PasswdTarget.click=null;
-					PasswdTarget.ondblclick=gp2_use_as_master;
+					gp2_detach_method(PasswdTarget,'keydown',gp2_react);
+					gp2_detach_method(PasswdTarget,'change',gp2_react);
+					gp2_attach_method(PasswdTarget,'dblclick',gp2_use_as_master);
 				}
 
 			}
@@ -595,7 +594,7 @@
 							'form',
 							Array(Array('name','gp2_retry'),Array('action','http://localhost:9/'),Array('autocomplete','off')),
 							Array(Array('margin','0'),Array('padding','0')),
-							Array(Array('onsubmit','gp2_submit')),
+							Array(),
 							Array(
 								gp2_make(
 									'input',
@@ -606,7 +605,7 @@
 								),
 								gp2_make(
 									'input',
-									Array(Array('type','hidden'),Array('id','gp2_hash'),Array('value',Hash)),
+									Array(Array('type','hidden'),Array('id','gp2_hash'),Array('value',Hash+'')),
 									Array(),
 									Array(),
 									Array()
@@ -615,16 +614,16 @@
 								target.createElement('br'),
 								gp2_make(
 									'input',
-									Array(Array('type','password'),Array('name','gp2_master'),Array('id','gp2_master'),Array('size','15'),Array('value','')),
+									Array(Array('type','password'),Array('id','gp2_master'),Array('size','15'),Array('value','')),
 									Array(Array('margin','5px 5px 0 0'),Array('width','125px'),InputFontStyle),
-									Array(Array('onkeydown','gp2_retry_passwd_listen')),
+									Array(Array('keypress',gp2_retry_passwd_listen)),
 									Array()
 								),
 								gp2_make(
 									'input',
 									Array(Array('type','button'),Array('value','Submit')),
 									Array(Array('width','50px'),Array('height','20px'),FontStyle),
-									Array(Array('onclick','gp2_retry_passwd')),
+									Array(Array('click',gp2_retry_passwd)),
 									Array()
 								)
 							)
@@ -634,279 +633,275 @@
 			);
 
 			target.body.appendChild(ParentDiv);
-			target.onunload=gp2_close;
+			gp2_attach_method(window,'unload',gp2_close);
 			target.getElementById('gp2_master').focus();
 
 		}
 
 	}
 
-	function gp2_save_position() {
-
-		var ScrollPosition=gp2_get_scroll_position();
-		if(target.getElementById('gp2_position')) target.body.removeChild(target.getElementById('gp2_position'));
-		target.body.appendChild(gp2_make('div',Array(Array('id','gp2_position')),Array(Array('display','none')),Array(),Array(target.createTextNode(target.getElementById('gp2_pass_box').style.right+'#'+target.getElementById('gp2_pass_box').style.top+'#'+ScrollPosition[0]+'#'+ScrollPosition[1]))));
-
-		return false;
-
-	}
-
-	function gp2_close() {
+	function gp2_close(e) {
 
 		if(target.getElementById('gp2_pass_box')) {
-			gp2_save_position();
+			var ScrollPosition=gp2_get_scroll_position();
+			if(target.getElementById('gp2_position')) target.body.removeChild(target.getElementById('gp2_position'));
+			target.body.appendChild(gp2_make('div',Array(Array('id','gp2_position')),Array(Array('display','none')),Array(),Array(target.createTextNode(target.getElementById('gp2_pass_box').style.right+'#'+target.getElementById('gp2_pass_box').style.top+'#'+ScrollPosition[0]+'#'+ScrollPosition[1]))));
 			target.body.removeChild(target.getElementById('gp2_pass_box'));
 		}
 
 		if(target.getElementById('gp2_content')) target.body.removeChild(target.getElementById('gp2_content'));
 
+		for(var i=0; i<target.forms.length; i++) {
+			for(var j=0; j<target.forms[i].elements.length; j++) {
+				PasswdField=target.forms[i].elements[j];
+				if(PasswdField.type=='password') {
+					gp2_detach_method(PasswdField,'dblclick',gp2_populate);
+					gp2_detach_method(PasswdField,'dblclick',gp2_use_as_master);
+				}
+			}
+		}
+
+		e.preventDefault();
 		return false;
 
 	}
 
-	function gp2_expand() {
-
+	function gp2_expand(e) {
 		target.getElementById('gp2_expand_link').style.display='none';
 		target.getElementById('gp2_contract_link').style.display='inline';
 		target.getElementById('gp2_advanced_box').style.display='block';
-
+		e.preventDefault();
 		return false;
-
 	}
 
-	function gp2_contract() {
-
+	function gp2_contract(e) {
 		target.getElementById('gp2_expand_link').style.display='inline';
 		target.getElementById('gp2_contract_link').style.display='none';
 		target.getElementById('gp2_advanced_box').style.display='none';
-
+		e.preventDefault();
 		return false;
-
 	}
 
-	function gp2_retry_passwd() {
-
+	function gp2_retry_passwd(e) {
 		Passwd=target.getElementById('gp2_master').value;
 		Hash=target.getElementById('gp2_hash').value;
 		Len=target.getElementById('gp2_len').value;
 		if(Hash=='0') Hash=0;
-
-		gp2_close();
+		gp2_close(e);
 		gp2_genpass(escape(Passwd),0,Len,Hash,false);
-
 		return false;
-
 	}
 
 	function gp2_retry_passwd_listen(e) {
-
-		var event=(e)?e:window.event;
-
-		if(event.keyCode==13) {
-			gp2_retry_passwd();
-			return false;
-		} else {
-			return true;
-		}
-
+		if(e.keyCode==13||e.keyCode==3) gp2_retry_passwd(e);
+		e.stopPropagation();
 	}
 
-	function gp2_retry_advanced() {
-
+	function gp2_retry_advanced(e) {
 		OldPasswd=target.getElementById('gp2_advanced_old_passwd').value;
 		OldDomain=target.getElementById('gp2_advanced_old_domain').value;
 		OldLen=target.getElementById('gp2_advanced_old_len').value;
-
 		Passwd=target.getElementById('gp2_advanced_master_passwd').value;
-		if(Passwd=='') Passwd=0;
 		Domain=target.getElementById('gp2_advanced_domain').value;
-		if(Domain=='') Domain=0;
 		Len=target.getElementById('gp2_advanced_len').value;
-		if(Len=='') Len=0;
 		Hash=target.getElementById('gp2_advanced_hash').value;
+		if(Passwd=='') Passwd=0;
+		if(Domain=='') Domain=0;
+		if(Len=='') Len=0;
 		if(Hash=='0') Hash=0;
 		Clear=(Passwd!=OldPasswd||Domain!=OldDomain||Len!=OldLen)?true:false;
-
-		gp2_close();
+		gp2_close(e);
 		gp2_genpass(escape(Passwd),Domain,Len,Hash,false);
-
 		return false;
-
 	}
 
 	function gp2_retry_advanced_listen(e) {
+		if(e.keyCode==13||e.keyCode==3) gp2_retry_advanced(e);
+		e.stopPropagation();
+	}
 
-		var event=(e)?e:window.event;
+	function gp2_reveal_pass(e) {
 
-		if(event.keyCode==13) {
-			gp2_retry_advanced();
-			return false;
+		if(target.getElementById('gp2_offer_pass').style.display=='none') {
+			target.getElementById('gp2_show_pass').style.display='none';
+			target.getElementById('gp2_offer_pass').style.display='block';
 		} else {
-			return true;
+			target.getElementById('gp2_offer_pass').style.display='none';
+			target.getElementById('gp2_show_pass').style.display='block';
 		}
 
-	}
-
-	function gp2_reveal_pass() {
-
-		target.getElementById('gp2_offer_pass').style.display='none';
-		target.getElementById('gp2_show_pass').style.display='block';
-		this.onclick=gp2_hide_pass;
-
+		e.preventDefault();
 		return false;
 
 	}
 
-	function gp2_hide_pass() {
+	function gp2_reveal_master_pass(e) {
 
-		target.getElementById('gp2_show_pass').style.display='none';
-		target.getElementById('gp2_offer_pass').style.display='block';
-		this.onclick=gp2_reveal_pass;
+		if(target.getElementById('gp2_offer_master_pass').style.display=='none') {
+			target.getElementById('gp2_show_master_pass').style.display='none';
+			target.getElementById('gp2_offer_master_pass').style.display='block';
+		} else {
+			target.getElementById('gp2_offer_master_pass').style.display='none';
+			target.getElementById('gp2_show_master_pass').style.display='block';
+		}
 
+		e.preventDefault();
 		return false;
 
 	}
 
-	function gp2_reveal_master_pass() {
-
-		target.getElementById('gp2_offer_master_pass').style.display='none';
-		target.getElementById('gp2_show_master_pass').style.display='block';
-		this.onclick=gp2_hide_master_pass;
-
-		return false;
-
-	}
-
-	function gp2_hide_master_pass() {
-
-		target.getElementById('gp2_show_master_pass').style.display='none';
-		target.getElementById('gp2_offer_master_pass').style.display='block';
-		this.onclick=gp2_reveal_master_pass;
-
-		return false;
-
-	}
-
-	function gp2_populate() {
+	function gp2_populate(e) {
 
 		if(target.getElementById('gp2_content')) {
-			this.value=target.getElementById('gp2_content').firstChild.nodeValue;
+			Passwd=target.getElementById('gp2_content').firstChild.nodeValue;
+			if(this.value==Passwd) alert('This password field already contains your generated password.');
+			this.value=Passwd;
 			this.style.background='#9fc';
-			this.onchange=gp2_unprotect;
-			this.ondblclick=null;
+			gp2_attach_method(this,'keydown',gp2_react);
+			gp2_attach_method(this,'change',gp2_react);
 			if(!(target.getElementById('gp2_protect'))) target.body.appendChild(gp2_make('div',Array(Array('id','gp2_protect')),Array(Array('display','none')),Array(),Array(target.createTextNode('SuperGenPass'))));
 		}
 
+		e.preventDefault();
 		return false;
 
 	}
 
-	function gp2_use_as_master() {
+	function gp2_use_as_master(e) {
 
 		if(target.getElementById('gp2_pass_box')) {
 			Passwd=this.value;
 			Hash=target.getElementById('gp2_hash').value;
+			Hash=(Hash=='0')?0:Hash;
 			Len=target.getElementById('gp2_len').value;
-			if(Hash=='0') Hash=0;
-			gp2_close();
-			gp2_genpass(Passwd,0,Len,Hash,true);
+			gp2_detach_method(this,'dblclick',gp2_use_as_master);
+			gp2_close(e);
+			gp2_genpass(Passwd,0,Len,Hash,false);
 		}
 
+		e.preventDefault();
 		return false;
 
 	}
 
-	function gp2_remove_color() {
+	function gp2_react(e) {
 
-		this.style.background='#fff';
-		this.onchange=null;
-		gp2_close();
+		if(e.keyCode==8||(e.keyCode>45&&e.keyCode<91)||(e.keyCode>95&&e.keyCode<112)||(e.keyCode>185&&e.keyCode<223)) {
+			this.style.background='#fff';
+			gp2_detach_method(this,'keydown',gp2_react);
+			gp2_detach_method(this,'change',gp2_react);
+			if(target.getElementById('gp2_protect')) target.body.removeChild(target.getElementById('gp2_protect'));
+		}
 
-		return false;
+		return true;
 
-	}
-
-	function gp2_unprotect() {
-
-		this.style.background='#fff';
-		this.onchange=null;
-		if(target.getElementById('gp2_protect')) target.body.removeChild(target.getElementById('gp2_protect'));
-
-		return false;
-
-	}
-
-	function gp2_submit() {
-		return false;
 	}
 
 	function gp2_make(Name,Attributes,Styles,Methods,Children) {
-
 		var Element=target.createElement(Name);
-
 		for(var i=0; i<Attributes.length; i++) Element.setAttribute(Attributes[i][0],Attributes[i][1]);
 		for(var i=0; i<Styles.length; i++) eval('Element.style.'+Styles[i][0]+"='"+Styles[i][1]+"'");
-		for(var i=0; i<Methods.length; i++) eval('Element.'+Methods[i][0]+'='+Methods[i][1]);
+		for(var i=0; i<Methods.length; i++) gp2_attach_method(Element,Methods[i][0],Methods[i][1]);
 		for(var i=0; i<Children.length; i++) Element.appendChild(Children[i]);
-
 		return Element;
+	}
+
+	function gp2_attach_method(element,type,handler) {
+
+		if(element.addEventListener) {
+			element.addEventListener(type,handler,false);
+		} else {
+
+			if(!handler.$$guid) handler.$$guid=gp2_attach_method.guid++;
+			if(!element.events) element.events={};
+
+			var handlers=element.events[type];
+
+			if(!handlers) {
+				handlers=element.events[type]={};
+				if(element['on'+type]) handlers[0]=element['on'+type];
+				element['on'+type]=handleEvent;
+			}
+
+			handlers[handler.$$guid]=handler;
+
+		}
 
 	}
 
+	gp2_attach_method.guid = 1;
+
+	function gp2_detach_method(element,type,handler) {
+
+		if(element.removeEventListener) {
+			element.removeEventListener(type,handler,false);
+		} else if(element.events&&element.events[type]&&handler.$$guid) {
+			delete element.events[type][handler.$$guid];
+		}
+
+	}
+
+	function handleEvent(event) {
+
+		event=event||fixEvent(window.event);
+		var returnValue=true;
+		var handlers=this.events[event.type];
+
+		for(var i in handlers) {
+
+			if(!Object.prototype[i]) {
+				this.$$handler=handlers[i];
+				if(this.$$handler(event)===false) returnValue=false;
+			}
+		}
+
+		if(this.$$handler) this.$$handler=null;
+
+		return returnValue;
+
+	}
+
+	function fixEvent(event) {
+		event.preventDefault=fixEvent.preventDefault;
+		event.stopPropagation=fixEvent.stopPropagation;
+		return event;
+	}
+
+	fixEvent.preventDefault=(function(){this.returnValue=false;})();
+	fixEvent.stopPropagation=(function(){this.cancelBubble=true;})();
+
 	function gp2_append(Parent,Children) {
-
 		for(var i=0; i<Children.length; i++) Parent.appendChild(Children[i]);
-
 		return Parent;
-
 	}
 
 	function gp2_drag_start(e) {
-
 		DragBox=new Object();
 		var Cursor=gp2_get_cursor(e);
-
 		DragBox.Node=document.getElementById('gp2_pass_box');
 		DragBox.StartX=parseInt(DragBox.Node.style.right,10);
 		DragBox.StartY=parseInt(DragBox.Node.style.top,10);
 		DragBox.CursorX=Cursor[0];DragBox.CursorY=Cursor[1];
-
-		if(target.addEventListener) {
-			target.addEventListener('mousemove',gp2_drag_go,false);
-			target.addEventListener('mouseup',gp2_drag_stop,false);
-			e.preventDefault();
-		} else if(target.attachEvent) {
-			target.attachEvent('onmousemove',gp2_drag_go);
-			target.attachEvent('onmouseup',gp2_drag_stop);
-			window.event.cancelBubble=true;
-			window.event.returnValue=false;
-		}
-
+		gp2_attach_method(target,'mousemove',gp2_drag_go);
+		gp2_attach_method(target,'mouseup',gp2_drag_stop);
+		e.preventDefault();
+		e.stopPropagation();
+		return false;
 	}
 
 	function gp2_drag_go(e) {
-
 		var CursorMove=gp2_get_cursor(e);
-
 		DragBox.Node.style.right=(DragBox.StartX+(DragBox.CursorX-CursorMove[0]))+'px';
 		DragBox.Node.style.top=(DragBox.StartY+(CursorMove[1]-DragBox.CursorY))+'px';
-
+		e.preventDefault();
 		return false;
-
 	}
 
 	function gp2_drag_stop(e) {
-
-		if(target.removeEventListener) {
-			target.removeEventListener('mousemove',gp2_drag_go,false);
-			target.removeEventListener('mouseup',gp2_drag_stop,false);
-		} else if(target.detachEvent) {
-			target.detachEvent('onmousemove',gp2_drag_go);
-			target.detachEvent('onmouseup',gp2_drag_stop);
-		}
-
+		gp2_detach_method(target,'mousemove',gp2_drag_go);
+		gp2_detach_method(target,'mouseup',gp2_drag_stop);
+		e.preventDefault();
 		return false;
-
 	}
 
 	function gp2_get_cursor(e) {

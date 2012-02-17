@@ -197,7 +197,14 @@
 				Array(Array('margin','0'),Array('padding','6px 0 6px 8px'),Array('width','auto'),Array('background','#456'),Array('color','#fff'),FontStyle,Array('fontWeight','bold'),Array('cursor','move')),
 				Array(),
 				Array(
-					target.createTextNode('SuperGenPass 1.1'+String.fromCharCode(160)+' '+String.fromCharCode(160)+' '),
+					gp2_make(
+						'a',
+						Array(Array('href','http://www.supergenpass.com/')),
+						Array(Array('color','#fff'),Array('font','10px sans-serif'),Array('fontWeight','bold'),Array('textDecoration','none'),Array('cursor','pointer'),Array('borderStyle','solid'),Array('borderColor','#789'),Array('borderWidth','0 0 1px 0')),
+						Array(),
+						Array(target.createTextNode('SuperGenPass'))
+					),
+					target.createTextNode(' 1.2'+String.fromCharCode(160)+' '+String.fromCharCode(160)+' '),
 					gp2_make(
 						'a',
 						Array(Array('href','#')),
@@ -344,7 +351,7 @@
 
 			for(i=0; i<(PasswdFields.length); i++) {
 
-				PasswdTarget = target.forms[PasswdFields[i][0]].elements[PasswdFields[i][1]];
+				PasswdTarget=target.forms[PasswdFields[i][0]].elements[PasswdFields[i][1]];
 
 				if(AllowAutoPop&&((HarvestPasswd&&PasswdFields[i][2])||(!HarvestPasswd&&!PasswdFields[i][2]))) {
 					PasswdTarget.style.background='#9fc';
@@ -356,6 +363,7 @@
 					PasswdTarget.style.background='#9cf';
 					PasswdTarget.onchange=gp2_remove_color;
 					PasswdTarget.ondblclick=gp2_populate;
+					PasswdTarget.blur();
 					Unpopulated++;
 				} else {
 					PasswdTarget.ondblclick=gp2_populate;
@@ -462,9 +470,9 @@
 								),
 								gp2_make(
 									'form',
-									Array(Array('name','gp2_advanced')),
+									Array(Array('name','gp2_advanced'),Array('action','http://localhost:9/'),Array('autocomplete','off')),
 									Array(Array('margin','0'),Array('padding','0')),
-									Array(Array('onsubmit','gp2_retry_advanced')),
+									Array(Array('onsubmit','gp2_submit')),
 									Array(
 										gp2_make(
 											'input',
@@ -500,7 +508,7 @@
 											'input',
 											Array(Array('type','password'),Array('id','gp2_advanced_master_passwd'),Array('value',Passwd)),
 											Array(Array('margin','3px 0 10px 0'),Array('width','150px'),InputFontStyle),
-											Array(),
+											Array(Array('onkeydown','gp2_retry_advanced_listen')),
 											Array()
 										),
 										target.createElement('br'),
@@ -510,7 +518,7 @@
 											'input',
 											Array(Array('type','text'),Array('id','gp2_advanced_domain'),Array('size','15'),Array('value',Domain)),
 											Array(Array('margin','3px 0 10px 0'),Array('width','150px'),InputFontStyle),
-											Array(),
+											Array(Array('onkeydown','gp2_retry_advanced_listen')),
 											Array()
 										),
 										target.createElement('br'),
@@ -520,13 +528,13 @@
 											'input',
 											Array(Array('type','text'),Array('id','gp2_advanced_len'),Array('size','4'),Array('value',Len)),
 											Array(Array('margin','3px 0 10px 0'),Array('width','40px'),InputFontStyle),
-											Array(),
+											Array(Array('onkeydown','gp2_retry_advanced_listen')),
 											Array()
 										),
 										target.createElement('br'),
 										gp2_make(
 											'input',
-											Array(Array('type','submit'),Array('value','Regenerate')),
+											Array(Array('type','button'),Array('value','Regenerate')),
 											Array(Array('margin','0 0 5px 0'),Array('height','20px'),FontStyle),
 											Array(Array('onclick','gp2_retry_advanced')),
 											Array()
@@ -585,9 +593,9 @@
 					Array(
 						gp2_make(
 							'form',
-							Array(Array('name','gp2_retry')),
+							Array(Array('name','gp2_retry'),Array('action','http://localhost:9/'),Array('autocomplete','off')),
 							Array(Array('margin','0'),Array('padding','0')),
-							Array(Array('onsubmit','gp2_retry_passwd')),
+							Array(Array('onsubmit','gp2_submit')),
 							Array(
 								gp2_make(
 									'input',
@@ -609,12 +617,12 @@
 									'input',
 									Array(Array('type','password'),Array('name','gp2_master'),Array('id','gp2_master'),Array('size','15'),Array('value','')),
 									Array(Array('margin','5px 5px 0 0'),Array('width','125px'),InputFontStyle),
-									Array(),
+									Array(Array('onkeydown','gp2_retry_passwd_listen')),
 									Array()
 								),
 								gp2_make(
 									'input',
-									Array(Array('type','submit'),Array('value','Submit')),
+									Array(Array('type','button'),Array('value','Submit')),
 									Array(Array('width','50px'),Array('height','20px'),FontStyle),
 									Array(Array('onclick','gp2_retry_passwd')),
 									Array()
@@ -626,6 +634,7 @@
 			);
 
 			target.body.appendChild(ParentDiv);
+			target.onunload=gp2_close;
 			target.getElementById('gp2_master').focus();
 
 		}
@@ -644,8 +653,11 @@
 
 	function gp2_close() {
 
-		gp2_save_position();
-		target.body.removeChild(target.getElementById('gp2_pass_box'));
+		if(target.getElementById('gp2_pass_box')) {
+			gp2_save_position();
+			target.body.removeChild(target.getElementById('gp2_pass_box'));
+		}
+
 		if(target.getElementById('gp2_content')) target.body.removeChild(target.getElementById('gp2_content'));
 
 		return false;
@@ -679,11 +691,23 @@
 		Len=target.getElementById('gp2_len').value;
 		if(Hash=='0') Hash=0;
 
-		gp2_save_position();
-		target.body.removeChild(target.getElementById('gp2_pass_box'));
-		gp2_genpass(Passwd,0,Len,Hash,false);
+		gp2_close();
+		gp2_genpass(escape(Passwd),0,Len,Hash,false);
 
 		return false;
+
+	}
+
+	function gp2_retry_passwd_listen(e) {
+
+		var event=(e)?e:window.event;
+
+		if(event.keyCode==13) {
+			gp2_retry_passwd();
+			return false;
+		} else {
+			return true;
+		}
 
 	}
 
@@ -703,12 +727,23 @@
 		if(Hash=='0') Hash=0;
 		Clear=(Passwd!=OldPasswd||Domain!=OldDomain||Len!=OldLen)?true:false;
 
-		gp2_save_position();
-
-		target.body.removeChild(target.getElementById('gp2_pass_box'));
-		gp2_genpass(Passwd,Domain,Len,Hash,false);
+		gp2_close();
+		gp2_genpass(escape(Passwd),Domain,Len,Hash,false);
 
 		return false;
+
+	}
+
+	function gp2_retry_advanced_listen(e) {
+
+		var event=(e)?e:window.event;
+
+		if(event.keyCode==13) {
+			gp2_retry_advanced();
+			return false;
+		} else {
+			return true;
+		}
 
 	}
 
@@ -773,7 +808,7 @@
 			Hash=target.getElementById('gp2_hash').value;
 			Len=target.getElementById('gp2_len').value;
 			if(Hash=='0') Hash=0;
-			target.body.removeChild(target.getElementById('gp2_pass_box'));
+			gp2_close();
 			gp2_genpass(Passwd,0,Len,Hash,true);
 		}
 
@@ -785,7 +820,7 @@
 
 		this.style.background='#fff';
 		this.onchange=null;
-		if(target.getElementById('gp2_pass_box')) target.body.removeChild(target.getElementById('gp2_pass_box'));
+		gp2_close();
 
 		return false;
 

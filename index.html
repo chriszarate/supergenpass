@@ -337,8 +337,8 @@
 				$(window).on('message', function(event) {
 					Source=event.originalEvent.source;
 					Origin=event.originalEvent.origin;
-					$('#Passwd').focus();
 					$('#Domain').val(gp2_process_uri(Origin)).trigger('change');
+					$('#Passwd').focus();
 				});
 
 			});

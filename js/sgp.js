@@ -128,10 +128,9 @@
 
 		jQuery(window).bind('message',function(e) {
 			if(e.originalEvent.origin===Domain) {
-				var Passwd=e.originalEvent.data.split(':',2);
 				jQuery('input:password:visible',$Target).each(function(){
 					jQuery(this).css('background','#9f9');
-					jQuery(this).val(Passwd);
+					jQuery(this).val(e.originalEvent.data);
 				}).bind('keydown change', function(e) {
 					var key=e.keyCode;
 					if(key==8||key==32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {

@@ -8,7 +8,7 @@
 	var jQueryURL='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
 	var jQueryMin=1.4;
 
-	if(typeof jQuery==='undefined'||jQuery.fn.jquery<jQueryMin) {
+	if(typeof jQuery==='undefined'||parseFloat(jQuery.fn.jquery)<jQueryMin) {
 		var s=document.createElement('script');
 		    s.src=jQueryURL;
 		    s.onload=s.onreadystatechange=function() {

@@ -37,25 +37,29 @@
 	//	Look for declared localization (default is English).
 		try { Lang } catch(e) { Lang=''; }
 
-	//	Default values:
+	//	SGP location:
 		var FrameURL='http://mobile.supergenpass.com/index.html'+Lang;
 		var Domain='http://mobile.supergenpass.com';
-		var Dragging=null;
-		var MaxArea=0;
 
-	//	Find target document, looping through frames if applicable.
+	//	Find largest viewport, looping through frames if applicable.
 
 		var $Target=(document)?jQuery(document):false;
+		var MaxArea=0;
 
-		jQuery(window.frames).each(function() {
-			var Area=(jQuery(this).document)?jQuery(this).innerHeight()*jQuery(this).innerWidth():0;
-			if(Area>MaxArea) {
-				MaxArea=Area;
-				$Target=jQuery(this).document;
+		jQuery('frame').each(function() {
+			try {
+				var Area=jQuery(this).height()*jQuery(this).width();
+				if(Area>MaxArea) {
+					$Target=jQuery(this.contentWindow.document);
+					MaxArea=Area;
+				}
+			}
+			catch(error) {
+				console.log('SGP: Skipping external frame.');
 			}
 		});
 
-	//	If no target document was found, redirect to mobile version.
+	//	If no target document is found, redirect to mobile version.
 
 		if(!$Target) {
 			window.location=FrameURL;
@@ -113,6 +117,7 @@
 		var $TitleBar=jQuery("<div/>");
 		var $CloseLink=jQuery("<a/>",{href:'#',text:'x'});
 		var $Frame=jQuery("<iframe/>",{src:FrameURL});
+		var Dragging=null;
 
 	//	Enable "close window" link.
 
@@ -128,16 +133,16 @@
 
 		jQuery(window).bind('message',function(e) {
 			if(e.originalEvent.origin===Domain) {
-				jQuery('input:password:visible',$Target).each(function(){
-					jQuery(this).css('background','#9f9');
-					jQuery(this).val(e.originalEvent.data);
-				}).bind('keydown change', function(e) {
-					var key=e.keyCode;
-					if(key==8||key==32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {
-						jQuery(this).unbind('keydown change');
-						jQuery(this).css('background','#fff');
-					}
-				});
+				jQuery('input:password:visible',$Target)
+					.css('background','#9f9')
+					.val(e.originalEvent.data)
+					.trigger('focus click change')
+					.bind('keydown change', function(e) {
+						var key=e.keyCode;
+						if(key==8||key==32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {
+							jQuery(this).unbind('keydown change').css('background','#fff');
+						}
+					});
 			}
 		});
 

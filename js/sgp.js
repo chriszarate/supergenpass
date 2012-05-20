@@ -34,10 +34,12 @@
 			RandID+='abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random()*26));
 		}
 
-	//	Look for declared localization (default is English) and SGP location.
+	//	Look for declared localization (default is English).
 		try { Lang } catch(e) { Lang=''; }
-		try { Domain } catch(e) { Domain='http://mobile.supergenpass.com'; }
-		var FrameURL=Domain+'/index.html'+Lang;
+
+	//	SGP location:
+		var FrameURL='http://mobile.supergenpass.com/index.html'+Lang;
+		var Domain='http://mobile.supergenpass.com';
 
 	//	Find largest viewport, looping through frames if applicable.
 

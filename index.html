@@ -321,6 +321,7 @@
 						$('#Output').text(String.fromCharCode(160));
 						$('#Passwd').css('background-color','#fff');
 					} else if(key==13) {
+						$(this).blur();
 						$('#Generate').trigger('click');
 						event.preventDefault();
 					}

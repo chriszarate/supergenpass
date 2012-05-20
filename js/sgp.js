@@ -5,7 +5,7 @@
 	Adapted from Paul Irish's method: http://pastie.org/462639
 */
 
-	var jQueryURL='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
+	var jQueryURL='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js';
 	var jQueryMin=1.4;
 
 	if(typeof jQuery==='undefined'||parseFloat(jQuery.fn.jquery)<jQueryMin) {
@@ -34,12 +34,10 @@
 			RandID+='abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random()*26));
 		}
 
-	//	Look for declared localization (default is English).
+	//	Look for declared localization (default is English) and SGP location.
 		try { Lang } catch(e) { Lang=''; }
-
-	//	SGP location:
-		var FrameURL='http://mobile.supergenpass.com/index.html'+Lang;
-		var Domain='http://mobile.supergenpass.com';
+		try { Domain } catch(e) { Domain='http://mobile.supergenpass.com'; }
+		var FrameURL=Domain+'/index.html'+Lang;
 
 	//	Find largest viewport, looping through frames if applicable.
 

@@ -1,3 +1,13 @@
+/*
+	SuperGenPass core functions
+*/
+
+/*
+	== Password generator ==
+	Loops ten times using Base-64 hash, then 
+	continually until password policy is satisfied.
+*/
+
 function gp2_generate_passwd(Passwd,Len) {
 	var i=0;
 	while(i<10||!(gp2_check_passwd(Passwd.substring(0,Len)))) {
@@ -7,9 +17,24 @@ function gp2_generate_passwd(Passwd,Len) {
 	return Passwd.substring(0,Len);
 }
 
+
+/*
+	== Password policy validator ==
+	Input must:
+	- Always start with a lowercase letter [a-z]
+	- Always contain at least one uppercase letter [A-Z]
+	- Always contain at least one numeral [0-9]
+*/
+
 function gp2_check_passwd(Passwd) {
 	return (Passwd.search(/[a-z]/)===0&&Passwd.search(/[0-9]/)>0&&Passwd.search(/[A-Z]/)>0)?true:false;
 }
+
+
+/*
+	== Hash generator ==
+	Loops four times using hexidecimal hash.
+*/
 
 function gp2_generate_hash(HashSeed) {
 	for(var i=0;i<=4;i++) {
@@ -18,11 +43,26 @@ function gp2_generate_hash(HashSeed) {
 	return HashSeed;
 }
 
+
+/*
+	== Length validator ==
+	Password length must be no less than 4 characters. 
+	Default is 10.
+*/
+
 function gp2_validate_length(n) {
 	try { Len } catch(e) { Len=10; }
 	try { LenMax } catch(e) { LenMax=(b64_hash('test')).length; }
 	return (parseInt(n))?Math.max(4,Math.min(parseInt(n),LenMax)):Len;
 }
+
+
+/*
+	== Domain name isolator ==
+	Isolates the domain name or IP address using regular 
+	expressions. Respects a number of (hard-coded) 
+	secondary ccTLDs (e.g., "co.uk").
+*/
 
 function gp2_process_uri(URI,DisableTLD) {
 
@@ -57,6 +97,12 @@ function gp2_process_uri(URI,DisableTLD) {
 	return URI;
 
 }
+
+
+/*
+	== Password generator helper ==
+	Gather and validate input for password generator.
+*/
 
 function gp2_genpass(Passwd,Domain,Len,Salt,DisableTLD) {
 

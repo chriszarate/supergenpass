@@ -102,6 +102,7 @@
 				cursor:pointer;\
 			}\
 			#'+RandID+' iframe {\
+				position:static\
 				width:235px;\
 				height:205px;\
 				border:none;\
@@ -132,7 +133,7 @@
 	//	Attach postMessage listener to populate password fields
 
 		jQuery(window).bind('message',function(e) {
-			if(e.originalEvent.origin===Domain) {
+			if(e.originalEvent.origin===Domain && e.originalEvent.data !== '') {
 				jQuery('input:password:visible',$Target)
 					.css('background','#9f9')
 					.val(e.originalEvent.data)

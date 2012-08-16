@@ -133,7 +133,7 @@
 	//	Attach postMessage listener to populate password fields
 
 		jQuery(window).bind('message',function(e) {
-			if(e.originalEvent.origin===Domain && e.originalEvent.data != '') {
+			if(e.originalEvent.origin===Domain&&typeof e.originalEvent.data!=='undefined') {
 				jQuery('input:password:visible',$Target)
 					.css('background','#9f9')
 					.val(e.originalEvent.data)

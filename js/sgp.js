@@ -102,7 +102,7 @@
 				cursor:pointer;\
 			}\
 			#'+RandID+' iframe {\
-				position:static\
+				position:static;\
 				width:235px;\
 				height:205px;\
 				border:none;\

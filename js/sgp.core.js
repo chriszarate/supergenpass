@@ -51,9 +51,8 @@ function gp2_generate_hash(HashSeed) {
 */
 
 function gp2_validate_length(n) {
-	var default_length = parseInt( $('#Len').val(), 10 ) || 10;
 	try { LenMax } catch(e) { LenMax = ( b64_hash( 'test' ) ).length; }
-	return ( parseInt( n, 10 ) ) ? Math.max( 4, Math.min( parseInt( n, 10 ), LenMax ) ) : default_length;
+	return ( parseInt( n, 10 ) ) ? Math.max( 4, Math.min( parseInt( n, 10 ), LenMax ) ) : 10;
 }
 
 

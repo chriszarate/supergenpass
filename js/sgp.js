@@ -73,7 +73,8 @@
 				position:absolute;\
 				top:'+$Target.scrollTop()+'px;\
 				right:0;\
-				width:235px;\
+				width:240px;\
+				height:225px;\
 				margin:0;\
 				padding:0;\
 				background:#fff;\
@@ -86,25 +87,24 @@
 				margin:0;\
 				padding:5px;\
 				padding-top:3px;\
-				background:#333;\
-				color:#fff;\
-				font-weight:bold;\
+				background:#eee !important;\
 				text-align:right;\
+				line-height:15px;\
 				cursor:move;\
 			}\
 			#'+RandID+' a {\
-				color:#ccc;\
-				font-family:sans-serif;\
-				font-size:15px;\
-				font-weight:normal;\
+				color:#666 !important;\
+				font-family:sans-serif !important;\
+				font-size:15px !important;\
+				font-weight:bold !important;\
 				text-decoration:none;\
 				border-width:0;\
 				cursor:pointer;\
 			}\
 			#'+RandID+' iframe {\
 				position:static;\
-				width:235px;\
-				height:205px;\
+				width:240px;\
+				height:210px;\
 				border:none;\
 				pointer-events:auto;\
 			}\

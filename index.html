@@ -6,7 +6,7 @@
 		<!-- http://mobile.supergenpass.com = https://d6gnhhjxs73le.cloudfront.net -->
 
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+		<meta name="viewport" content="user-scalable=no, width=240px, initial-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
 
@@ -22,18 +22,18 @@
 		<style type="text/css">
 
 			body {
-				width:200px;
-				margin: 0;
-				padding: 10px;
-				background: #fff;
+				width: 220px;
+				margin: 0 auto;
+				padding: 0;
 				color: #000;
+				background: #eee;
 				font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
 				font-size: 14px;
 			}
 
 			a {
 				color: #666;
-				background-color: #eee;
+				background-color: #ddd;
 				text-decoration: none;
 			}
 
@@ -44,22 +44,29 @@
 
 			h1 {
 				margin: 0;
-				padding: 0;
+				padding: 8px 0 5px 0;
 				color: #666;
-				font-size: 14px;
+				font-size: 15px;
 				font-weight: normal;
 			}
 
 			fieldset {
 				position: relative;
-				margin: 5px 0 10px 0;
+				margin: 0;
 				padding: 0;
+				background: #fff;
 				border: none;
+				border-bottom: solid 1px #ddd;
 			}
 
 			input {
-				width: 188px;
-				padding: 3px;
+				width: 200px;
+				height: 20px;
+				margin: 0;
+				padding: 10px;
+				background: #fff;
+				font-size: 12px;
+				border: none;
 			}
 
 			label {
@@ -67,85 +74,105 @@
 				position: absolute;
 				top: 5px;
 				left: 5px;
-				color: #aaa;
+				color: #ccc;
 				font-size: 12px;
 			}
 
 			noscript { color: #f33; }
 
-			#Canvas { float: right; }
+			#SaltCanvas { float: right; }
 
 			#LenField {
 				float: left;
 				margin-top: 0;
+				border: none;
 			}
 
 			#Len {
 				float: left;
 				width: 30px;
-				margin-right: 5px;
 			}
 
 			#Down, #Up {
 				display: inline-block;
-				margin: 3px 0;
-				padding: 0 6px;
+				width: 30px;
+				height: 20px;
+				padding: 12px 0 8px 0;
+				font-weight: bold;
+				text-align: center;
 			}
 
 			#Down { border-right: solid 1px #ccc; }
 
 			#Generate {
-				float: right;
-				padding: 4px 12px;
-				font-size: 13px;
-				border: 1px solid #999;
-				border-width: 0 1px 1px 0;
-				-webkit-border-radius: 8px;
-				   -moz-border-radius: 8px;
-				        border-radius: 8px;
+				display: inline-block;
+				width: 109px;
+				height: 20px;
+				padding: 12px 0 8px 0;
+				color: #eee;
+				background: #16af90;
+				font-size: 14px;
+				font-weight: bold;
+				text-align: center;
+			}
+
+			#Generate:hover {
+				color: #fff;
+				background: #069f80;
 			}
 
 			#Output, #Advanced {
-				clear: both;
-				padding: 5px;
+				margin-top: 8px;
 				color: #333;
-				-webkit-border-radius: 5px;
-				   -moz-border-radius: 5px;
-				        border-radius: 5px;
+				border: none;
 			}
 
 			#Output {
-				margin: 5px 0;
-				background-color: #eee;
-				text-align: center;
+				float: left;
+				width: 180px;
+				height: 20px;
+				padding: 11px 0 9px 0;
+				background: #fff;
 				letter-spacing: 0.05em;
 				word-wrap: break-word;
 			}
 
 			#Advanced {
 				display: none;
-				background: #ddd;
+				clear: both;
 			}
 
-			#SaltField { margin-top: 5px; }
-			#Salt { width: 175px; }
+			#Identicon {
+				float: left;
+				height: 20px;
+				width: 20px;
+				margin-top: 8px;
+				padding: 12px 10px 8px 10px;
+				background: #fff;
+			}
 
-			#MethodField { margin: 5px 0; }
+			#MethodField {
+				padding: 10px 12px;
+				border: none;
+			}
+
 			#MethodField input { width: auto; }
 
 			#MethodField label {
 				display: inline;
 				position: relative;
-				top: 0; left: 0;
-				padding-right: 10px;
+				top: -3px; left: 3px;
+				padding-right: 15px;
 				color: #333;
+				font-size: 13px;
 			}
 
 			#SaltHUD, #SHA512HUD {
 				display: none;
 				padding-left: 5px;
 				color: #999;
-				font-size: 11px;
+				font-size: 13px;
+				font-weight: normal;
 			}
 
 		</style>
@@ -162,7 +189,7 @@
 
 	<body>
 
-		<canvas id="Canvas" width="16" height="16"></canvas>
+		<canvas id="SaltCanvas" width="16" height="16"></canvas>
 
 		<h1>
 			SGP3
@@ -209,6 +236,7 @@
 
 		</form>
 
+		<div id="Identicon"><canvas id="Canvas" width="16" height="16"></canvas></div>
 		<div id="Output">&#160;</div>
 
 		<script type="text/javascript">

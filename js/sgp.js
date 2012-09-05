@@ -112,7 +112,7 @@
 		';
 
 	//	Append styles to target document.
-		jQuery("<style/>",{type:'text/css'}).html(Styles).appendTo(jQuery('head',$Target));
+		jQuery("<style type='text/css'>" + Styles + "</style>").appendTo(jQuery('head',$Target));
 
 	//	Create SGP elements.
 		var $Box=jQuery("<div/>",{id:RandID});

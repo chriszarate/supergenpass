@@ -74,7 +74,7 @@
 				top:'+$Target.scrollTop()+'px;\
 				right:0;\
 				width:240px;\
-				height:225px;\
+				height:220px;\
 				margin:0;\
 				padding:0;\
 				background:#fff;\
@@ -82,20 +82,21 @@
 			}\
 			#'+RandID+' div {\
 				width:auto;\
-				height:15px;\
+				height:10px;\
 				overflow:hidden;\
 				margin:0;\
 				padding:5px;\
 				padding-top:3px;\
-				background:#eee !important;\
+				background:#4a5060 !important;\
 				text-align:right;\
-				line-height:15px;\
+				line-height:10px;\
 				cursor:move;\
 			}\
 			#'+RandID+' a {\
-				color:#666 !important;\
+				color:#fff !important;\
+				background:transparent !important;\
 				font-family:sans-serif !important;\
-				font-size:15px !important;\
+				font-size:13px !important;\
 				font-weight:bold !important;\
 				text-decoration:none;\
 				border-width:0;\

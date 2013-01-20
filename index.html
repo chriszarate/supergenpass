@@ -166,7 +166,7 @@
 				font-size: 13px;
 			}
 
-			#SaltHUD, #SHA512HUD {
+			#SHA512HUD {
 				display: none;
 				padding-left: 5px;
 				color: #999;
@@ -192,7 +192,6 @@
 
 		<h1>
 			SGP3
-			<span id="SaltHUD">SALT</span>
 			<span id="SHA512HUD">SHA-512</span>
 		</h1>
 
@@ -283,10 +282,8 @@
 
 				$('#Salt, input:radio[name=Method]').on('keyup change', function (event) {
 					if($('#Salt').val()!='') {
-						$('#SaltHUD').show();
 						$('#SaltCanvas').identicon5({hash:gp2_generate_hash($('#Salt').val()),size:16}).show();
 					} else {
-						$('#SaltHUD').hide();
 						$('#SaltCanvas').hide();
 					}
 					$('#SHA512HUD').toggle($('#MethodSHA512').prop('checked'));

@@ -80,9 +80,12 @@
 
 			noscript { color: #f33; }
 
-			#SaltCanvas {
+			#SaltHUD {
 				float: right;
+				width: 16px;
+				height: 16px;
 				margin-top: 8px;
+				cursor: pointer;
 			}
 
 			#LenField {
@@ -188,7 +191,7 @@
 
 	<body>
 
-		<canvas id="SaltCanvas" width="16" height="16"></canvas>
+		<div id="SaltHUD"><canvas id="SaltCanvas" width="16" height="16"></canvas></div>
 
 		<h1>
 			SGP3
@@ -276,7 +279,7 @@
 				}
 
 			//	Show advanced pane if requested.
-				$('#Advanced').toggle(location.hash.substring(1).toLowerCase()=='advanced');
+				$('#SaltHUD').on('click', function (event) { $('#Advanced').toggle(); });
 
 			//	Toggle HUD for advanced options.
 

@@ -150,6 +150,6 @@ $(document).ready(function() {
    });
 
    // Send document height to bookmarklet.
-   var SendHeight=function() { Source.postMessage('{"height":"'+$(document.body).height()+'"}',Origin); };
+   var SendHeight=function() { if(Source&&Origin) Source.postMessage('{"height":"'+$(document.body).height()+'"}',Origin); };
 
 });

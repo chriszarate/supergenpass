@@ -72,13 +72,13 @@ $(document).ready(function() {
 
    $el.Generate.on('click', function (event) {
 
-   // Get input.
+      // Get input.
       var Passwd=$el.Passwd.val();
       var Salt=$el.Salt.val();
       var Domain=($el.Domain.val())?gp2_process_uri($el.Domain.val(),false):'localhost';
       var Len=gp2_validate_length($el.Len.val());
 
-   // Update form with validated input.
+      // Update form with validated input.
       $el.Domain.val(Domain).trigger('change');
       $el.Len.val(Len).trigger('change');
 
@@ -89,13 +89,13 @@ $(document).ready(function() {
          $el.Output.text(Passwd);
 
          if(Source&&Origin) {
-         // Send generated password to bookmarklet.
+            // Send generated password to bookmarklet.
             Source.postMessage('{"result":"'+Passwd+'"}',Origin);
          } else {
-         // Save configuration to local storage (jStorage) when not a bookmarklet.
-         $.jStorage.set('Salt',Salt);
-         $.jStorage.set('Len',Len);
-         $.jStorage.set('Method',Method);
+            // Save configuration to local storage (jStorage) when not a bookmarklet.
+            $.jStorage.set('Salt',Salt);
+            $.jStorage.set('Len',Len);
+            $.jStorage.set('Method',Method);
          }
 
       } else {

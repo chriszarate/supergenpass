@@ -38,8 +38,10 @@
 		try { Lang } catch(e) { Lang=''; }
 
 	//	SGP location:
-		var FrameURL='https://d6gnhhjxs73le.cloudfront.net/index.html'+Lang;
-		var Domain='https://d6gnhhjxs73le.cloudfront.net';
+	//	var FrameURL='http://mobile.supergenpass.com/index.html'+Lang;
+	//	var Domain='http://mobile.supergenpass.com';
+		var FrameURL='http://localhost/~czarate/sgp/index.html'+Lang;
+		var Domain='http://localhost';
 
 	//	Find largest viewport, looping through frames if applicable.
 
@@ -154,7 +156,7 @@
 								});
 							break;
 						case 'height':
-							console.log(value);
+							$Frame.animate({height: Math.max(parseInt(value),167)+16});
 							break;
 					}
 				});

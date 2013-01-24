@@ -17,7 +17,7 @@
 
 	var SGP=document.createElement('script');
 	    SGP.type='text/javascript';
-	    SGP.src='//d6gnhhjxs73le.cloudfront.net/js/sgp.js?20120905';
+	    SGP.src='https://d6gnhhjxs73le.cloudfront.net/js/sgp.js?20130124';
 
 	document.getElementsByTagName('head')[0].appendChild(SGP);
 

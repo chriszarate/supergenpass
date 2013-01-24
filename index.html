@@ -23,7 +23,7 @@
 
 			body {
 				width: 240px;
-				margin: 0 auto;
+				margin: 9px auto;
 				padding: 0;
 				color: #000;
 				background-color: transparent;
@@ -36,7 +36,7 @@
 
 			h1 {
 				font-size: 1em;
-				margin: 20px 5px 10px 0;
+				margin: 10px 5px 10px 0;
 				padding: 5px;
 				padding-left: 10px;
 				color: #fff;
@@ -214,7 +214,7 @@ input.Missing:-ms-input-placeholder { color: #c66; }
 
 	<body>
 
-		<h1>
+		<h1 id="Title">
 			SGP3
 			<a href="#" id="Options">■</a>
 		</h1>
@@ -269,7 +269,7 @@ input.Missing:-ms-input-placeholder { color: #c66; }
 				var Source=false;
 
 			//	Selector cache:
-				var $Sel={},Sel=['Passwd','PasswdLabel','Domain','DomainLabel','Len','Generate','Output','Canvas','Options','Salt','SaltField','SaltCanvas','MethodField','MethodMD5','MethodSHA512'];
+				var $Sel={},Sel=['Title','Passwd','PasswdLabel','Domain','DomainLabel','Len','Generate','Output','Canvas','Options','Salt','SaltField','SaltCanvas','MethodField','MethodMD5','MethodSHA512'];
 				$.each(Sel, function(i, val) { $Sel[val]=$('#'+val); });
 
 			//	Perform localization if requested.
@@ -305,11 +305,11 @@ input.Missing:-ms-input-placeholder { color: #c66; }
 			//	Show all advanced options if requested.
 				$Sel.Options.on('click', function (event) {
 					var toggle = $Sel.SaltField.is(':visible') && $Sel.MethodField.is(':visible');
-					$('#SaltField, #MethodField').toggle(!toggle);
+					$('#SaltField, #MethodField').slideToggle(!toggle);
 				});
 
 			//	Show salt field if requested.
-				$Sel.SaltCanvas.on('click', function (event) { $Sel.SaltField.toggle(); });
+				$Sel.SaltCanvas.on('click', function (event) { $Sel.SaltField.slideToggle(); });
 
 			//	Show salt identicon if salt is present.
 				$Sel.Salt.on('keyup change', function (event) {
@@ -405,6 +405,7 @@ input.Missing:-ms-input-placeholder { color: #c66; }
 				$(window).on('message', function(event) {
 					Source=event.originalEvent.source;
 					Origin=event.originalEvent.origin;
+					$Sel.Title.hide();
 					$Sel.Domain.val(gp2_process_uri(Origin)).trigger('change');
 					$Sel.Passwd.focus();
 				});

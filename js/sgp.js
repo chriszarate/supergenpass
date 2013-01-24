@@ -74,23 +74,26 @@
 				top:'+$Target.scrollTop()+'px;\
 				right:0;\
 				width:240px;\
-				height:220px;\
-				margin:0;\
-				padding:0;\
-				background:#fff;\
-				opacity:0.95;\
-			}\
-			#'+RandID+' div {\
-				width:auto;\
-				height:10px;\
-				overflow:hidden;\
 				margin:0;\
 				padding:5px;\
-				padding-top:3px;\
-				background:#4a5060 !important;\
+				background-color:#fff;\
+				border:solid 1px #ddd;\
+				box-sizing:content-box;\
+			}\
+			#'+RandID+' div {\
+				overflow:hidden;\
+				width:225px;\
+				margin:0;\
+				padding:5px;\
+				color:#fff;\
+				background-color:#3a4663 !important;\
+				font-size: 1em;\
 				text-align:right;\
+				text-shadow:1px 1px #0a1633;\
 				line-height:10px;\
 				cursor:move;\
+				box-shadow:1px 0px 1px #1a2643,0px 1px 1px #2a3653,2px 1px 1px #1a2643,1px 2px 1px #2a3653,3px 2px 1px #1a2643,2px 3px 1px #2a3653,4px 3px 1px #1a2643,3px 4px 1px #2a3653,5px 4px 1px #1a2643,4px 5px 1px #2a3653,6px 5px 1px #1a2643;\
+				box-sizing:content-box;\
 			}\
 			#'+RandID+' a {\
 				color:#fff !important;\
@@ -105,8 +108,9 @@
 			#'+RandID+' iframe {\
 				position:static;\
 				width:240px;\
-				height:210px;\
+				height:275px;\
 				border:none;\
+				overflow:hidden;\
 				pointer-events:auto;\
 			}\
 		';

@@ -312,8 +312,9 @@ input.Missing:-ms-input-placeholder { color: #c66; }
 				$Sel.SaltCanvas.on('click', function (event) { $Sel.SaltField.slideToggle(); });
 
 			//	Show salt identicon if salt is present.
-				$Sel.Salt.on('keyup change', function (event) {
-					if($Sel.Salt.val()!='') {
+				$('#Salt, #MethodMD5, #MethodSHA512').on('keyup change', function (event) {
+					Method=$('input:radio[name=Method]:checked').val();
+					if($Sel.Salt.val()!=='') {
 						$Sel.SaltCanvas.identicon5({hash:gp2_generate_hash($Sel.Salt.val()),size:16}).show();
 					} else {
 						$Sel.SaltCanvas.hide();
@@ -321,9 +322,9 @@ input.Missing:-ms-input-placeholder { color: #c66; }
 				});
 
 			//	Retrieve configuration from local storage (jStorage) if available.
+				$('input:radio[value='+$.jStorage.get('Method','md5')+']').prop('checked',true);
 				$Sel.Len.val(gp2_validate_length($.jStorage.get('Len',10)));
 				$Sel.Salt.val($.jStorage.get('Salt','')).trigger('change');
-				$('input:radio[value='+$.jStorage.get('Method','md5')+']').prop('checked',true);
 
 			//	Show method field if value is SHA-512.
 				$Sel.MethodField.toggle($Sel.MethodSHA512.prop('checked'));
@@ -337,7 +338,6 @@ input.Missing:-ms-input-placeholder { color: #c66; }
 					var Salt=$Sel.Salt.val();
 					var Domain=($Sel.Domain.val())?gp2_process_uri($Sel.Domain.val(),false):'localhost';
 					var Len=gp2_validate_length($Sel.Len.val());
-					Method=$('input:radio[name=Method]:checked').val();
 
 				//	Update form with validated input.
 					$Sel.Domain.val(Domain).trigger('change');

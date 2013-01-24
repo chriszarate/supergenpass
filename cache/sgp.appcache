@@ -4,16 +4,13 @@ CACHE MANIFEST
 
 CACHE:
 
-# Root
-/
-
-# Stylesheets
-/css/sgp.css
+# Styles
+../css/sgp.css
 
 # JavaScript
-https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js
-/js/jquery.jstorage.min.js
-/js/jquery.identicon5.min.js
-/js/sgp.hash.js
-/js/sgp.core.js
-/js/sgp.mobile.js
+../js/jquery.min.js
+../js/jquery.jstorage.min.js
+../js/jquery.identicon5.min.js
+../js/sgp.hash.js
+../js/sgp.core.js
+../js/sgp.form.js

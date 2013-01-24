@@ -351,7 +351,7 @@
 
 						if(Source&&Origin) {
 						//	Send generated password to bookmarklet.
-							Source.postMessage(Passwd,Origin);
+							Source.postMessage('{"result":"'+Passwd+'"}',Origin);
 						} else {
 						//	Save configuration to local storage (jStorage) when not a bookmarklet.
 						$.jStorage.set('Salt',Salt);

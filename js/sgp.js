@@ -10,8 +10,8 @@
 
 	if(typeof jQuery==='undefined'||parseFloat(jQuery.fn.jquery)<jQueryMin) {
 		var s=document.createElement('script');
-		    s.src=jQueryURL;
-		    s.onload=s.onreadystatechange=function() {
+				s.src=jQueryURL;
+				s.onload=s.onreadystatechange=function() {
 				if(!this.readyState||this.readyState=='loaded'||this.readyState=='complete') {
 					s.onload=s.onreadystatechange=null;
 					$.noConflict();
@@ -122,7 +122,7 @@
 		var $Box=jQuery("<div/>",{id:RandID});
 		var $TitleBar=jQuery("<div/>");
 		var $CloseLink=jQuery("<a/>",{href:'#',text:'x'});
-		var $Frame=jQuery("<iframe/>",{src:FrameURL});
+		var $Frame=jQuery("<iframe/>",{src:FrameURL,scrolling:'no'});
 		var Dragging=null;
 
 	//	Enable "close window" link.

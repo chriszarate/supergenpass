@@ -111,6 +111,7 @@ noscript { color: #f33; }
    font-size: 16px;
    font-weight: bold;
    text-align: center;
+   text-shadow: 1px 1px #fff;
    cursor: pointer;
 }
 
@@ -124,6 +125,7 @@ noscript { color: #f33; }
    font-size: 14px;
    font-weight: bold;
    text-align: center;
+   text-shadow: 1px 1px #0d5656;
    cursor: pointer;
    box-shadow: 1px 0px 1px #0d5656, 0px 1px 1px #1d6666, 2px 1px 1px #0d5656, 1px 2px 1px #1d6666, 3px 2px 1px #0d5656, 2px 3px 1px #1d6666, 4px 3px 1px #0d5656, 3px 4px 1px #1d6666, 5px 4px 1px #0d5656, 4px 5px 1px #1d6666, 6px 5px 1px #0d5656;
 }
@@ -155,6 +157,7 @@ noscript { color: #f33; }
    padding-left: 35px;
    font-family: "Trebuchet MS", sans-serif;
    font-size: 15px;
+   text-shadow: 1px 1px #fff;
    letter-spacing: 0.05em;
    word-wrap: break-word;
 }

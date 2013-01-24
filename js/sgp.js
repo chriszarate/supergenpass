@@ -139,16 +139,25 @@
 
 		jQuery(window).bind('message',function(e) {
 			if(e.originalEvent.origin===Domain&&typeof e.originalEvent.data!=='undefined') {
-				jQuery('input:password:visible',$Target)
-					.css('background','#9f9')
-					.val(e.originalEvent.data)
-					.trigger('focus click change')
-					.bind('keydown change', function(e) {
-						var key=e.keyCode;
-						if(key==8||key==32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {
-							jQuery(this).unbind('keydown change').css('background','#fff');
-						}
-					});
+				jQuery.each(jQuery.parseJSON(e.originalEvent.data), function(key, value) {
+					switch(key) {
+						case 'result':
+							jQuery('input:password:visible',$Target)
+								.css('background','#9f9')
+								.val(value)
+								.trigger('focus click change')
+								.bind('keydown change', function(e) {
+									var key=e.keyCode;
+									if(key==8||key==32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {
+										jQuery(this).unbind('keydown change').css('background','#fff');
+									}
+								});
+							break;
+						case 'height':
+							console.log(value);
+							break;
+					}
+				});
 			}
 		});
 

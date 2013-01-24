@@ -302,6 +302,9 @@
 
 				}
 
+			//	Hide title for bookmarklet.
+				if(self!==top) $Sel.Title.hide();
+
 			//	Show all advanced options if requested.
 				$Sel.Options.on('click', function (event) {
 					var toggle = $Sel.SaltField.is(':visible') && $Sel.MethodField.is(':visible');
@@ -405,7 +408,6 @@
 				$(window).on('message', function(event) {
 					Source=event.originalEvent.source;
 					Origin=event.originalEvent.origin;
-					$Sel.Title.hide();
 					$Sel.Domain.val(gp2_process_uri(Origin)).trigger('change');
 					$Sel.Passwd.focus();
 					SendHeight();

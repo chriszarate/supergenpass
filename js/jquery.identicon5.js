@@ -33,7 +33,7 @@ Modified for SuperGenPass:
     $.fn.identicon5 = function (options) {
 	
 		// default options
-		 settings = jQuery.extend(
+		 settings = $.extend(
 //		 { rotate: true, size:32 }, options);
 		 { hash:'test', rotate:true, size:32 }, options);
 
@@ -481,4 +481,4 @@ Modified for SuperGenPass:
 			}			
         });
     };
-})(jQuery); 
+})(window.jQuery || window.$); 

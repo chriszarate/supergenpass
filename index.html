@@ -22,51 +22,46 @@
 		<style type="text/css">
 
 			body {
-				width: 220px;
+				width: 240px;
 				margin: 0 auto;
 				padding: 0;
 				color: #000;
-				background: #eee;
-				font-family: "Trebuchet MS", Helvetica, Arial, sans-serif;
+				background-color: transparent;
+				font-family: Helvetica, Arial, sans-serif;
 				font-size: 14px;
+				line-height: 16px;
 			}
 
-			a {
-				color: #666;
-				background-color: #ddd;
-				text-decoration: none;
-			}
-
-			a:hover {
-				color: #000;
-				background-color: #ddd;
-			}
+			a { text-decoration: none; }
 
 			h1 {
-				margin: 0;
-				padding: 8px 0 5px 0;
-				color: #666;
-				font-size: 15px;
-				font-weight: normal;
+				font-size: 1em;
+				margin: 20px 5px 10px 0;
+				padding: 5px;
+				padding-left: 10px;
+				color: #fff;
+				background-color: #3a4663;
+				text-shadow: 1px 1px #0a1633;
+				box-shadow: 1px 0px 1px #1a2643, 0px 1px 1px #2a3653, 2px 1px 1px #1a2643, 1px 2px 1px #2a3653, 3px 2px 1px #1a2643, 2px 3px 1px #2a3653, 4px 3px 1px #1a2643, 3px 4px 1px #2a3653, 5px 4px 1px #1a2643, 4px 5px 1px #2a3653, 6px 5px 1px #1a2643;
 			}
 
 			fieldset {
 				position: relative;
-				margin: 0;
+				margin: 1px 0;
+				margin-bottom: 10px;
 				padding: 0;
-				background: #fff;
 				border: none;
-				border-bottom: solid 1px #ddd;
 			}
 
 			input {
-				width: 200px;
-				height: 20px;
+				width: 215px;
+				height: 14px;
 				margin: 0;
 				padding: 10px;
-				background: #fff;
-				font-size: 12px;
+				font-size: 15px;
+				background-color: #f3f3f3;
 				border: none;
+				text-shadow: 1px 1px #fff;
 			}
 
 			label {
@@ -74,52 +69,84 @@
 				position: absolute;
 				top: 5px;
 				left: 5px;
-				color: #ccc;
+				color: #999;
 				font-size: 12px;
 			}
 
+			input:focus { outline: none; }
+			::-webkit-input-placeholder { color: #999; text-shadow: 1px 1px #fff; }
+			:-moz-placeholder { color: #999; text-shadow: 1px 1px #fff; }
+			::-moz-placeholder { color: #999; text-shadow: 1px 1px #fff; }
+			:-ms-input-placeholder { color: #999; text-shadow: 1px 1px #fff; }
+
+label.Missing { color: #c66; }
+input.Missing::-webkit-input-placeholder { color: #c66; }
+input.Missing:::-moz-placeholder { color: #c66; }
+input.Missing::-moz-placeholder { color: #c66; }
+input.Missing:-ms-input-placeholder { color: #c66; }
+
+			input, #Up, #Down, #MethodField, #Result { box-shadow: 1px 0px 1px #ddd, 0px 1px 1px #eee, 2px 1px 1px #ddd, 1px 2px 1px #eee, 3px 2px 1px #ddd, 2px 3px 1px #eee, 4px 3px 1px #ddd, 3px 4px 1px #eee, 5px 4px 1px #ddd, 4px 5px 1px #eee, 6px 5px 1px #ddd; }
+
 			noscript { color: #f33; }
 
-			#SaltHUD {
+			#Options {
 				float: right;
+				padding: 0 5px;
+				color: #233;
+				font-weight: normal;
+				text-decoration: none;
+				cursor: pointer;
+			}
+
+			#SaltCanvas {
+				display: none;
+				position: absolute;
+				top: 10px;
+				right: 15px;
 				width: 16px;
 				height: 16px;
-				margin-top: 8px;
 				cursor: pointer;
 			}
 
 			#LenField {
 				float: left;
 				margin-top: 0;
+				margin-right: 8px;
 				border: none;
 			}
 
 			#Len {
 				float: left;
-				width: 30px;
+				width: 25px;
+				margin-right: 1px;
 			}
 
 			#Down, #Up {
 				display: inline-block;
-				width: 30px;
-				height: 20px;
-				padding: 10px 0;
+				width: 35px;
+				height: 18px;
+				margin-right: 1px;
+				padding: 8px 0;
+				color: #666;
+				background-color: #f3f3f3;
+				font-size: 16px;
 				font-weight: bold;
 				text-align: center;
+				cursor: pointer;
 			}
 
-			#Down { border-right: solid 1px #ccc; }
-
 			#Generate {
-				display: inline-block;
-				width: 109px;
-				height: 20px;
-				padding: 12px 0 8px 0;
+				float: left;
+				width: 108px;
+				height: 14px;
+				padding: 10px 0;
 				color: #eee;
-				background: #16af90;
+				background-color: #2d7676;
 				font-size: 14px;
 				font-weight: bold;
 				text-align: center;
+				cursor: pointer;
+				box-shadow: 1px 0px 1px #0d5656, 0px 1px 1px #1d6666, 2px 1px 1px #0d5656, 1px 2px 1px #1d6666, 3px 2px 1px #0d5656, 2px 3px 1px #1d6666, 4px 3px 1px #0d5656, 3px 4px 1px #1d6666, 5px 4px 1px #0d5656, 4px 5px 1px #1d6666, 6px 5px 1px #0d5656;
 			}
 
 			#Generate:hover {
@@ -127,54 +154,50 @@
 				background: #069f80;
 			}
 
-			#Output, #Advanced {
-				margin-top: 8px;
-				color: #333;
-				border: none;
+			#Result {
+				clear: both;
+				position: relative;
+				width: 235px;
+				height: 16px;
+				padding: 10px 0;
+				background-color: #f3f3f3;
+			}
+
+			#Canvas {
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				width: 16px;
+				height: 16px;
+				cursor: pointer;
 			}
 
 			#Output {
-				float: left;
-				width: 180px;
-				height: 20px;
-				padding: 11px 0 9px 0;
-				background: #fff;
+				padding-left: 35px;
+				font-family: "Trebuchet MS", sans-serif;
+				font-size: 15px;
 				letter-spacing: 0.05em;
 				word-wrap: break-word;
 			}
 
-			#Advanced {
-				display: none;
-				clear: both;
+			#SaltField, #MethodField { display: none; }
+
+			#MethodField {
+				width: 215px;
+				padding: 10px;
+				background-color: #f3f3f3;
 			}
 
-			#Identicon {
-				float: left;
-				height: 20px;
-				width: 20px;
-				margin-top: 8px;
-				padding: 12px 10px 8px 10px;
-				background: #fff;
-			}
-
-			#MethodField { padding: 10px 12px; }
 			#MethodField input { width: auto; }
 
 			#MethodField label {
 				display: inline;
 				position: relative;
-				top: -3px; left: 3px;
+				top: 0; left: 0;
+				padding-left: 3px;
 				padding-right: 15px;
 				color: #333;
-				font-size: 13px;
-			}
-
-			#SHA512HUD {
-				display: none;
-				padding-left: 5px;
-				color: #999;
-				font-size: 13px;
-				font-weight: normal;
+				font-size: 14px;
 			}
 
 		</style>
@@ -191,11 +214,9 @@
 
 	<body>
 
-		<div id="SaltHUD"><canvas id="SaltCanvas" width="16" height="16"></canvas></div>
-
 		<h1>
 			SGP3
-			<span id="SHA512HUD">SHA-512</span>
+			<a href="#" id="Options">■</a>
 		</h1>
 
 		<noscript>Requires JavaScript!</noscript>
@@ -203,13 +224,26 @@
 		<form action="#">
 
 			<fieldset id="PasswdField">
+				<canvas id="SaltCanvas" width="16" height="16"></canvas>
 				<label for="Passwd">Master password</label>
 				<input id="Passwd" type="password" placeholder="Master password">
+			</fieldset>
+
+			<fieldset id="SaltField">
+				<label for="Salt">Salt</label>
+				<input id="Salt" type="password" placeholder="Salt">
 			</fieldset>
 
 			<fieldset id="DomainField">
 				<label for="Domain">Domain / URL</label>
 				<input id="Domain" type="text" placeholder="Domain / URL" autocorrect="off" autocapitalize="off">
+			</fieldset>
+
+			<fieldset id="MethodField">
+				<input id="MethodMD5" name="Method" type="radio" value="md5" checked="checked">
+				<label for="MethodMD5">MD5</label>
+				<input id="MethodSHA512" name="Method" type="radio" value="sha512">
+				<label for="MethodSHA512">SHA-512</label>
 			</fieldset>
 
 			<fieldset id="LenField">
@@ -219,26 +253,12 @@
 
 			<a href="#" id="Generate">Generate</a>
 
-			<fieldset id="Advanced">
-
-				<fieldset id="SaltField">
-					<label for="Salt">Salt</label>
-					<input id="Salt" type="password" placeholder="Salt">
-				</fieldset>
-
-				<fieldset id="MethodField">
-					<input id="MethodMD5" name="Method" type="radio" value="md5" checked="checked">
-					<label for="MethodMD5">MD5</label>
-					<input id="MethodSHA512" name="Method" type="radio" value="sha512">
-					<label for="MethodSHA512">SHA-512</label>
-				</fieldset>
-
-			</fieldset>
-
 		</form>
 
-		<div id="Identicon"><canvas id="Canvas" width="16" height="16"></canvas></div>
-		<div id="Output">&#160;</div>
+		<div id="Result">
+			<canvas id="Canvas" width="16" height="16"></canvas>
+			<div id="Output"></div>
+		</div>
 
 		<script type="text/javascript">
 
@@ -247,6 +267,10 @@
 			//	Default values:
 				var Origin=false;
 				var Source=false;
+
+			//	Selector cache:
+				var $Sel={},Sel=['Passwd','PasswdLabel','Domain','DomainLabel','Len','Generate','Output','Canvas','Options','Salt','SaltField','SaltCanvas','MethodField','MethodMD5','MethodSHA512'];
+				$.each(Sel, function(i, val) { $Sel[val]=$('#'+val); });
 
 			//	Perform localization if requested.
 
@@ -267,70 +291,77 @@
 
 					for(var i=0;i<Localizations.length;i++) {
 						if(Lang==Localizations[i][0]) {
-							$('#Passwd').attr('placeholder',Localizations[i][1][0]);
-							$('#Domain').attr('placeholder',Localizations[i][1][1]);
-							$('#PasswdLabel').text(Localizations[i][1][0]);
-							$('#DomainLabel').text(Localizations[i][1][1]);
-							$('#Generate').text(Localizations[i][1][2]);
+							$Sel.Passwd.attr('placeholder',Localizations[i][1][0]);
+							$Sel.Domain.attr('placeholder',Localizations[i][1][1]);
+							$Sel.PasswdLabel.text(Localizations[i][1][0]);
+							$Sel.DomainLabel.text(Localizations[i][1][1]);
+							$Sel.Generate.text(Localizations[i][1][2]);
 							break;
 						}
 					}
 
 				}
 
-			//	Show advanced pane if requested.
-				$('#SaltHUD').on('click', function (event) { $('#Advanced').toggle(); });
+			//	Show all advanced options if requested.
+				$Sel.Options.on('click', function (event) {
+					var toggle = $Sel.SaltField.is(':visible') && $Sel.MethodField.is(':visible');
+					$('#SaltField, #MethodField').toggle(!toggle);
+				});
 
-			//	Toggle HUD for advanced options.
+			//	Show salt field if requested.
+				$Sel.SaltCanvas.on('click', function (event) { $Sel.SaltField.toggle(); });
 
-				$('#Salt, input:radio[name=Method]').on('keyup change', function (event) {
-					if($('#Salt').val()!='') {
-						$('#SaltCanvas').identicon5({hash:gp2_generate_hash($('#Salt').val()),size:16}).show();
+			//	Show salt identicon if salt is present.
+				$Sel.Salt.on('keyup change', function (event) {
+					if($Sel.Salt.val()!='') {
+						$Sel.SaltCanvas.identicon5({hash:gp2_generate_hash($Sel.Salt.val()),size:16}).show();
 					} else {
-						$('#SaltCanvas').hide();
+						$Sel.SaltCanvas.hide();
 					}
-					$('#SHA512HUD').toggle($('#MethodSHA512').prop('checked'));
 				});
 
 			//	Retrieve configuration from local storage (jStorage) if available.
-				$('#Len').val(gp2_validate_length($.jStorage.get('Len',10)));
-				$('#Salt').val($.jStorage.get('Salt','')).trigger('change');
+				$Sel.Len.val(gp2_validate_length($.jStorage.get('Len',10)));
+				$Sel.Salt.val($.jStorage.get('Salt','')).trigger('change');
 				$('input:radio[value='+$.jStorage.get('Method','md5')+']').prop('checked',true);
+
+			//	Show method field if value is SHA-512.
+				$Sel.MethodField.toggle($Sel.MethodSHA512.prop('checked'));
 
 			//	Generate password.
 
-				$('#Generate').on('click', function (event) {
+				$Sel.Generate.on('click', function (event) {
 
 				//	Get input.
-					var Passwd=$('#Passwd').val();
-					var Salt=$('#Salt').val();
-					var Domain=($('#Domain').val())?gp2_process_uri($('#Domain').val(),false):'localhost';
-					var Len=gp2_validate_length($('#Len').val());
+					var Passwd=$Sel.Passwd.val();
+					var Salt=$Sel.Salt.val();
+					var Domain=($Sel.Domain.val())?gp2_process_uri($Sel.Domain.val(),false):'localhost';
+					var Len=gp2_validate_length($Sel.Len.val());
 					Method=$('input:radio[name=Method]:checked').val();
 
 				//	Update form with validated input.
-					$('#Domain').val(Domain).trigger('change');
-					$('#Len').val(Len).trigger('change');
+					$Sel.Domain.val(Domain).trigger('change');
+					$Sel.Len.val(Len).trigger('change');
 
 					if(Passwd) {
 
-						$('#Canvas').identicon5({hash:gp2_generate_hash(Passwd+Salt),size:16}).show();
+						$Sel.Canvas.identicon5({hash:gp2_generate_hash(Passwd+Salt),size:16}).show();
 						Passwd=gp2_generate_passwd(Passwd+Salt+':'+Domain,Len);
-						$('#Output').text(Passwd);
-
-					//	Send generated password to bookmarklet.
+						$Sel.Output.text(Passwd);
 
 						if(Source&&Origin) {
+						//	Send generated password to bookmarklet.
 							Source.postMessage(Passwd,Origin);
-						}
-
-					//	Save configuration to local storage (jStorage) if available.
+						} else {
+						//	Save configuration to local storage (jStorage) when not a bookmarklet.
 						$.jStorage.set('Salt',Salt);
 						$.jStorage.set('Len',Len);
 						$.jStorage.set('Method',Method);
+						}
 
 					} else {
-						$('#Passwd').css('background-color','#ff9');
+						$Sel.Passwd.addClass('Missing');
+						$Sel.PasswdLabel.addClass('Missing');
 					}
 
 					event.preventDefault();
@@ -340,9 +371,8 @@
 			//	Adjust password length.
 
 				$('#Up, #Down').on('click', function (event) {
-					Len=gp2_validate_length(gp2_validate_length($('#Len').val())+(($(this).attr('id')=='Up')?1:-1))
-					$('#Len').val(Len).trigger('change');
-					$.jStorage.set('Len',Len);
+					Len=gp2_validate_length(gp2_validate_length($Sel.Len.val())+(($(this).attr('id')=='Up')?1:-1))
+					$Sel.Len.val(Len).trigger('change');
 					event.preventDefault();
 				});
 
@@ -351,12 +381,13 @@
 				$('input').on('keydown change', function (event) {
 					var key=event.which;
 					if(event.type=='change'||key==8||key==32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {
-						$('#Output').text(String.fromCharCode(160));
-						$('#Passwd').css('background-color','#fff');
-						$('#Canvas').hide();
+						$Sel.Output.text(String.fromCharCode(160));
+						$Sel.Passwd.removeClass('Missing');
+						$Sel.PasswdLabel.removeClass('Missing');
+						$Sel.Canvas.hide();
 					} else if(key==13) {
 						$(this).blur();
-						$('#Generate').trigger('click');
+						$Sel.Generate.trigger('click');
 						event.preventDefault();
 					}
 				});
@@ -374,8 +405,8 @@
 				$(window).on('message', function(event) {
 					Source=event.originalEvent.source;
 					Origin=event.originalEvent.origin;
-					$('#Domain').val(gp2_process_uri(Origin)).trigger('change');
-					$('#Passwd').focus();
+					$Sel.Domain.val(gp2_process_uri(Origin)).trigger('change');
+					$Sel.Passwd.focus();
 				});
 
 			});

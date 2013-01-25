@@ -5,7 +5,7 @@
 	Adapted from Paul Irish's method: http://pastie.org/462639
 */
 
-	var jQueryURL='https://d6gnhhjxs73le.cloudfront.net/js/jquery.min.js';
+	var jQueryURL='https://supergenpass.s3.amazonaws.com/js/jquery.min.js';
 	var jQueryMin=1.4;
 
 	if(typeof jQuery==='undefined'||parseFloat(jQuery.fn.jquery)<jQueryMin) {
@@ -38,8 +38,8 @@
 		try { Lang } catch(e) { Lang=''; }
 
 	//	SGP location:
-		var FrameURL='https://d6gnhhjxs73le.cloudfront.net/index.html'+Lang;
-		var Domain='https://d6gnhhjxs73le.cloudfront.net';
+		var FrameURL='https://supergenpass.s3.amazonaws.com/index.html'+Lang;
+		var Domain='https://supergenpass.s3.amazonaws.com';
 
 	//	Find largest viewport, looping through frames if applicable.
 

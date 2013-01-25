@@ -45,10 +45,14 @@ $(document).ready(function() {
    $el.Options.on('click', function (event) {
       var toggle = $el.SaltField.is(':visible') && $el.MethodField.is(':visible');
       $('#SaltField, #MethodField').slideToggle(!toggle);
+      event.preventDefault();
    });
 
    // Show salt field if requested.
-   $el.SaltCanvas.on('click', function (event) { $el.SaltField.slideToggle(400, SendHeight); });
+   $el.SaltCanvas.on('click', function (event) {
+      $el.SaltField.slideToggle(400, SendHeight);
+      event.preventDefault();
+   });
 
    // Show salt identicon if salt is present.
    $('#Salt, #MethodMD5, #MethodSHA512').on('keyup change', function (event) {

@@ -1,24 +1,15 @@
-/*
-	SuperGenPass bookmarklet
-	Convert to bookmarklet using:
-	http://chris.zarate.org/bookmarkleter
-*/
-
 (function(){
 
-/*
-	Declare localization via query variable, e.g.:	
-		Lang='?en';
-	Available locales: de en es fr hu pt-br zh-hk
-	Default (empty string) provides English (en).
-*/
+	// Lang='?en'; // Sets locale to English (default)
+	// Available locales: de en es fr hu pt-br zh-hk
 
-	Lang='';
-
-	var SGP=document.createElement('script');
-	    SGP.type='text/javascript';
-	    SGP.src='https://supergenpass.s3.amazonaws.com/js/sgp.js?20130125';
-
-	document.getElementsByTagName('head')[0].appendChild(SGP);
+	var a=document.createElement('script');
+	a.setAttribute('src','https://supergenpass.s3.amazonaws.com/js/sgp.js?20130125');
+	document.getElementsByTagName('head')[0].appendChild(a);
 
 })();
+
+/*
+Bookmarklet version:
+javascript:(function(){var%20a=document.createElement('script');a.setAttribute('src','https://supergenpass.s3.amazonaws.com/js/sgp.js%3F20130125');document.getElementsByTagName('head')[0].appendChild(a);})();
+*/

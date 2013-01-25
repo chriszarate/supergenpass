@@ -34,8 +34,8 @@
 			RandID+='abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random()*26));
 		}
 
-	//	Look for declared localization (default is English).
-		try { Lang } catch(e) { Lang=''; }
+	//	Look for declared localization.
+		if(typeof Lang==='undefined') var Lang='';
 
 	//	SGP location:
 		var FrameURL='https://supergenpass.s3.amazonaws.com/index.html'+Lang;
@@ -54,7 +54,7 @@
 					MaxArea=Area;
 				}
 			}
-			catch(error) {
+			catch(e) {
 				console.log('SGP: Skipping external frame.');
 			}
 		});

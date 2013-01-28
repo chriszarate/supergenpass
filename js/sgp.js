@@ -135,7 +135,7 @@
 	//	Append SGP window to target document.
 		$Box.append($TitleBar.append($CloseLink),$Frame).appendTo(jQuery('body',$Target));
 
-	//	Attach postMessage listener to populate password fields
+	//	Attach postMessage listener to populate password fields and change iframe height.
 
 		jQuery(window).bind('message',function(e) {
 			if(e.originalEvent.origin===Domain&&typeof e.originalEvent.data!=='undefined') {
@@ -145,13 +145,14 @@
 							jQuery('input:password:visible',$Target)
 								.css('background','#9f9')
 								.val(value)
-								.trigger('focus click change')
+								.trigger('change click')
 								.bind('keydown change', function(e) {
 									var key=e.keyCode;
 									if(key==8||key==32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {
 										jQuery(this).unbind('keydown change').css('background','#fff');
 									}
-								});
+								})
+								.focus();
 							break;
 						case 'height':
 							$Frame.animate({height: Math.max(parseInt(value),167)+16});

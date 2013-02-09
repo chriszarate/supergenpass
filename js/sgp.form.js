@@ -38,8 +38,8 @@ $(document).ready(function() {
 
    }
 
-   // Hide title for bookmarklet.
-   if(self!==top) $el.Title.hide();
+   // Show title for mobile version.
+   if(self==top) $el.Title.slideDown();
 
    // Show all advanced options if requested.
    $el.Options.on('click', function (event) {

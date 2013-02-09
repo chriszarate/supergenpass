@@ -12,12 +12,13 @@ body {
 a { text-decoration: none; }
 
 h1 {
-   font-size: 1em;
+   display: none;
    margin: 10px 5px 10px 0;
    padding: 5px;
    padding-left: 10px;
    color: #fff;
    background-color: #3a4663;
+   font-size: 1em;
    text-shadow: 1px 1px #0a1633;
    box-shadow: 1px 0px 1px #1a2643, 0px 1px 1px #2a3653, 2px 1px 1px #1a2643, 1px 2px 1px #2a3653, 3px 2px 1px #1a2643, 2px 3px 1px #2a3653, 4px 3px 1px #1a2643, 3px 4px 1px #2a3653, 5px 4px 1px #1a2643, 4px 5px 1px #2a3653, 6px 5px 1px #1a2643;
 }

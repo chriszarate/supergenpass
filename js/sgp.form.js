@@ -114,7 +114,7 @@ $(document).ready(function() {
    // Adjust password length.
 
    $('#Up, #Down').on('click', function (event) {
-      Len=gp2_validate_length(gp2_validate_length($el.Len.val())+(($(this).attr('id')=='Up')?1:-1))
+      Len=gp2_validate_length(gp2_validate_length($el.Len.val())+(($(this).attr('id')=='Up')?1:-1));
       $el.Len.val(Len).trigger('change');
       event.preventDefault();
    });
@@ -139,7 +139,7 @@ $(document).ready(function() {
 
    if(!('placeholder' in document.createElement('input'))) {
       $('#Passwd, #Domain, #Salt').on('keyup change', function (event) { 
-         $('label[for='+$(this).attr('id')+']').toggle($(this).val()=='');
+         $('label[for='+$(this).attr('id')+']').toggle($(this).val()==='');
       }).trigger('change');
    }
 

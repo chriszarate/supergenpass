@@ -12,7 +12,7 @@
  * SHA-512 as an alternative. Unnecessary or unused functions are deleted.
  */
 
-try { Method } catch(e) { Method='md5'; }
+Method=(typeof Method==='undefined')?'md5':Method;
 
 function hex_hash(s) {
 	return (Method=='sha512')?hex_sha512(s):hex_md5(s);
@@ -26,15 +26,15 @@ function b64_hash(s) {
  * Configurable variables. You may need to tweak these to be compatible with
  * the server-side, but the defaults work in most cases.
  */
-var hexcase = 0;   /* hex output format. 0 - lowercase; 1 - uppercase        */
-var b64pad  = "A";  /* base-64 pad character. "=" for strict RFC compliance   */
+var hexcase = 0;  /* hex output format. 0 - lowercase; 1 - uppercase */
+var b64pad = "A"; /* base-64 pad character. "=" for strict RFC compliance */
 
 /*
  * These are the functions you'll usually want to call
  * They take string arguments and return either hex or base-64 encoded strings
  */
-function hex_md5(s)    { return rstr2hex(rstr_md5(str2rstr_utf8(s))); }
-function b64_md5(s)    { return rstr2b64(rstr_md5(str2rstr_utf8(s))); }
+function hex_md5(s) { return rstr2hex(rstr_md5(str2rstr_utf8(s))); }
+function b64_md5(s) { return rstr2b64(rstr_md5(str2rstr_utf8(s))); }
 
 /*
  * Calculate the MD5 of a raw string
@@ -49,15 +49,14 @@ function rstr_md5(s)
  */
 function rstr2hex(input)
 {
-  try { hexcase } catch(e) { hexcase=0; }
+//try { hexcase } catch(e) { hexcase=0; }
   var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
   var output = "";
   var x;
   for(var i = 0; i < input.length; i++)
   {
     x = input.charCodeAt(i);
-    output += hex_tab.charAt((x >>> 4) & 0x0F)
-           +  hex_tab.charAt( x        & 0x0F);
+    output += hex_tab.charAt((x >>> 4) & 0x0F) + hex_tab.charAt(x & 0x0F);
   }
   return output;
 }
@@ -67,7 +66,7 @@ function rstr2hex(input)
  */
 function rstr2b64(input)
 {
-  try { b64pad } catch(e) { b64pad=''; }
+//try { b64pad } catch(e) { b64pad=''; }
 //var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345678998";
   var output = "";
@@ -135,7 +134,7 @@ function rstr2binl(input)
   var output = Array(input.length >> 2);
   for(var i = 0; i < output.length; i++)
     output[i] = 0;
-  for(var i = 0; i < input.length * 8; i += 8)
+  for(i = 0; i < input.length * 8; i += 8)
     output[i>>5] |= (input.charCodeAt(i / 8) & 0xFF) << (i%32);
   return output;
 }
@@ -324,7 +323,7 @@ function rstr2binb(input)
   var output = Array(input.length >> 2);
   for(var i = 0; i < output.length; i++)
     output[i] = 0;
-  for(var i = 0; i < input.length * 8; i += 8)
+  for(i = 0; i < input.length * 8; i += 8)
     output[i>>5] |= (input.charCodeAt(i / 8) & 0xFF) << (24 - i % 32);
   return output;
 }
@@ -346,7 +345,7 @@ function binb2rstr(input)
 var sha512_k;
 function binb_sha512(x, len)
 {
-  if(sha512_k == undefined)
+  if(sha512_k === undefined)
   {
     //SHA512 constants
     sha512_k = new Array(

@@ -17,6 +17,10 @@ module.exports = function(grunt) {
       dest: 'build/'
     },
 
+    lint: {
+      files: ['js/sgp*.js']
+    },
+
     min: {
       dist: {
         src: [
@@ -40,6 +44,6 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('default', 'min build');
+  grunt.registerTask('default', 'lint min build');
 
 };

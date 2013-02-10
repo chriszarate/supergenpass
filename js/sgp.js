@@ -5,7 +5,7 @@
 	Adapted from Paul Irish's method: http://pastie.org/462639
 */
 
-	var jQueryURL='https://supergenpass.s3.amazonaws.com/js/jquery.min.js';
+	var jQueryURL='//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js';
 	var jQueryMin=1.4;
 
 	if(typeof jQuery==='undefined'||parseFloat(jQuery.fn.jquery)<jQueryMin) {

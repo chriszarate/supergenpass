@@ -1,1 +1,1 @@
-(function(){Lang="en";var e=document.createElement("script");e.setAttribute("src","https://supergenpass.s3.amazonaws.com/sgp.js?20130209"),document.getElementsByTagName("head")[0].appendChild(e)})();
+(function(){Lang="en";var e=document.createElement("script");e.setAttribute("src","https://mobile.supergenpass.com/sgp.js?20130210"),document.getElementsByTagName("head")[0].appendChild(e)})();

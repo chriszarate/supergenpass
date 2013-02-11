@@ -38,8 +38,8 @@
 		var Query=(typeof Lang==='undefined')?'':'?'+Lang;
 
 	//	SGP location:
-		var FrameURL='https://supergenpass.s3.amazonaws.com/index.html'+Query;
-		var Domain='https://supergenpass.s3.amazonaws.com';
+		var FrameURL='https://mobile.supergenpass.com/'+Query;
+		var Domain='https://mobile.supergenpass.com';
 
 	//	Find largest viewport, looping through frames if applicable.
 

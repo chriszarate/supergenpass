@@ -22,7 +22,8 @@ $(document).ready(function() {
             ['de',   ['Master Passwort','Domain / URL','Abschicken']],
             ['pt-br',['Senha-mestra','Domínio / URL','Gerar']],
             ['zh-hk',['主密碼','域名 / URL','提交']],
-            ['hu',   ['Mesterjelszó','Tartomány / Internetcím','OK']]
+            ['hu',   ['Mesterjelszó','Tartomány / Internetcím','OK']],
+            ['ru',   ['Мастер-пароль','Домена / URL','Подтвердить']]
          ];
 
       for(var i=0;i<Localizations.length;i++) {

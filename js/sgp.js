@@ -108,7 +108,7 @@
 			'#'+RandID+' iframe {'+
 				'position:static;'+
 				'width:240px;'+
-				'height:275px;'+
+				'height:184px;'+
 				'border:none;'+
 				'overflow:hidden;'+
 				'pointer-events:auto;'+

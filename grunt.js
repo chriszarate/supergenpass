@@ -17,6 +17,25 @@ module.exports = function(grunt) {
       dest: 'build/'
     },
 
+    sanitize: {
+      dest: 'build/sgp.bookmarklet.js',
+      protocol: 'javascript:',
+      header: '(function(){',
+      footer: '})();',
+      codes: [
+        ['\\?updated', grunt.template.today('?yyyymmdd')],
+        ['%', '%25'],
+        ['"', '%22'],
+        ['<', '%3C'],
+        ['>', '%3E'],
+        ['#', '%23'],
+        ['@', '%40'],
+        [' ', '%20'],
+        ['\\&', '%26'],
+        ['\\?', '%3F']
+      ]
+    },
+
     lint: {
       files: ['js/sgp*.js']
     },
@@ -56,8 +75,20 @@ module.exports = function(grunt) {
     //console.log('File "'+conf.js+'" deleted.');
   });
 
+  grunt.registerTask('sanitize', 'Generate bookmarklet', function() {
+    var conf = grunt.config('sanitize'), file = grunt.file.read(conf.dest);
+    conf.codes.forEach(function(code) {
+      var regex = new RegExp(code[0], 'g');
+      file = file.replace(regex, code[1]);
+    });
+    if(file.indexOf(conf.protocol) === 0) file = file.substring(conf.protocol.length);
+    if(file.indexOf(conf.header) !== 0 && file.indexOf(conf.footer, file.length - conf.footer.length) == -1) file = conf.header + file + conf.footer;
+    grunt.file.write(conf.dest, conf.protocol + file);
+    console.log('URL-encoded and anonymized bookmarklet.');
+  });
+
   grunt.registerTask('default', 'lint min:dist app');
-  grunt.registerTask('bookmarklet', 'lint min:bookmarklet');
+  grunt.registerTask('bookmarklet', 'lint min:bookmarklet sanitize');
   grunt.registerTask('loader', 'lint min:loader');
   grunt.registerTask('all', 'lint min');
 

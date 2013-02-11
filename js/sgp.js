@@ -1,12 +1,12 @@
 (function(){
 
 /*
-	Look for jQuery 1.4+ and load it if it can't be found.
+	Look for jQuery 1.5+ and load it if it can't be found.
 	Adapted from Paul Irish's method: http://pastie.org/462639
 */
 
 	var jQueryURL='//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js';
-	var jQueryMin=1.4;
+	var jQueryMin=1.5;
 
 	if(typeof jQuery==='undefined'||parseFloat(jQuery.fn.jquery)<jQueryMin) {
 		var s=document.createElement('script');

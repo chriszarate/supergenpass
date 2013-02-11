@@ -56,6 +56,9 @@ module.exports = function(grunt) {
     //console.log('File "'+conf.js+'" deleted.');
   });
 
-  grunt.registerTask('default', 'lint min app');
+  grunt.registerTask('default', 'lint min:dist app');
+  grunt.registerTask('bookmarklet', 'lint min:bookmarklet');
+  grunt.registerTask('loader', 'lint min:loader');
+  grunt.registerTask('all', 'lint min');
 
 };

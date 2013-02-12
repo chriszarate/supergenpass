@@ -27,6 +27,7 @@ Modified for SuperGenPass:
 1. Do not fallback to Gravatar images (prevents password hashes from appearing in foreign server log).
 2. Require an existing canvas element to be the targeted object.
 3. Require the hash to be passed as a parameter.
+4. Add support for high-dpi identicons.
 */
 
 (function ($) {
@@ -462,10 +463,17 @@ Modified for SuperGenPass:
 									
             if (canvas.getContext) {
 				// canvas is supported				
-				canvas.width = settings.size;
-				canvas.height = settings.size;
+//				canvas.width = settings.size;
+//				canvas.height = settings.size;
 				
                 var ctx = canvas.getContext("2d");
+
+                if(window.devicePixelRatio && window.devicePixelRatio == 2) {
+                    canvas.width = canvas.height = settings.size * 2;
+                    ctx.scale(2, 2);
+                } else {
+                    canvas.width = canvas.height = settings.size;
+                }
                 
                 if (hash === "test") {
 					// draw a test image of all possible shapes. 

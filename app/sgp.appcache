@@ -1,2 +1,2 @@
 CACHE MANIFEST
-# Updated <% print(grunt.template.today('isoDateTime')); %>
+# Updated <%= grunt.template.today('isoDateTime') %>

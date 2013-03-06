@@ -23,7 +23,7 @@
 		<link rel="alternate" lang="ru" hreflang="ru" title="ру́сский" href="?ru">
 
 		<style type="text/css">
-			<% print(grunt.file.read(css)); %>
+			<%= grunt.file.read(css) %>
 		</style>
 
 		<title>SGP3</title>
@@ -79,7 +79,7 @@
 		</div>
 
 		<script type="text/javascript">
-			<% print(grunt.file.read(js)); %>
+			<%= grunt.file.read(js) %>
 		</script>
 
 	</body>

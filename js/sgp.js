@@ -65,7 +65,7 @@
 
   //  Enable "close window" link.
 
-    $TitleBar.bind('dblclick',function(e){$Frame.toggle();});
+    $TitleBar.bind('dblclick',function(){$Frame.toggle();});
 
   //  Append SGP window to target document.
     $Box.append($TitleBar,$Frame).appendTo($('body',$Target));
@@ -99,7 +99,7 @@
 
   //  Post message to SGP generator.
 
-    $Frame.bind('load',function(e) {
+    $Frame.bind('load',function() {
       this.contentWindow.postMessage(true,Domain);
     });
 

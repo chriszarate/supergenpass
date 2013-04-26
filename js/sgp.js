@@ -12,7 +12,7 @@
     var s=document.createElement('script');
         s.src=jQueryURL;
         s.onload=s.onreadystatechange=function() {
-        if(!this.readyState||this.readyState=='loaded'||this.readyState=='complete') {
+        if(!this.readyState||this.readyState==='loaded'||this.readyState==='complete') {
           s.onload=s.onreadystatechange=null;
           LoadSGP($.noConflict());
         }
@@ -146,7 +146,7 @@
                 .trigger('change click')
                 .bind('keydown change', function(e) {
                   var key=e.keyCode;
-                  if(key==8||key==32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {
+                  if(key===8||key===32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {
                     $(this).unbind('keydown change').css('background','#fff');
                   }
                 })

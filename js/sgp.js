@@ -1,18 +1,18 @@
 (function($){
 
-  // Configuration
-  var jQueryURL = '//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js',
-      jQueryMin = 1.5,
-      Domain = 'https://mobile.supergenpass.com';
+  // Configuration / initialization
+  var Domain = 'https://mobile.supergenpass.com',
+      MaxArea = 0,
+      Dragging = false;
 
   /*
     Look for jQuery 1.5+ and load it if it can't be found.
     Adapted from Paul Irish's method: http://pastie.org/462639
   */
 
-  if(typeof $ === 'undefined' || parseFloat($.fn.jquery) < jQueryMin) {
+  if(typeof $ === 'undefined' || parseFloat($.fn.jquery) < 1.5) {
     var s = document.createElement('script');
-        s.src = jQueryURL;
+        s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js';
         s.onload = s.onreadystatechange = function() {
         if(!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete') {
           s.onload = s.onreadystatechange = null;
@@ -27,7 +27,6 @@
   function LoadSGP($) {
 
     var $Target = $(document),
-    MaxArea = 0,
 
     // Define CSS properties.
     BoxStyle = 'z-index:99999;position:absolute;top:' + $Target.scrollTop() + ';right:0;width:240px;margin:0;padding:5px;background-color:#fff;border:solid 1px #ddd;box-sizing:content-box;',
@@ -39,13 +38,11 @@
     $TitleBar = $("<div/>", {style: TitleBarStyle}),
     $Frame = $("<iframe/>", {src: Domain, scrolling: 'no', style: FrameStyle}),
 
-    // Create dragging indicator.
-    Dragging = null;
-
     // Find largest viewport, looping through frames if applicable.
     $('frame,iframe').each(function () {
       try {
-        var Area = $(this).height() * $(this).width();
+        var $ThisFrame = $(this),
+            Area = $ThisFrame.height() * $ThisFrame.width();
         if(Area > MaxArea) {
           $Target = $(this.contentWindow.document);
           MaxArea = Area;
@@ -113,7 +110,7 @@
         e.preventDefault();
       },
       mouseup: function () {
-        Dragging = null;
+        Dragging = false;
         $Frame.css('pointer-events', 'auto');
       }
     });

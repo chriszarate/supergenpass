@@ -79,11 +79,8 @@
                 .css('background', '#9f9')
                 .val(value)
                 .trigger('change click')
-                .on('keydown change', function (e) {
-                  var key = e.keyCode;
-                  if(key === 8 || key === 32 || (key > 45 && key < 91) || (key > 95 && key < 112) || (key > 185 && key < 223)) {
-                    $(this).off('keydown change').css('background', '#fff');
-                  }
+                .on('input', function () {
+                  $(this).css('background', '#fff');
                 })
                 .focus();
               break;

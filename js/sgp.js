@@ -47,7 +47,7 @@
     // Create dragging indicator.
     Dragging=null;
 
-    $('frame').each(function() {
+    $('frame,iframe').each(function() {
       try {
         var Area=$(this).height()*$(this).width();
         if(Area>MaxArea) {

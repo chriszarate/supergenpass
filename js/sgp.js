@@ -24,12 +24,9 @@
 
   function LoadSGP($) {
 
-    // Look for declared localization.
-    var Query=(typeof Lang==='undefined')?'':'?'+Lang,
-
     // SGP location:
-    Domain='https://mobile.supergenpass.com',
-    FrameURL=Domain+'/'+Query,
+    var Domain='https://mobile.supergenpass.com',
+    FrameURL=Domain,
 
     // Find largest viewport, looping through frames if applicable.
     $Target=(document)?$(document):false,

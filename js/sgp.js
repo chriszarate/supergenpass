@@ -1,4 +1,4 @@
-(function($){
+(function ($) {
 
   // Configuration / initialization
   var Domain = 'https://mobile.supergenpass.com',
@@ -36,7 +36,7 @@
     // Create SGP elements.
     $Box = $("<div/>", {style: BoxStyle}),
     $TitleBar = $("<div/>", {style: TitleBarStyle}),
-    $Frame = $("<iframe/>", {src: Domain, scrolling: 'no', style: FrameStyle}),
+    $Frame = $("<iframe/>", {src: Domain, scrolling: 'no', style: FrameStyle});
 
     // Find largest viewport, looping through frames if applicable.
     $('frame,iframe').each(function () {
@@ -126,4 +126,4 @@
 
   }
 
-})(jQuery);
+})(window.jQuery);

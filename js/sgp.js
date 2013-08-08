@@ -10,18 +10,21 @@
     Adapted from Paul Irish's method: http://pastie.org/462639
   */
 
-  if(typeof $ === 'undefined' || parseFloat($.fn.jquery) < 1.5) {
-    var s = document.createElement('script');
-        s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js';
-        s.onload = s.onreadystatechange = function() {
-        if(!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete') {
-          s.onload = s.onreadystatechange = null;
-          LoadSGP($.noConflict());
-        }
-      };
-    document.getElementsByTagName('head')[0].appendChild(s);
-  } else {
+  var Ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.5;
+
+  if(Ready) {
     LoadSGP($);
+  } else {
+    var s = document.createElement('script');
+    s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js';
+    s.onload = s.onreadystatechange = function() {
+      var state = this.readyState;
+      if(!Ready && (!state || state === 'loaded' || state === 'complete')) {
+        Ready = true;
+        LoadSGP(jQuery.noConflict());
+      }
+    };
+    document.getElementsByTagName('head')[0].appendChild(s);
   }
 
   function LoadSGP($) {

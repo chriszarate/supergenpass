@@ -10,7 +10,7 @@
     Adapted from Paul Irish's method: http://pastie.org/462639
   */
 
-  var Ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.5;
+  var Ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.7;
 
   if(Ready) {
     LoadSGP($);

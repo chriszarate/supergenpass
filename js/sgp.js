@@ -24,6 +24,11 @@
         LoadSGP(jQuery.noConflict());
       }
     };
+    setTimeout(function() {
+      if(!Ready) {
+        window.location = Domain;
+      };
+    }, 2000);
     document.getElementsByTagName('head')[0].appendChild(s);
   }
 

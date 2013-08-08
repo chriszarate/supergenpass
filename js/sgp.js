@@ -32,8 +32,8 @@
     var $Target = $(document),
 
     // Define CSS properties.
-    BoxStyle = 'z-index:99999;position:absolute;top:' + $Target.scrollTop() + ';right:0;width:240px;margin:0;padding:5px;background-color:#fff;border:solid 1px #ddd;box-sizing:content-box;',
-    TitleBarStyle = 'overflow:hidden;width:235px;height:15px;margin:0;padding:0;background-color:#3a4663;cursor:move;box-shadow:1px 0 1px #1a2643,0 1px 1px #2a3653,2px 1px 1px #1a2643,1px 2px 1px #2a3653,3px 2px 1px #1a2643,2px 3px 1px #2a3653,4px 3px 1px #1a2643,3px 4px 1px #2a3653,5px 4px 1px #1a2643,4px 5px 1px #2a3653,6px 5px 1px #1a2643;box-sizing:content-box;',
+    BoxStyle = 'z-index:99999;position:absolute;top:' + $Target.scrollTop() + ';right:0;width:240px;margin:0;padding:0;box-sizing:content-box;',
+    TitleBarStyle = 'overflow:hidden;width:240px;height:20px;margin:0;padding:0;background-color:#346;border-bottom:solid 1px #124;cursor:move;box-sizing:content-box;',
     FrameStyle = 'position:static;width:240px;height:184px;border:none;overflow:hidden;pointer-events:auto;',
 
     // Create SGP elements.

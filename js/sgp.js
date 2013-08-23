@@ -10,13 +10,12 @@
     Adapted from Paul Irish's method: http://pastie.org/462639
   */
 
-  var Ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.7;
+  var Ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.7 && LoadSGP($);
 
-  if(Ready) {
-    LoadSGP($);
-  } else {
+  if(!Ready) {
+
     var s = document.createElement('script');
-    s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js';
+    s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js';
     s.onload = s.onreadystatechange = function() {
       var state = this.readyState;
       if(!Ready && (!state || state === 'loaded' || state === 'complete')) {
@@ -24,12 +23,20 @@
         LoadSGP(jQuery.noConflict());
       }
     };
+
+    /*
+      Set timeout to see if it has loaded; otherwise assume that loading 
+      was blocked by an origin policy or other security setting.
+    */
+
     setTimeout(function() {
       if(!Ready) {
         window.location = Domain;
       };
     }, 2000);
+
     document.getElementsByTagName('head')[0].appendChild(s);
+
   }
 
   function LoadSGP($) {
@@ -131,6 +138,8 @@
         });
       }
     });
+
+    return 1;
 
   }
 

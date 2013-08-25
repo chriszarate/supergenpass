@@ -8,10 +8,10 @@
 	continually until password policy is satisfied.
 */
 
-function gp2_generate_passwd(Passwd,Len) {
+function gp2_generate_passwd(Passwd,Len,Method) {
 	var i=0;
 	while(i<10||!(gp2_check_passwd(Passwd.substring(0,Len)))) {
-		Passwd=b64_hash(Passwd);
+		Passwd=b64_hash(Passwd,Method);
 		i++;
 	}
 	return Passwd.substring(0,Len);
@@ -36,9 +36,9 @@ function gp2_check_passwd(Passwd) {
 	Loops four times using hexidecimal hash.
 */
 
-function gp2_generate_hash(HashSeed) {
+function gp2_generate_hash(HashSeed,Method) {
 	for(var i=0;i<=4;i++) {
-		HashSeed=hex_hash(HashSeed);
+		HashSeed=hex_hash(HashSeed,Method);
 	}
 	return HashSeed;
 }
@@ -50,7 +50,7 @@ function gp2_generate_hash(HashSeed) {
 	Default is 10.
 */
 
-function gp2_validate_length(n) {
+function gp2_validate_length(n,Method) {
 	var LenMax=(Method=='sha512')?24:22;
 	return (parseInt(n,10))?Math.max(4,Math.min(parseInt(n,10),LenMax)):10;
 }
@@ -69,18 +69,18 @@ function gp2_process_uri(URI,DisableTLD) {
 	var HostNameIsolator=new RegExp('^(http|https|ftp|ftps|webdav|gopher|rtsp|irc|nntp|pop|imap|smtp)://([^/:]+)');
 	var HostName=URI.match(HostNameIsolator);
 
-	if(HostName&&HostName[2]!==undefined) {
+	if(HostName&&HostName.length>2) {
 		HostName=HostName[2];
 	} else {
 		HostNameIsolator=new RegExp('^([^/:]+)');
 		HostName=URI.match(HostNameIsolator);
-		HostName=(HostName[1]!==undefined)?HostName[1]:URI;
+		HostName=(HostName.length>1)?HostName[1]:URI;
 	}
 
 	HostNameIsolator=new RegExp('^([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})$');
 	HostName=(HostName.match(HostNameIsolator))?[HostName]:HostName.split('.');
 
-	if(HostName[2]===undefined||DisableTLD) {
+	if(HostName.length===1||DisableTLD) {
 		URI=HostName.join('.');
 	} else {
 		URI=HostName[HostName.length-2]+'.'+HostName[HostName.length-1];
@@ -103,13 +103,14 @@ function gp2_process_uri(URI,DisableTLD) {
 	Gather and validate input for password generator.
 */
 
-function gp2_genpass(Passwd,Domain,Len,Salt,DisableTLD) {
+function gp2_genpass(Passwd,Domain,Len,Salt,DisableTLD,Method) {
 
 	Passwd=(Passwd)?unescape(Passwd):prompt('Please enter your master password:');
-	Domain=(Domain)?gp2_process_uri(Domain,DisableTLD):gp2_process_uri(window.location.href,DisableTLD);
-	Len=gp2_validate_length(Len);
 	Salt=(Salt)?unescape(Salt):'';
+	Method=Method||'md5',
+	Domain=(Domain)?gp2_process_uri(Domain,DisableTLD):gp2_process_uri(window.location.href,DisableTLD);
+	Len=gp2_validate_length(Len,Method);
 
-	return (Passwd)?gp2_generate_passwd(Passwd+Salt+':'+Domain,Len):false;
+	return (Passwd)?gp2_generate_passwd(Passwd+Salt+':'+Domain,Len,Method):false;
 
 }

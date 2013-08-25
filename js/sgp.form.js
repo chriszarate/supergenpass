@@ -1,17 +1,45 @@
 $(document).ready(function() {
 
-   // Default values:
-   var Origin=false;
-   var Source=false;
+   // Default values
+   var Origin=false,
+   Source=false,
+   Lang=location.search.substring(1),
 
-   // Selector cache:
-   var $el={},Sel=['Title','Passwd','PasswdLabel','Domain','DomainLabel','Len','Generate','Output','Canvas','Options','Salt','SaltField','SaltCanvas','MethodField','MethodMD5','MethodSHA512'];
-   $.each(Sel, function(i, val) { $el[val]=$('#'+val); });
+   // Selector cache
+   Sel=['PasswdField','Passwd','PasswdLabel','Salt','DomainField','Domain','DomainLabel','Len','Generate','Output','Canvas','Options'],
+
+   // Send document height to bookmarklet.
+   SendHeight=function() {
+      if(Source&&Origin) {
+         Source.postMessage('{"height":"'+$(document.body).height()+'"}',Origin);
+      }
+   },
+
+   // Send generated password to bookmarklet.
+   SendPasswd=function(Passwd) {
+      if(Source&&Origin) {
+         Source.postMessage('{"result":"'+Passwd+'"}',Origin);
+      }
+   },
+
+   // Save configuration to local storage (jStorage).
+   SaveConfig=function(Salt,Len,Method) {
+      $.jStorage.set('Salt',Salt);
+      $.jStorage.set('Len',Len);
+      $.jStorage.set('Method',Method);
+   },
+
+   GetMethod=function() {
+      return $('input:radio[name=Method]:checked').val() || 'md5';
+   },
+
+   // Populate selector cache.
+   $el={};
+   $.each(Sel, function(i, val) {
+      $el[val]=$('#'+val);
+   });
 
    // Perform localization if requested.
-
-   var Lang=location.search.substring(1);
-
    if(Lang) {
 
       var Localizations=
@@ -39,96 +67,77 @@ $(document).ready(function() {
 
    }
 
-   // Show title for mobile version.
-   if(self==top) $el.Title.slideDown();
-
-   // Show all advanced options if requested.
-   $el.Options.on('click', function (event) {
-      var toggle = $el.SaltField.is(':visible') && $el.MethodField.is(':visible');
-      $('#SaltField, #MethodField').slideToggle(!toggle);
-      event.preventDefault();
+   // Show advanced options if requested.
+   $el.Options.on('click', function() {
+      $('.Option').slideToggle(400, SendHeight);
    });
 
-   // Show salt field if requested.
-   $el.SaltCanvas.on('click', function (event) {
-      $el.SaltField.slideToggle(400, SendHeight);
-      event.preventDefault();
-   });
-
-   // Show salt identicon if salt is present.
-   $('#Salt, #MethodMD5, #MethodSHA512').on('keyup change', function (event) {
-      Method=$('input:radio[name=Method]:checked').val();
-      if($el.Salt.val()!=='') {
-         $el.SaltCanvas.identicon5({hash:gp2_generate_hash($el.Salt.val()),size:16}).show();
+   // Show identicon if password or salt is present.
+   $('#Passwd, #Salt, #MethodField').on('keyup change', function (event) {
+      var Passwd=$el.Passwd.val(),Salt=$el.Salt.val(),Method=GetMethod();
+      if(Passwd||Salt) {
+         $el.Canvas.identicon5({hash:gp2_generate_hash(Passwd+Salt,Method),size:16}).show();
       } else {
-         $el.SaltCanvas.hide();
+         $el.Canvas.hide();
       }
    });
 
    // Retrieve configuration from local storage (jStorage) if available.
-   $('input:radio[value='+$.jStorage.get('Method','md5')+']').prop('checked',true);
-   $el.Len.val(gp2_validate_length($.jStorage.get('Len',10)));
+   var Method=$.jStorage.get('Method','md5');
+   $('input:radio[value='+Method+']').prop('checked',true);
+   $el.Len.val(gp2_validate_length($.jStorage.get('Len',10),Method));
    $el.Salt.val($.jStorage.get('Salt','')).trigger('change');
 
-   // Show method field if value is SHA-512.
-   $el.MethodField.toggle($el.MethodSHA512.prop('checked'));
-
    // Generate password.
-
    $el.Generate.on('click', function (event) {
 
       // Get input.
-      var Passwd=$el.Passwd.val();
-      var Salt=$el.Salt.val();
-      var Domain=($el.Domain.val())?gp2_process_uri($el.Domain.val(),false):'localhost';
-      var Len=gp2_validate_length($el.Len.val());
+      var Passwd=$el.Passwd.val(),
+      Salt=$el.Salt.val(),
+      Method=GetMethod(),
+      Domain=$el.Domain.val().replace(/ /g, ''),
+      Len=gp2_validate_length($el.Len.val(),Method);
+
+      // Process domain value.
+      Domain=(Domain)?gp2_process_uri(Domain,false):'';
 
       // Update form with validated input.
       $el.Domain.val(Domain).trigger('change');
       $el.Len.val(Len).trigger('change');
 
-      if(Passwd) {
-
-         $el.Canvas.identicon5({hash:gp2_generate_hash(Passwd+Salt),size:16}).show();
-         Passwd=gp2_generate_passwd(Passwd+Salt+':'+Domain,Len);
-         $el.Output.text(Passwd);
-
-         if(Source&&Origin) {
-            // Send generated password to bookmarklet.
-            Source.postMessage('{"result":"'+Passwd+'"}',Origin);
-         } else {
-            // Save configuration to local storage (jStorage) when not a bookmarklet.
-            $.jStorage.set('Salt',Salt);
-            $.jStorage.set('Len',Len);
-            $.jStorage.set('Method',Method);
-         }
-
-      } else {
-         $el.Passwd.addClass('Missing');
-         $el.PasswdLabel.addClass('Missing');
+      if(!Passwd) {
+         $el.PasswdField.addClass('Missing');
       }
 
-      event.preventDefault();
+      if(!Domain) {
+         $el.DomainField.addClass('Missing');
+      }
+
+      if(Passwd&&Domain) {
+         Passwd=gp2_generate_passwd(Passwd+Salt+':'+Domain,Len,Method);
+         SendPasswd(Passwd);
+         SaveConfig(Salt,Len,Method);
+         $el.Generate.hide();
+         $el.Output.text(Passwd).show();
+      }
 
    });
 
    // Adjust password length.
-
    $('#Up, #Down').on('click', function (event) {
-      Len=gp2_validate_length(gp2_validate_length($el.Len.val())+(($(this).attr('id')=='Up')?1:-1));
+      var Method=GetMethod(),
+      Len=gp2_validate_length(gp2_validate_length($el.Len.val(),Method)+(($(this).attr('id')=='Up')?1:-1),Method);
       $el.Len.val(Len).trigger('change');
-      event.preventDefault();
    });
 
    // Clear generated password when input changes.
-
    $('input').on('keydown change', function (event) {
       var key=event.which;
       if(event.type=='change'||key==8||key==32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {
-         $el.Output.text(String.fromCharCode(160));
-         $el.Passwd.removeClass('Missing');
-         $el.PasswdLabel.removeClass('Missing');
-         $el.Canvas.hide();
+         $el.Output.text(String.fromCharCode(160)).hide();
+         $el.Generate.show();
+         $el.PasswdField.removeClass('Missing');
+         $el.DomainField.removeClass('Missing');
       } else if(key==13) {
          $(this).blur();
          $el.Generate.trigger('click');
@@ -137,15 +146,13 @@ $(document).ready(function() {
    });
 
    // Provide fake input placeholders if browser does not support them.
-
    if(!('placeholder' in document.createElement('input'))) {
-      $('#Passwd, #Domain, #Salt').on('keyup change', function (event) { 
+      $('#Passwd, #Salt, #Domain').on('keyup change', function (event) { 
          $('label[for='+$(this).attr('id')+']').toggle($(this).val()==='');
       }).trigger('change');
    }
 
    // Attach postMessage listener for bookmarklet.
-
    $(window).on('message', function(event) {
       Source=event.originalEvent.source;
       Origin=event.originalEvent.origin;
@@ -153,8 +160,5 @@ $(document).ready(function() {
       $el.Passwd.focus();
       SendHeight();
    });
-
-   // Send document height to bookmarklet.
-   var SendHeight=function() { if(Source&&Origin) Source.postMessage('{"height":"'+$(document.body).height()+'"}',Origin); };
 
 });

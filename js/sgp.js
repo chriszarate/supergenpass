@@ -1,7 +1,7 @@
 (function ($) {
 
   // Configuration / initialization
-  var Domain = 'https://mobile.supergenpass.com',
+  var Domain = 'https://mobile.supergenpass.com/test.html',
       MaxArea = 0,
       Dragging = false;
 
@@ -32,7 +32,7 @@
     setTimeout(function() {
       if(!Ready) {
         window.location = Domain;
-      };
+      }
     }, 2000);
 
     document.getElementsByTagName('head')[0].appendChild(s);
@@ -44,9 +44,9 @@
     var $Target = $(document),
 
     // Define CSS properties.
-    BoxStyle = 'z-index:99999;position:absolute;top:' + $Target.scrollTop() + ';right:0;width:240px;margin:0;padding:0;box-sizing:content-box;',
-    TitleBarStyle = 'overflow:hidden;width:240px;height:20px;margin:0;padding:0;background-color:#346;border-bottom:solid 1px #124;cursor:move;box-sizing:content-box;',
-    FrameStyle = 'position:static;width:240px;height:184px;border:none;overflow:hidden;pointer-events:auto;',
+    BoxStyle = 'z-index:99999;position:absolute;top:' + $Target.scrollTop() + ';right:5px;width:258px;margin:0;padding:0;box-sizing:content-box;',
+    TitleBarStyle = 'overflow:hidden;width:258px;height:20px;margin:0;padding:0;background-color:#356;cursor:move;box-sizing:content-box;',
+    FrameStyle = 'position:static;width:258px;height:190px;border:none;overflow:hidden;pointer-events:auto;',
 
     // Create SGP elements.
     $Box = $("<div/>", {style: BoxStyle}),
@@ -83,7 +83,7 @@
     // iframe height.
     $(window).on('message', function (e) {
       var post = e.originalEvent;
-      if(post.origin === Domain && typeof post.data !== 'undefined') {
+      if(post.origin === 'https://mobile.supergenpass.com' && typeof post.data !== 'undefined') {
         $.each($.parseJSON(post.data), function (key, value) {
           switch(key) {
             case 'result':
@@ -98,7 +98,7 @@
               break;
             case 'height':
               $Frame.animate({
-                height: Math.max(parseInt(value, 10), 167) + 16
+                height: Math.max(parseInt(value, 10), 167) + 2
               });
               break;
           }
@@ -108,7 +108,7 @@
 
     // Post message to SGP generator.
     $Frame.on('load', function () {
-      this.contentWindow.postMessage(true, Domain);
+      this.contentWindow.postMessage(true, 'https://mobile.supergenpass.com');
     });
 
     /*

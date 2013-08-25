@@ -12,13 +12,11 @@
  * SHA-512 as an alternative. Unnecessary or unused functions are deleted.
  */
 
-Method=(typeof Method==='undefined')?'md5':Method;
-
-function hex_hash(s) {
+function hex_hash(s,Method) {
 	return (Method=='sha512')?hex_sha512(s):hex_md5(s);
 }
 
-function b64_hash(s) {
+function b64_hash(s,Method) {
 	return (Method=='sha512')?b64_sha512(s):b64_md5(s);
 }
 

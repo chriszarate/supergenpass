@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
-<html manifest="sgp.appcache">
+<html>
 
 	<head>
 
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=250,maximum-scale=1.5">
+		<meta name="viewport" content="width=274,maximum-scale=1.5">
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="format-detection" content="telephone=no">
@@ -22,65 +22,62 @@
 		<link rel="alternate" lang="hu" hreflang="hu" title="Magyarul" href="?hu">
 		<link rel="alternate" lang="ru" hreflang="ru" title="ру́сский" href="?ru">
 
-		<style type="text/css">
-			<%= grunt.file.read(css) %>
-		</style>
+		<style type="text/css"><%= css %></style>
 
-		<title>SGP3</title>
+		<title>SGP</title>
 
 	</head>
 
 	<body>
 
-		<h1 id="Title">
-			SGP3
-			<a href="#" id="Options">■</a>
-		</h1>
+		<div id="main">
 
-		<noscript>Requires JavaScript!</noscript>
+			<h1>
+				SGP
+				<span id="Options"></span>
+			</h1>
 
-		<form action="#">
+			<noscript>Requires JavaScript!</noscript>
 
-			<fieldset id="PasswdField">
-				<canvas id="SaltCanvas" width="16" height="16"></canvas>
-				<label for="Passwd">Master password</label>
-				<input id="Passwd" type="password" placeholder="Master password">
-			</fieldset>
+			<form action="#" novalidate="novalidate">
 
-			<fieldset id="SaltField">
-				<label for="Salt">Salt</label>
-				<input id="Salt" type="password" placeholder="Salt">
-			</fieldset>
+				<fieldset id="PasswdField">
+					<input id="Passwd" type="password" placeholder="Master password">
+					<label for="Passwd" class="placeholder">Master password</label>
+					<canvas id="Canvas" width="16" height="16"></canvas>
+				</fieldset>
 
-			<fieldset id="DomainField">
-				<label for="Domain">Domain / URL</label>
-				<input id="Domain" type="url" placeholder="Domain / URL" autocorrect="off" autocapitalize="off">
-			</fieldset>
+				<fieldset id="SaltField" class="Option">
+					<input id="Salt" type="password" placeholder="Salt">
+					<label for="Salt" class="placeholder">Salt</label>
+				</fieldset>
 
-			<fieldset id="MethodField">
-				<input id="MethodMD5" name="Method" type="radio" value="md5" checked="checked">
-				<label for="MethodMD5">MD5</label>
-				<input id="MethodSHA512" name="Method" type="radio" value="sha512">
-				<label for="MethodSHA512">SHA-512</label>
-			</fieldset>
+				<fieldset id="MethodField" class="Option">
+					<input id="MethodSHA512" name="Method" type="radio" value="sha512">
+					<label for="MethodSHA512" class="Button">SHA</label>
+					<input id="MethodMD5" name="Method" type="radio" value="md5" checked="checked">
+					<label for="MethodMD5" class="Button">MD5</label>
+				</fieldset>
 
-			<fieldset id="LenField">
-				<input id="Len" type="text" pattern="[0-9]*" value="10">
-				<a href="#" id="Down">−</a><a href="#" id="Up">+</a>
-			</fieldset>
+				<fieldset id="LenField" class="Option">
+					<input id="Len" type="text" pattern="[0-9]*" value="10">
+					<span id="Down" class="Button">–</span><span id="Up" class="Button">+</span>
+				</fieldset>
 
-			<a href="#" id="Generate">Generate</a>
+				<fieldset id="DomainField">
+					<input id="Domain" type="url" placeholder="Domain / URL" autocorrect="off" autocapitalize="off">
+					<label for="Domain" class="placeholder">Domain / URL</label>
+				</fieldset>
 
-		</form>
+				<div id="Generate" class="Field Button">Generate</div>
+				<div id="Output" class="Field"></div>
 
-		<div id="Result">
-			<canvas id="Canvas" width="16" height="16"></canvas>
-			<div id="Output"></div>
+			</form>
+
 		</div>
 
-		<script type="text/javascript">
-			<%= grunt.file.read(js) %>
-		</script>
+		<script type="text/javascript"><%= lib %></script>
+		<script type="text/javascript"><%= js %></script>
 
 	</body>
 

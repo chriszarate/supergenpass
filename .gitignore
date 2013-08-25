@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
 bower_components
-build/app*.js
+build/app*
 build/components*
 build/sgp.js

@@ -1,7 +1,8 @@
 (function ($) {
 
   // Configuration / initialization
-  var Domain = 'https://mobile.supergenpass.com',
+  var Version = 20130826,
+      Domain = 'https://mobile.supergenpass.com',
       MaxArea = 0,
       Dragging = false;
 
@@ -25,7 +26,7 @@
     };
 
     /*
-      Set timeout to see if it has loaded; otherwise assume that loading 
+      Set timeout to see if it has loaded; otherwise assume that loading
       was blocked by an origin policy or other security setting.
     */
 
@@ -108,7 +109,7 @@
 
     // Post message to SGP generator.
     $Frame.on('load', function () {
-      this.contentWindow.postMessage(true, Domain);
+      this.contentWindow.postMessage('{"version":'+Version+'}', Domain);
     });
 
     /*

@@ -4,9 +4,10 @@ $(document).ready(function() {
    var Origin=false,
    Source=false,
    Lang=location.search.substring(1),
+   LatestVersion = 20130826,
 
    // Selector cache
-   Sel=['PasswdField','Passwd','PasswdLabel','Salt','DomainField','Domain','DomainLabel','Len','Generate','Output','Canvas','Options'],
+   Sel=['PasswdField','Passwd','PasswdLabel','Salt','DomainField','Domain','DomainLabel','Len','Generate','Output','Canvas','Options','Update'],
 
    // Send document height to bookmarklet.
    SendHeight=function() {
@@ -147,18 +148,35 @@ $(document).ready(function() {
 
    // Provide fake input placeholders if browser does not support them.
    if(!('placeholder' in document.createElement('input'))) {
-      $('#Passwd, #Salt, #Domain').on('keyup change', function (event) { 
+      $('#Passwd, #Salt, #Domain').on('keyup change', function (event) {
          $('label[for='+$(this).attr('id')+']').toggle($(this).val()==='');
       }).trigger('change');
    }
 
    // Attach postMessage listener for bookmarklet.
-   $(window).on('message', function(event) {
-      Source=event.originalEvent.source;
-      Origin=event.originalEvent.origin;
+   $(window).on('message', function (event) {
+
+      // Gather information.
+      var post=event.originalEvent;
+      Source=post.source;
+      Origin=post.origin;
+
+      // Parse message.
+      $.each($.parseJSON(post.data), function (key, value) {
+         switch(key) {
+            case 'version':
+               if(value < LatestVersion) {
+                  $el.Update.show();
+               }
+               break;
+         }
+      });
+
+      // Populate domain field and call back with the browser height.
       $el.Domain.val(gp2_process_uri(Origin)).trigger('change');
       $el.Passwd.focus();
       SendHeight();
+
    });
 
 });

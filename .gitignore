@@ -2,5 +2,6 @@
 node_modules
 bower_components
 build/app*
+build/cache*
 build/components*
 build/sgp.js

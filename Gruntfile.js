@@ -85,9 +85,20 @@ module.exports = function(grunt) {
         ],
         dest: 'build/cache.manifest'
       }
+    },
+
+    checksum: {
+      app: {
+        options: {
+          algorithm: 'sha512'
+        },
+        files: {
+          'build/checksums.json': ['build/index.html', 'build/sgp.bookmarklet.js']
+        }
+      }
     }
 
-  });
+  }),
 
   // Load tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -133,7 +144,7 @@ module.exports = function(grunt) {
     this.files.forEach(function(file) {
 
       // Load files.
-      var contents = file.src.filter(fileExists).map(readFile).join('');
+      var contents = file.src.map(readFile).join('');
 
       // Process as template.
       contents = grunt.template.process(contents, {data:options.include});
@@ -156,8 +167,71 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'compile', 'manifest']);
-  grunt.registerTask('build', ['jshint', 'uglify:app', 'cssmin', 'compile:app', 'manifest']);
+  grunt.registerMultiTask('checksum', 'Generate checksums', function() {
+
+    var done = this.async(),
+    crypto = require('crypto'),
+    fs = require('fs'),
+
+    // Merge task-specific and/or target-specific options with these defaults.
+    options = this.options({
+      algorithm: 'sha-512',
+    }),
+
+    // Placeholder for checksums.
+    result = {},
+
+    // Task counter.
+    tasks = this.files.length,
+
+    // Generate checksum.
+    checkSum = function(filepath, dest) {
+      var shasum = crypto.createHash(options.algorithm),
+      stream = fs.ReadStream(filepath);
+      stream.on('data', function(data) {
+        shasum.update(data);
+      });
+      stream.on('end', function() {
+        var sum = shasum.digest('hex');
+        writeSum(filepath, dest, sum);
+      });
+    },
+
+    // Write to checksum file.
+    writeSum = function(src, dest, sum) {
+      result[dest].sums[src] = sum;
+      if(Object.keys(result[dest].sums).length === result[dest].count) {
+        grunt.file.write(dest, JSON.stringify(result[dest].sums));
+        grunt.log.writeln('Generated checksum file: ' + dest);
+        if(!--tasks) {
+          done();
+        }
+      }
+    };
+
+    // Process files.
+    this.files.forEach(function(file) {
+
+      // Stash checksum destination in scope.
+      var dest = file.dest;
+
+      // Create a placeholder record for this checksum task.
+      result[dest] = {
+        count: file.src.length,
+        sums: {}
+      };
+
+      // Loop through each source file.
+      file.src.forEach(function(src) {
+        checkSum(src, dest);
+      });
+
+    });
+
+  });
+
+  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'compile', 'manifest', 'checksum']);
+  grunt.registerTask('build', ['jshint', 'uglify:app', 'cssmin', 'compile:app', 'manifest', 'checksum']);
   grunt.registerTask('bookmarklet', ['jshint', 'uglify:bookmarklet', 'compile:bookmarklet']);
   grunt.registerTask('components', ['uglify:components']);
   grunt.registerTask('css', ['cssmin']);

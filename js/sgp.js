@@ -1,7 +1,7 @@
 (function ($) {
 
   // Configuration / initialization
-  var Domain = 'https://mobile.supergenpass.com/test.html',
+  var Domain = 'https://mobile.supergenpass.com',
       MaxArea = 0,
       Dragging = false;
 
@@ -83,7 +83,7 @@
     // iframe height.
     $(window).on('message', function (e) {
       var post = e.originalEvent;
-      if(post.origin === 'https://mobile.supergenpass.com' && typeof post.data !== 'undefined') {
+      if(post.origin === Domain && typeof post.data !== 'undefined') {
         $.each($.parseJSON(post.data), function (key, value) {
           switch(key) {
             case 'result':
@@ -108,7 +108,7 @@
 
     // Post message to SGP generator.
     $Frame.on('load', function () {
-      this.contentWindow.postMessage(true, 'https://mobile.supergenpass.com');
+      this.contentWindow.postMessage(true, Domain);
     });
 
     /*

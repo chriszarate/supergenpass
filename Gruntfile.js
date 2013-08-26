@@ -156,8 +156,8 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'compile']);
-  grunt.registerTask('build', ['jshint', 'uglify:app', 'cssmin', 'compile:app']);
+  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'compile', 'manifest']);
+  grunt.registerTask('build', ['jshint', 'uglify:app', 'cssmin', 'compile:app', 'manifest']);
   grunt.registerTask('bookmarklet', ['jshint', 'uglify:bookmarklet', 'compile:bookmarklet']);
   grunt.registerTask('components', ['uglify:components']);
   grunt.registerTask('css', ['cssmin']);

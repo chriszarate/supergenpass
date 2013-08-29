@@ -33,12 +33,11 @@
       }
     },
 
-    FindBiggestFrame = function(i, frame) {
+    FindBiggestFrame = function() {
       try {
-        var $ThisFrame = $(frame),
-            Area = $ThisFrame.height() * $ThisFrame.width();
+        var Area = $(this).height() * $(this).width();
         if(Area > MaxArea && Area > MinFrameArea) {
-          $Target = $(frame.contentWindow.document);
+          $Target = $(this.contentWindow.document);
           MaxArea = Area;
         }
       }

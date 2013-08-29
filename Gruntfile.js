@@ -64,7 +64,9 @@ module.exports = function(grunt) {
       },
       bookmarklet: {
         options: {
-          bookmarklet: true
+          bookmarklet: true,
+          anonymize: false,
+          urlencode: true
         },
         files: {
           'build/sgp.bookmarklet.js': ['build/sgp.js']
@@ -152,10 +154,17 @@ module.exports = function(grunt) {
       if(options.bookmarklet) {
 
         // Wrap in anonymous function.
-        contents = '(function(){' + contents + '})()';
+        if(options.anonymize) {
+          contents = '(function(){' + contents + '})()';
+        }
 
         // Encode as URI.
-        contents = encodeURI('javascript:' + contents);
+        if(options.urlencode) {
+          contents = encodeURI(contents);
+        }
+
+        // Add javascript protocol.
+        contents = 'javascript:' + contents;
 
       }
 

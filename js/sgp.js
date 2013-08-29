@@ -17,11 +17,13 @@
 
     /*
       Determine if frame is local (not cross-origin).
-      Adapated from answer by Esailija:
+      Adapted from answer by Esailija:
       http://stackoverflow.com/questions/11872917/check-if-js-has-access-to-an-iframes-document
     */
 
     IsLocalFrame = function() {
+      // Expects frame element as context.
+      // Try/catch helps avoid XSS freakouts.
       try {
         var key = '_' + new Date().getTime(),
             win = this.contentWindow;
@@ -34,6 +36,8 @@
     },
 
     FindBiggestFrame = function() {
+      // Expects frame element as context.
+      // Try/catch helps avoid XSS freakouts.
       try {
         var Area = $(this).height() * $(this).width();
         if(Area > MaxArea && Area > MinFrameArea) {
@@ -63,7 +67,7 @@
       window.location = Domain;
     }
 
-    // Enable "close window" link.
+    // Provide "close window" feature.
     $TitleBar.on('dblclick', function () {
       $Frame.toggle();
     });
@@ -74,13 +78,13 @@
     // Append SGP window to target document.
     $Box.append($TitleBar, $Frame).appendTo($('body', $Target));
 
-    // Attach postMessage listener to populate password fields and change
-    // iframe height.
+    // Attach postMessage listener for responses from SGP generator.
     $(window).on('message', function (e) {
       var post = e.originalEvent;
       if(post.origin === Domain && typeof post.data !== 'undefined') {
         $.each($.parseJSON(post.data), function (key, value) {
           switch(key) {
+            // Populate generated password into password fields.
             case 'result':
               $('input:password:visible', $Target)
                 .css('background', '#9f9')
@@ -91,6 +95,7 @@
                 })
                 .focus();
               break;
+            // Change iframe height to match SGP generator document height.
             case 'height':
               $Frame.animate({
                 height: Math.max(parseInt(value, 10), 167) + 2
@@ -101,7 +106,8 @@
       }
     });
 
-    // Post message to SGP generator.
+    // Send current bookmarklet version to SGP generator. (Also communicates
+    // current URL and opens channel for response.)
     $Frame.on('load', function () {
       this.contentWindow.postMessage('{"version":'+Version+'}', Domain);
     });
@@ -139,8 +145,9 @@
   },
 
   /*
-    Look for jQuery 1.5+ and load it if it can't be found.
-    Adapted from Paul Irish's method: http://pastie.org/462639
+    Look for jQuery 1.7+ (for ".on") and load it if it can't be found.
+    Adapted from Paul Irish's method:
+    http://pastie.org/462639
   */
 
   Ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.7 && LoadSGP($);
@@ -159,7 +166,7 @@
 
     /*
       Set timeout to see if it has loaded; otherwise assume that loading
-      was blocked by an origin policy or other security setting.
+      was blocked by an origin policy or other content security setting.
     */
 
     setTimeout(function() {

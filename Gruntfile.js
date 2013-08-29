@@ -232,7 +232,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'compile', 'manifest', 'checksum']);
   grunt.registerTask('build', ['jshint', 'uglify:app', 'cssmin', 'compile:app', 'manifest', 'checksum']);
-  grunt.registerTask('bookmarklet', ['jshint', 'uglify:bookmarklet', 'compile:bookmarklet']);
+  grunt.registerTask('bookmarklet', ['jshint', 'uglify:bookmarklet', 'compile:bookmarklet', 'checksum']);
   grunt.registerTask('components', ['uglify:components']);
   grunt.registerTask('css', ['cssmin']);
 

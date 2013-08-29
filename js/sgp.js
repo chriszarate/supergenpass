@@ -158,7 +158,7 @@
     s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js';
     s.onload = s.onreadystatechange = function() {
       var state = this.readyState;
-      if(!Ready && (!state || state === 'loaded' || state === 'complete')) {
+      if(!state || state === 'loaded' || state === 'complete') {
         Ready = true;
         LoadSGP(jQuery.noConflict());
       }

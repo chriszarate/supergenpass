@@ -1,7 +1,7 @@
 (function ($) {
 
   // Configuration
-  var Version = 20130829,
+  var Version = 20130830,
       Domain = 'https://mobile.supergenpass.com',
       MinFrameArea = 100000,
 

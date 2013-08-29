@@ -4,7 +4,7 @@ $(document).ready(function() {
    var Origin=false,
    Source=false,
    Lang=location.search.substring(1),
-   LatestVersion = 20130829,
+   LatestVersion = 20130830,
 
    // Selector cache
    Sel=['PasswdField','Passwd','PasswdLabel','Salt','DomainField','Domain','DomainLabel','Len','Generate','Output','Canvas','Options','Update'],

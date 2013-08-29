@@ -273,6 +273,14 @@ input[type="radio"]:checked + label {
 }
 
 
+/* Buttons */
+
+.Button:active {
+   margin-top: 2px;
+   border-bottom: 0 !important;
+}
+
+
 /* Generate button */
 
 #Generate {
@@ -290,16 +298,8 @@ input[type="radio"]:checked + label {
    border-bottom: solid 2px #134;
 }
 
-
-/* Buttons */
-
-.Button:active {
-   margin-top: 2px !important;
-   border-width: 0 !important;
-}
-
-.Field:active {
-   margin-top: 12px !important;
+#Generate:active {
+   margin-top: 12px;
 }
 
 

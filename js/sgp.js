@@ -1,48 +1,49 @@
 (function ($) {
 
-  // Configuration / initialization
+  // Configuration
   var Version = 20130826,
       Domain = 'https://mobile.supergenpass.com',
-      MaxArea = 0,
-      Dragging = false;
+      MinFrameArea = 100000,
 
-  /*
-    Look for jQuery 1.5+ and load it if it can't be found.
-    Adapted from Paul Irish's method: http://pastie.org/462639
-  */
+  // Main
+  LoadSGP = function($) {
 
-  var Ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.7 && LoadSGP($);
+    // Defaults
+    var $Target = $(document),
+        Dragging = false,
+        MaxArea = 0,
 
-  if(!Ready) {
-
-    var s = document.createElement('script');
-    s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js';
-    s.onload = s.onreadystatechange = function() {
-      var state = this.readyState;
-      if(!Ready && (!state || state === 'loaded' || state === 'complete')) {
-        Ready = true;
-        LoadSGP(jQuery.noConflict());
-      }
-    };
+    // Functions
 
     /*
-      Set timeout to see if it has loaded; otherwise assume that loading
-      was blocked by an origin policy or other security setting.
+      Determine if frame is local (not cross-origin).
+      Adapated from answer by Esailija:
+      http://stackoverflow.com/questions/11872917/check-if-js-has-access-to-an-iframes-document
     */
 
-    setTimeout(function() {
-      if(!Ready) {
-        window.location = Domain;
+    IsLocalFrame = function() {
+      try {
+        var key = '_' + new Date().getTime(),
+            win = this.contentWindow;
+        win[key] = key;
+        return win[key] === key;
       }
-    }, 2000);
+      catch(e) {
+        return false;
+      }
+    },
 
-    document.getElementsByTagName('head')[0].appendChild(s);
-
-  }
-
-  function LoadSGP($) {
-
-    var $Target = $(document),
+    FindBiggestFrame = function(i, frame) {
+      try {
+        var $ThisFrame = $(frame),
+            Area = $ThisFrame.height() * $ThisFrame.width();
+        if(Area > MaxArea && Area > MinFrameArea) {
+          $Target = $(frame.contentWindow.document);
+          MaxArea = Area;
+        }
+      }
+      catch(e) {}
+    },
 
     // Define CSS properties.
     BoxStyle = 'z-index:99999;position:absolute;top:' + $Target.scrollTop() + ';right:5px;width:258px;margin:0;padding:0;box-sizing:content-box;',
@@ -55,17 +56,8 @@
     $Frame = $("<iframe/>", {src: Domain, scrolling: 'no', style: FrameStyle});
 
     // Find largest viewport, looping through frames if applicable.
-    $('frame,iframe').each(function () {
-      try {
-        var $ThisFrame = $(this),
-            Area = $ThisFrame.height() * $ThisFrame.width();
-        if(Area > MaxArea) {
-          $Target = $(this.contentWindow.document);
-          MaxArea = Area;
-        }
-      }
-      catch(e) {}
-    });
+    $('frame').filter(IsLocalFrame).each(FindBiggestFrame);
+    $('iframe', $Target).filter(IsLocalFrame).each(FindBiggestFrame);
 
     // If no target document is found, redirect to mobile version.
     if(!$Target) {
@@ -140,7 +132,41 @@
       }
     });
 
-    return 1;
+    return true;
+
+  },
+
+  /*
+    Look for jQuery 1.5+ and load it if it can't be found.
+    Adapted from Paul Irish's method: http://pastie.org/462639
+  */
+
+  Ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.7 && LoadSGP($);
+
+  if(!Ready) {
+
+    var s = document.createElement('script');
+    s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js';
+    s.onload = s.onreadystatechange = function() {
+      var state = this.readyState;
+      if(!Ready && (!state || state === 'loaded' || state === 'complete')) {
+        Ready = true;
+        LoadSGP(jQuery.noConflict());
+      }
+    };
+
+    /*
+      Set timeout to see if it has loaded; otherwise assume that loading
+      was blocked by an origin policy or other security setting.
+    */
+
+    setTimeout(function() {
+      if(!Ready) {
+        window.location = Domain;
+      }
+    }, 2000);
+
+    document.getElementsByTagName('head')[0].appendChild(s);
 
   }
 

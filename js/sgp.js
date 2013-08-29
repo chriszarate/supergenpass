@@ -54,9 +54,9 @@
     FrameStyle = 'position:static;width:258px;height:190px;border:none;overflow:hidden;pointer-events:auto;',
 
     // Create SGP elements.
-    $Box = $("<div/>", {style: BoxStyle}),
-    $TitleBar = $("<div/>", {style: TitleBarStyle}),
-    $Frame = $("<iframe/>", {src: Domain, scrolling: 'no', style: FrameStyle});
+    $Box = $('<div/>', {style: BoxStyle}),
+    $TitleBar = $('<div/>', {style: TitleBarStyle}),
+    $Frame = $('<iframe/>', {src: Domain, scrolling: 'no', style: FrameStyle});
 
     // Find largest viewport, looping through frames if applicable.
     $('frame').filter(IsLocalFrame).each(FindBiggestFrame);

@@ -69,7 +69,7 @@
 
     // Provide "close window" feature.
     $TitleBar.on('dblclick', function () {
-      $Frame.toggle();
+      $Frame.slideToggle();
     });
 
     // Apply scroll offset.

@@ -46,7 +46,7 @@
     },
 
     // Define CSS properties.
-    BoxStyle = 'z-index:99999;position:absolute;top:' + $Target.scrollTop() + ';right:5px;width:258px;margin:0;padding:0;box-sizing:content-box;',
+    BoxStyle = 'z-index:99999;position:absolute;top:0;right:5px;width:258px;margin:0;padding:0;box-sizing:content-box;',
     TitleBarStyle = 'overflow:hidden;width:258px;height:20px;margin:0;padding:0;background-color:#356;cursor:move;box-sizing:content-box;',
     FrameStyle = 'position:static;width:258px;height:190px;border:none;overflow:hidden;pointer-events:auto;',
 
@@ -68,6 +68,9 @@
     $TitleBar.on('dblclick', function () {
       $Frame.toggle();
     });
+
+    // Apply scroll offset.
+    $Box.css('top', $Target.scrollTop() + 'px');
 
     // Append SGP window to target document.
     $Box.append($TitleBar, $Frame).appendTo($('body', $Target));

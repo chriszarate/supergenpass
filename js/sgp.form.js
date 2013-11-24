@@ -4,7 +4,7 @@
    var Origin=false,
    Source=false,
    Lang=location.search.substring(1),
-   LatestVersion=20130830,
+   LatestVersion=20131124,
    AltDomain='',
 
    // Selector cache

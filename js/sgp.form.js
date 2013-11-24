@@ -1,4 +1,4 @@
-$(document).ready(function() {
+(function() {
 
    // Default values
    var Origin=false,
@@ -209,4 +209,4 @@ $(document).ready(function() {
 
    });
 
-});
+}());

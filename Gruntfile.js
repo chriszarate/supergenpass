@@ -5,6 +5,8 @@
 
 module.exports = function(grunt) {
 
+  require('load-grunt-tasks')(grunt);
+
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
@@ -49,22 +51,17 @@ module.exports = function(grunt) {
       }
     },
 
-    compile: {
+    staticinline: {
+      app: {
+        files: {
+          'build/index.html': 'app/index.html'
+        }
+      }
+    },
+
+    bookmarklet: {
       app: {
         options: {
-          include: {
-            lib: 'build/components.min.js',
-            js: 'build/app.min.js',
-            css: 'build/app.min.css'
-          }
-        },
-        files: {
-          'build/index.html': ['app/index.html']
-        }
-      },
-      bookmarklet: {
-        options: {
-          bookmarklet: true,
           anonymize: false,
           urlencode: true
         },
@@ -92,29 +89,24 @@ module.exports = function(grunt) {
     checksum: {
       app: {
         options: {
-          algorithm: 'sha512'
+          basepath: 'build/'
         },
-        files: {
-          'build/checksums.json': ['build/index.html', 'build/sgp.bookmarklet.js']
-        }
+        src: [
+          'build/index.html',
+          'build/sgp.bookmarklet.js'
+        ],
+        dest: 'build/checksums.json'
       }
     }
 
   }),
 
-  // Load tasks.
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-manifest');
-
-  grunt.registerMultiTask('compile', 'Generate self-contained HTML5 app', function() {
+  grunt.registerMultiTask('bookmarklet', 'Generate a bookmarklet from JavaScript code', function() {
 
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      bookmarklet: false,
-      include: {},
+      anonymize: true,
+      urlencode: true
     }),
 
     // File exists helper.
@@ -127,50 +119,32 @@ module.exports = function(grunt) {
       }
     },
 
-    // Read file helper.
+    // Read and return the file's source.
     readFile = function(filepath) {
-      // Read and return the file's source.
       return grunt.file.read(filepath);
     };
-
-    // Load include files into include object.
-    Object.keys(options.include).forEach(function(key) {
-      var filepath = options.include[key];
-      if(fileExists(filepath)) {
-        options.include[key] = readFile(filepath)
-      } else {
-        delete options.include[key];
-      }
-    });
 
     this.files.forEach(function(file) {
 
       // Load files.
       var contents = file.src.map(readFile).join('');
 
-      // Process as template.
-      contents = grunt.template.process(contents, {data:options.include});
-
-      if(options.bookmarklet) {
-
-        // Wrap in anonymous function.
-        if(options.anonymize) {
-          contents = '(function(){' + contents + '})()';
-        }
-
-        // Encode as URI.
-        if(options.urlencode) {
-          contents = encodeURI(contents);
-        }
-
-        // Add javascript protocol.
-        contents = 'javascript:' + contents;
-
+      // Wrap in anonymous function.
+      if(options.anonymize) {
+        contents = '(function(){' + contents + '})()';
       }
+
+      // Encode as URI.
+      if(options.urlencode) {
+        contents = encodeURI(contents);
+      }
+
+      // Add javascript protocol.
+      contents = 'javascript:' + contents;
 
       // Write joined contents to destination filepath.
       grunt.file.write(file.dest, contents);
-      grunt.log.writeln('Compiled file: ' + file.dest);
+      grunt.log.writeln('Bookmarklet: ' + file.dest);
 
     });
 
@@ -184,7 +158,8 @@ module.exports = function(grunt) {
 
     // Merge task-specific and/or target-specific options with these defaults.
     options = this.options({
-      algorithm: 'sha-512',
+      algorithm: 'sha512',
+      basepath: false
     }),
 
     // Placeholder for checksums.
@@ -192,6 +167,11 @@ module.exports = function(grunt) {
 
     // Task counter.
     tasks = this.files.length,
+
+    // Check for basepath.
+    removeBasepath = function(filepath) {
+      return (filepath.substring(0, options.basepath.length) === options.basepath) ? filepath.substring(options.basepath.length) : filepath;
+    },
 
     // Generate checksum.
     checkSum = function(filepath, dest) {
@@ -202,7 +182,7 @@ module.exports = function(grunt) {
       });
       stream.on('end', function() {
         var sum = shasum.digest('hex');
-        writeSum(filepath, dest, sum);
+        writeSum(removeBasepath(filepath), dest, sum);
       });
     },
 
@@ -211,7 +191,7 @@ module.exports = function(grunt) {
       result[dest].sums[src] = sum;
       if(Object.keys(result[dest].sums).length === result[dest].count) {
         grunt.file.write(dest, JSON.stringify(result[dest].sums));
-        grunt.log.writeln('Generated checksum file: ' + dest);
+        grunt.log.writeln('Checksums: ' + dest);
         if(!--tasks) {
           done();
         }
@@ -239,10 +219,6 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'compile', 'manifest', 'checksum']);
-  grunt.registerTask('build', ['jshint', 'uglify:app', 'cssmin', 'compile:app', 'manifest', 'checksum']);
-  grunt.registerTask('bookmarklet', ['jshint', 'uglify:bookmarklet', 'compile:bookmarklet', 'checksum']);
+  grunt.registerTask('default', ['jshint', 'uglify:app', 'cssmin', 'staticinline', 'bookmarklet', 'manifest', 'checksum']);
   grunt.registerTask('components', ['uglify:components']);
-  grunt.registerTask('css', ['cssmin']);
-
 };

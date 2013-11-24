@@ -204,7 +204,7 @@
 
       // Populate domain field and call back with the browser height.
       $el.Domain.val(gp2_process_uri(Origin)).trigger('change');
-      $el.Passwd.focus();
+      $el.Passwd.trigger('focus');
       SendHeight();
 
    });

@@ -160,7 +160,7 @@ label.placeholder {
 
 /* Length field */
 
-#LenField input, #LenField span {
+#LenField input, #LenField label {
    float: left;
    width: 22px;
    height: 14px;
@@ -169,8 +169,7 @@ label.placeholder {
    border-radius: 4px 0 0 4px;
 }
 
-#LenField span {
-   display: inline-block;
+#LenField label {
    margin: 0;
    padding: 5px 0;
    padding-bottom: 7px;
@@ -182,16 +181,16 @@ label.placeholder {
    cursor: pointer;
 }
 
-#LenField span:hover {
+#LenField label:hover {
    color: #000;
 }
 
-#LenField span:first-of-type {
+#LenField label:first-of-type {
    padding-left: 2px;
    border-radius: 0;
 }
 
-#LenField span:last-of-type {
+#LenField label:last-of-type {
    padding-right: 2px;
    border-radius: 0 4px 4px 0;
 }
@@ -223,8 +222,8 @@ input[type="radio"] + label:hover {
 
 input[type="radio"]:checked + label {
    color: #fff;
-  background-color: #356;
-  font-weight: bold;
+   background-color: #356;
+   font-weight: bold;
    border-bottom: solid 2px #023;
 }
 
@@ -276,7 +275,7 @@ input[type="radio"]:checked + label {
 /* Buttons */
 
 .Button:active {
-   margin-top: 2px;
+   margin-top: 2px !important;
    border-bottom: 0 !important;
 }
 

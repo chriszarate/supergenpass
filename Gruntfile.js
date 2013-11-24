@@ -20,7 +20,7 @@ module.exports = function(grunt) {
         files: {
           'build/components.min.js': [
             'bower_components/jquery/jquery.js',
-            'bower_components/jstorage/jstorage.js',
+            'js/localstorage-polyfill.js',
             'js/jquery.identicon5.js'
           ]
         }

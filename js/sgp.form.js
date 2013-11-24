@@ -24,12 +24,12 @@ $(document).ready(function() {
       }
    },
 
-   // Save configuration to local storage (jStorage).
+   // Save configuration to local storage.
    SaveConfig=function(Salt,Len,Method,DisableTLD) {
-      $.jStorage.set('Salt',Salt);
-      $.jStorage.set('Len',Len);
-      $.jStorage.set('Method',Method);
-      $.jStorage.set('DisableTLD',DisableTLD);
+      localStorage.setItem('Salt',Salt);
+      localStorage.setItem('Len',Len);
+      localStorage.setItem('Method',Method);
+      localStorage.setItem('DisableTLD',DisableTLD||'');
    },
 
    GetMethod=function() {
@@ -100,12 +100,17 @@ $(document).ready(function() {
       $el.DomainField.toggleClass('Advanced', $(this).is(':checked'));
    });
 
-   // Retrieve configuration from local storage (jStorage) if available.
-   var Method=$.jStorage.get('Method','md5');
-   $('input:radio[value='+Method+']').prop('checked',true);
-   $el.Len.val(gp2_validate_length($.jStorage.get('Len',10),Method));
-   $el.Salt.val($.jStorage.get('Salt','')).trigger('change');
-   $el.DisableTLD.prop('checked',$.jStorage.get('DisableTLD',false)).trigger('change');
+   // Retrieve configuration from local storage if available.
+   var Config={
+      Len:localStorage.getItem('Len')||10,
+      Salt:localStorage.getItem('Salt')||'',
+      Method:localStorage.getItem('Method')||'md5',
+      DisableTLD:localStorage.getItem('DisableTLD')||''
+   };
+   $('input:radio[value='+Config.Method+']').prop('checked',true);
+   $el.Len.val(gp2_validate_length(Config.Len,Config.Method));
+   $el.Salt.val(Config.Salt).trigger('change');
+   $el.DisableTLD.prop('checked',Config.DisableTLD).trigger('change');
 
    // Generate password.
    $el.Generate.on('click', function (event) {

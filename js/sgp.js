@@ -155,7 +155,7 @@
   if(!Ready) {
 
     var s = document.createElement('script');
-    s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js';
+    s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
     s.onload = s.onreadystatechange = function() {
       var state = this.readyState;
       if(!state || state === 'loaded' || state === 'complete') {

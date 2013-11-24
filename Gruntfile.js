@@ -219,6 +219,6 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('default', ['jshint', 'uglify:app', 'cssmin', 'staticinline', 'bookmarklet', 'manifest', 'checksum']);
+  grunt.registerTask('default', ['jshint', 'uglify:app', 'uglify:bookmarklet', 'cssmin', 'staticinline', 'bookmarklet', 'manifest', 'checksum']);
   grunt.registerTask('components', ['uglify:components']);
 };

@@ -80,7 +80,12 @@ $(document).ready(function() {
    $('#Passwd, #Salt, #MethodField').on('keyup change', function (event) {
       var Passwd=$el.Passwd.val(),Salt=$el.Salt.val(),Method=GetMethod();
       if(Passwd||Salt) {
-         $el.Canvas.identicon5({hash:gp2_generate_hash(Passwd+Salt,Method),size:16}).show();
+         identicon5({
+            canvas:$el.Canvas[0],
+            hash:gp2_generate_hash(Passwd+Salt,Method),
+            size:16
+         });
+         $el.Canvas.show();
       } else {
          $el.Canvas.hide();
       }

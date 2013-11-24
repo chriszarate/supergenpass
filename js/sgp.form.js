@@ -170,7 +170,7 @@
          $el.PasswdField.removeClass('Missing');
          $el.DomainField.removeClass('Missing');
       } else if(key==13) {
-         $(this).blur();
+         $(this).trigger('blur');
          $el.Generate.trigger('click');
          event.preventDefault();
       }

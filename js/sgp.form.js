@@ -192,7 +192,7 @@
       Origin=post.origin;
 
       // Parse message.
-      $.each($.parseJSON(post.data), function (key, value) {
+      $.each(JSON.parse(post.data), function (key, value) {
          switch(key) {
             case 'version':
                if(value < LatestVersion) {

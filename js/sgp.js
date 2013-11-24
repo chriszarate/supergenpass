@@ -69,7 +69,7 @@
 
     // Provide "close window" feature.
     $TitleBar.on('dblclick', function () {
-      $Frame.slideToggle();
+      $Frame.toggle();
     });
 
     // Apply scroll offset.
@@ -82,7 +82,7 @@
     $(window).on('message', function (e) {
       var post = e.originalEvent;
       if(post.origin === Domain && typeof post.data !== 'undefined') {
-        $.each($.parseJSON(post.data), function (key, value) {
+        $.each(JSON.parse(post.data), function (key, value) {
           switch(key) {
             // Populate generated password into password fields.
             case 'result':
@@ -97,9 +97,7 @@
               break;
             // Change iframe height to match SGP generator document height.
             case 'height':
-              $Frame.animate({
-                height: Math.max(parseInt(value, 10), 167) + 2
-              });
+              $Frame.css('height', Math.max(parseInt(value, 10), 167) + 2);
               break;
           }
         });

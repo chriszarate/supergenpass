@@ -15,7 +15,8 @@
   "homepage": "http://supergenpass.com",
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "git clone git://github.com/jquery/jquery.git lib/jquery-custom && cd lib/jquery-custom && npm install && grunt custom:-ajax,-deprecated,-effects,-offset,-deferred,-wrap,-event/alias,-core/ready"
   },
   "repository": {
     "type": "git",

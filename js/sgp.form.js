@@ -4,10 +4,11 @@ $(document).ready(function() {
    var Origin=false,
    Source=false,
    Lang=location.search.substring(1),
-   LatestVersion = 20130830,
+   LatestVersion=20130830,
+   AltDomain='',
 
    // Selector cache
-   Sel=['PasswdField','Passwd','PasswdLabel','Salt','DomainField','Domain','DomainLabel','Len','Generate','Output','Canvas','Options','Update'],
+   Sel=['PasswdField','Passwd','PasswdLabel','Salt','DomainField','Domain','DomainLabel','DisableTLD','Len','Generate','Output','Canvas','Options','Update'],
 
    // Send document height to bookmarklet.
    SendHeight=function() {
@@ -24,10 +25,11 @@ $(document).ready(function() {
    },
 
    // Save configuration to local storage (jStorage).
-   SaveConfig=function(Salt,Len,Method) {
+   SaveConfig=function(Salt,Len,Method,DisableTLD) {
       $.jStorage.set('Salt',Salt);
       $.jStorage.set('Len',Len);
       $.jStorage.set('Method',Method);
+      $.jStorage.set('DisableTLD',DisableTLD);
    },
 
    GetMethod=function() {
@@ -70,7 +72,8 @@ $(document).ready(function() {
 
    // Show advanced options if requested.
    $el.Options.on('click', function() {
-      $('.Option').slideToggle(400, SendHeight);
+      $('body').toggleClass('Advanced');
+      SendHeight();
    });
 
    // Show identicon if password or salt is present.
@@ -83,11 +86,26 @@ $(document).ready(function() {
       }
    });
 
+   // Show alternate domain when TLD option is toggled.
+   $el.DisableTLD.on('change', function (event) {
+      var CurrentDomain=$el.Domain.val();
+      if(AltDomain) {
+         $el.Domain.val(AltDomain);
+      }
+      AltDomain=CurrentDomain;
+   });
+
+   // Toggle class on domain fieldset.
+   $el.DisableTLD.on('change', function (event) {
+      $el.DomainField.toggleClass('Advanced', $(this).is(':checked'));
+   });
+
    // Retrieve configuration from local storage (jStorage) if available.
    var Method=$.jStorage.get('Method','md5');
    $('input:radio[value='+Method+']').prop('checked',true);
    $el.Len.val(gp2_validate_length($.jStorage.get('Len',10),Method));
    $el.Salt.val($.jStorage.get('Salt','')).trigger('change');
+   $el.DisableTLD.prop('checked',$.jStorage.get('DisableTLD',false)).trigger('change');
 
    // Generate password.
    $el.Generate.on('click', function (event) {
@@ -98,9 +116,11 @@ $(document).ready(function() {
       Method=GetMethod(),
       Domain=$el.Domain.val().replace(/ /g, ''),
       Len=gp2_validate_length($el.Len.val(),Method);
+      DisableTLD=$el.DisableTLD.is(':checked');
 
       // Process domain value.
-      Domain=(Domain)?gp2_process_uri(Domain,false):'';
+      AltDomain=(Domain)?gp2_process_uri(Domain,!DisableTLD):'';
+      Domain=(Domain)?gp2_process_uri(Domain,DisableTLD):'';
 
       // Update form with validated input.
       $el.Domain.val(Domain).trigger('change');
@@ -117,7 +137,7 @@ $(document).ready(function() {
       if(Passwd&&Domain) {
          Passwd=gp2_generate_passwd(Passwd+Salt+':'+Domain,Len,Method);
          SendPasswd(Passwd);
-         SaveConfig(Salt,Len,Method);
+         SaveConfig(Salt,Len,Method,DisableTLD);
          $el.Generate.hide();
          $el.Output.text(Passwd).show();
       }

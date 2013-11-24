@@ -196,7 +196,7 @@ label.placeholder {
 }
 
 
-/* Toggles */
+/* Method toggle */
 
 #MethodField {
    float: right;
@@ -236,7 +236,48 @@ input[type="radio"]:checked + label {
 }
 
 
-/* Options */
+/* TLD toggle */
+
+#TLDField {
+   position: absolute;
+   top: 0;
+   right: 9px;
+}
+
+input[type="checkbox"] {
+   display: none;
+}
+
+input[type="checkbox"] + label {
+   padding: 2px 4px;
+   color: #999;
+   background-color: #fff;
+   font-size: 12px;
+   border: solid 1px #999;
+   border-radius: 3px;
+   cursor: pointer;
+}
+
+input[type="checkbox"] + label:hover {
+   color:#333;
+   border-color: #333;
+}
+
+input[type="checkbox"]:checked + label {
+   color: #fff;
+   background-color: #356;
+   border-color: #023;
+   text-decoration: line-through;
+}
+
+input[type="checkbox"]:checked + label:hover {
+   color: #fff;
+   border-color: #023;
+   text-decoration: line-through;
+}
+
+
+/* Advanced options */
 
 #Options {
    float: right;
@@ -256,6 +297,15 @@ input[type="radio"]:checked + label {
 
 .Option {
    display: none;
+}
+
+.Advanced .Option {
+   display: block;
+}
+
+.Advanced #Domain {
+   width: 165px;
+   padding-right: 45px;
 }
 
 
@@ -298,7 +348,7 @@ input[type="radio"]:checked + label {
 }
 
 #Generate:active {
-   margin-top: 12px;
+   margin-top: 12px !important;
 }
 
 

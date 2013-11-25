@@ -12,7 +12,12 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     jshint: {
-      all: ['js/sgp*.js']
+      app: ['js/sgp*.js'],
+      tests: ['test/*.js']
+    },
+
+    qunit: {
+      app: ['test/*.html']
     },
 
     uglify: {
@@ -219,6 +224,8 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('default', ['jshint', 'uglify:app', 'uglify:bookmarklet', 'cssmin', 'staticinline', 'bookmarklet', 'manifest', 'checksum']);
+  grunt.registerTask('default', ['jshint', 'uglify:app', 'uglify:bookmarklet', 'qunit', 'cssmin', 'staticinline', 'bookmarklet', 'manifest', 'checksum']);
   grunt.registerTask('components', ['uglify:components']);
+  grunt.registerTask('test', ['jshint:tests', 'qunit']);
+
 };

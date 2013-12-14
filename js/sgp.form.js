@@ -7,6 +7,9 @@
    LatestVersion=20131124,
    AltDomain='',
 
+   // Local storage support
+   Storage=window.LocalStorage||window.localStorage,
+
    // Selector cache
    Sel=['PasswdField','Passwd','PasswdLabel','Salt','DomainField','Domain','DomainLabel','DisableTLD','Len','Generate','Output','Canvas','Options','Update'],
 
@@ -26,10 +29,10 @@
 
    // Save configuration to local storage.
    SaveConfig=function(Salt,Len,Method,DisableTLD) {
-      localStorage.setItem('Salt',Salt);
-      localStorage.setItem('Len',Len);
-      localStorage.setItem('Method',Method);
-      localStorage.setItem('DisableTLD',DisableTLD||'');
+      Storage.setItem('Salt',Salt);
+      Storage.setItem('Len',Len);
+      Storage.setItem('Method',Method);
+      Storage.setItem('DisableTLD',DisableTLD||'');
    },
 
    GetMethod=function() {
@@ -107,10 +110,10 @@
 
    // Retrieve configuration from local storage if available.
    var Config={
-      Len:localStorage.getItem('Len')||10,
-      Salt:localStorage.getItem('Salt')||'',
-      Method:localStorage.getItem('Method')||'md5',
-      DisableTLD:localStorage.getItem('DisableTLD')||''
+      Len:Storage.getItem('Len')||10,
+      Salt:Storage.getItem('Salt')||'',
+      Method:Storage.getItem('Method')||'md5',
+      DisableTLD:Storage.getItem('DisableTLD')||''
    };
    $('input:radio[value='+Config.Method+']').prop('checked',true);
    $el.Len.val(gp2_validate_length(Config.Len,Config.Method));

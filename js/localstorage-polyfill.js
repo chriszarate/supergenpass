@@ -4,7 +4,21 @@
  * Remy Sharp
  */
 
-if (typeof window.localStorage == 'undefined' || typeof window.sessionStorage == 'undefined') (function () {
+// Wrap undefined tests in try/catch to avoid browser errors.
+try {
+  var noLocalStorage = typeof window.localStorage === 'undefined';
+} catch(e) {
+  var noLocalStorage = false;
+}
+
+try {
+  var noSessionStorage = typeof window.sessionStorage === 'undefined';
+} catch(e) {
+  var noSessionStorage = false;
+}
+
+
+if (noLocalStorage || noSessionStorage) (function () {
 
 var Storage = function (type) {
   function createCookie(name, value, days) {
@@ -96,7 +110,7 @@ var Storage = function (type) {
   };
 };
 
-if (typeof window.localStorage == 'undefined') window.localStorage = new Storage('local');
-if (typeof window.sessionStorage == 'undefined') window.sessionStorage = new Storage('session');
+if (noLocalStorage) window.localStorage = new Storage('local');
+if (noSessionStorage) window.sessionStorage = new Storage('session');
 
 })();

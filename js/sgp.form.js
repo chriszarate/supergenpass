@@ -4,7 +4,7 @@
    var Origin=false,
    Source=false,
    Lang=location.search.substring(1),
-   LatestVersion=20131124,
+   LatestVersion=20131215,
    AltDomain='',
 
    // Local storage support

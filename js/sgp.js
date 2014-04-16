@@ -1,7 +1,7 @@
 (function ($) {
 
   // Configuration
-  var Version = 20131124,
+  var Version = 20131215,
       Domain = 'https://mobile.supergenpass.com',
       MinFrameArea = 100000,
 
@@ -10,6 +10,7 @@
 
     // Defaults
     var $Target = $(document),
+        $LocalFrames = $Target,
         Dragging = false,
         MaxArea = 0,
 
@@ -18,7 +19,7 @@
     /*
       Determine if frame is local (not cross-origin).
       Adapted from answer by Esailija:
-      http://stackoverflow.com/questions/11872917/check-if-js-has-access-to-an-iframes-document
+      http://stackoverflow.com/questions/11872917/
     */
 
     IsLocalFrame = function() {
@@ -28,7 +29,10 @@
         var key = '_' + new Date().getTime(),
             win = this.contentWindow;
         win[key] = key;
-        return win[key] === key;
+        if(win[key] === key) {
+          $LocalFrames.add(win.document);
+          return true;
+        }
       }
       catch(e) {
         return false;
@@ -86,7 +90,7 @@
           switch(key) {
             // Populate generated password into password fields.
             case 'result':
-              $('input:password:visible', $Target)
+              $('input:password:visible', $LocalFrames)
                 .css('background', '#9f9')
                 .val(value)
                 .trigger('change click')

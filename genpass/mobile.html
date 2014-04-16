@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+		<link rel="apple-touch-icon" href="gp.png">
+
+		<link rel="alternative" lang="fr" hreflang="fr" title="En français" href="?fr">
+		<link rel="alternative" lang="es" hreflang="es" title="En español" href="?es">
+		<link rel="alternative" lang="de" hreflang="de" title="Auf Deutsch" href="?de">
+		<link rel="alternative" lang="pt-br" hreflang="pt-br" title="No português brasileiro" href="?pt-BR">
+		<link rel="alternative" lang="zh-hk" hreflang="zh-hk" title="繁體中文" href="?zh-HK">
+		<link rel="alternative" lang="hu" hreflang="hu" title="Magyarul" href="?hu">
+
+		<style type="text/css">
+
+			body {
+				margin: 0;
+				padding: 0;
+				background: #ddd;
+				color: #000;
+				font-family: Helvetica, Arial, sans-serif;
+				font-size: 0.9em;
+			}
+
+			header {
+				display: block;
+				padding: 10px;
+				background: #444;
+				background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#111));
+				background: -moz-linear-gradient(top, #666, #111);
+				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#666', endColorstr='#111');
+				border-bottom: solid 1px #234;
+			}
+
+			header h1 {
+				overflow: hidden;
+				margin: 1px 0;
+				font-size: 1.4em;
+				font-weight: bold;
+				text-align: center;
+			}
+
+			header h1 a { color: #fff; text-decoration: none; }
+
+			section, footer {
+				display: block;
+				margin: 10px;
+			}
+
+			fieldset {
+				margin: 0;
+				padding: 12px;
+				background: #fff;
+				font-size: 1em;
+				border: solid 1px #999;
+				border-bottom-width: 0;
+				line-height: 1.3em;
+			}
+
+			fieldset.First {
+				border-top-left-radius: 0.5em; -moz-border-radius-topleft: 0.5em; -webkit-border-top-left-radius: 0.5em;
+				border-top-right-radius: 0.5em; -moz-border-radius-topright: 0.5em; -webkit-border-top-right-radius: 0.5em;
+			}
+
+			fieldset.Last {
+				border-bottom-width: 1px;
+				border-bottom-left-radius: 0.5em; -moz-border-radius-bottomleft: 0.5em; -webkit-border-bottom-left-radius: 0.5em;
+				border-bottom-right-radius: 0.5em; -moz-border-radius-bottomright: 0.5em; -webkit-border-bottom-right-radius: 0.5em;
+			}
+
+			fieldset label {
+				display: block;
+				float: left;
+				margin-right: 12px;
+				font-size: 1em;
+				font-weight: bold;
+				line-height: 1.3em;
+			}
+
+			fieldset input {
+				margin: 0;
+				padding: 0;
+				color: #456;
+				font-size: 1em;
+				line-height: 1.3em;
+			}
+
+			fieldset div.Field { overflow: hidden; }
+
+			fieldset div.Field input {
+				width: 100%;
+				background: none;
+				border: none;
+				outline: none; -webkit-appearance: none;
+			}
+
+			fieldset#Result {
+				display: none;
+				background: #ada;
+				font-size: 1.2em;
+				font-weight: bold;
+				text-align: center;
+				border: solid 2px #696;
+				border-radius: 0.5em; -moz-border-radius: 0.5em; -webkit-border-radius: 0.5em;
+			}
+
+			div#Generate a {
+
+				display: block;
+				margin: 15px 2px;
+				padding: 0.5em 2em 0.55em;
+				vertical-align: baseline;
+
+				background: #aaa;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#999));
+				background: -moz-linear-gradient(top, #ccc, #999);
+				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ccc', endColorstr='#999');
+
+				color: #333;
+				font-size: 1.2em;
+				font-weight: bold;
+				text-align: center;
+				text-decoration: none;
+
+				cursor: pointer;
+				border: solid 2px #777;
+				border-radius: 0.5em; -webkit-border-radius: 0.5em; -moz-border-radius: 0.5em;
+
+			}
+
+			div#Generate a:hover {
+				text-decoration: none;
+				background: #bbb;
+				background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#aaa));
+				background: -moz-linear-gradient(top, #ddd, #aaa);
+				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ddd', endColorstr='#aaa');
+			}
+
+			div#Generate a:active {
+				top: 1px;
+				position: relative;
+				background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#ccc));
+				background: -moz-linear-gradient(top, #999, #ccc);
+				filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999', endColorstr='#ccc');
+			}
+
+			footer {
+				padding: 5px;
+				color: #555;
+			}
+
+			footer p { margin: 5px 0; }
+			footer a { color: #666; }
+
+			span.nowrap { white-space: nowrap; }
+			section#Warning { color: #f00; }
+
+		</style>
+
+		<script type="text/javascript">
+
+			var hexcase = 2;  /* hex output format. 0 - lowercase; 1 - uppercase ; 2 - alternating case */
+			var chrsz = 8;  /* bits per input character. 8 - ASCII; 16 - Unicode */
+
+			function hex_md5(p) {
+				return binl2hex(core_md5(str2binl(p),p.length*chrsz));
+			}
+
+			function core_md5(x,len){
+				x[len>>5]|=0x80<<((len)%32); x[(((len+64)>>>9)<<4)+14]=len;
+				var a=1732584193; var b=-271733879; var c=-1732584194; var d=271733878;
+				for(var i=0;i<x.length;i+=16){
+					var olda=a; var oldb=b; var oldc=c; var oldd=d;
+					a=md5_ff(a,b,c,d,x[i+0],7,-680876936); d=md5_ff(d,a,b,c,x[i+1],12,-389564586); c=md5_ff(c,d,a,b,x[i+2],17,606105819); b=md5_ff(b,c,d,a,x[i+3],22,-1044525330);
+					a=md5_ff(a,b,c,d,x[i+4],7,-176418897); d=md5_ff(d,a,b,c,x[i+5],12,1200080426); c=md5_ff(c,d,a,b,x[i+6],17,-1473231341); b=md5_ff(b,c,d,a,x[i+7],22,-45705983);
+					a=md5_ff(a,b,c,d,x[i+8],7,1770035416); d=md5_ff(d,a,b,c,x[i+9],12,-1958414417); c=md5_ff(c,d,a,b,x[i+10],17,-42063); b=md5_ff(b,c,d,a,x[i+11],22,-1990404162);
+					a=md5_ff(a,b,c,d,x[i+12],7,1804603682); d=md5_ff(d,a,b,c,x[i+13],12,-40341101); c=md5_ff(c,d,a,b,x[i+14],17,-1502002290); b=md5_ff(b,c,d,a,x[i+15],22,1236535329);
+					a=md5_gg(a,b,c,d,x[i+1],5,-165796510); d=md5_gg(d,a,b,c,x[i+6],9,-1069501632); c=md5_gg(c,d,a,b,x[i+11],14,643717713); b=md5_gg(b,c,d,a,x[i+0],20,-373897302);
+					a=md5_gg(a,b,c,d,x[i+5],5,-701558691); d=md5_gg(d,a,b,c,x[i+10],9,38016083); c=md5_gg(c,d,a,b,x[i+15],14,-660478335); b=md5_gg(b,c,d,a,x[i+4],20,-405537848);
+					a=md5_gg(a,b,c,d,x[i+9],5,568446438); d=md5_gg(d,a,b,c,x[i+14],9,-1019803690); c=md5_gg(c,d,a,b,x[i+3],14,-187363961); b=md5_gg(b,c,d,a,x[i+8],20,1163531501);
+					a=md5_gg(a,b,c,d,x[i+13],5,-1444681467); d=md5_gg(d,a,b,c,x[i+2],9,-51403784); c=md5_gg(c,d,a,b,x[i+7],14,1735328473); b=md5_gg(b,c,d,a,x[i+12],20,-1926607734);
+					a=md5_hh(a,b,c,d,x[i+5],4,-378558); d=md5_hh(d,a,b,c,x[i+8],11,-2022574463); c=md5_hh(c,d,a,b,x[i+11],16,1839030562); b=md5_hh(b,c,d,a,x[i+14],23,-35309556);
+					a=md5_hh(a,b,c,d,x[i+1],4,-1530992060); d=md5_hh(d,a,b,c,x[i+4],11,1272893353); c=md5_hh(c,d,a,b,x[i+7],16,-155497632); b=md5_hh(b,c,d,a,x[i+10],23,-1094730640);
+					a=md5_hh(a,b,c,d,x[i+13],4,681279174); d=md5_hh(d,a,b,c,x[i+0],11,-358537222); c=md5_hh(c,d,a,b,x[i+3],16,-722521979); b=md5_hh(b,c,d,a,x[i+6],23,76029189);
+					a=md5_hh(a,b,c,d,x[i+9],4,-640364487); d=md5_hh(d,a,b,c,x[i+12],11,-421815835); c=md5_hh(c,d,a,b,x[i+15],16,530742520); b=md5_hh(b,c,d,a,x[i+2],23,-995338651);
+					a=md5_ii(a,b,c,d,x[i+0],6,-198630844); d=md5_ii(d,a,b,c,x[i+7],10,1126891415); c=md5_ii(c,d,a,b,x[i+14],15,-1416354905); b=md5_ii(b,c,d,a,x[i+5],21,-57434055);
+					a=md5_ii(a,b,c,d,x[i+12],6,1700485571); d=md5_ii(d,a,b,c,x[i+3],10,-1894986606); c=md5_ii(c,d,a,b,x[i+10],15,-1051523); b=md5_ii(b,c,d,a,x[i+1],21,-2054922799);
+					a=md5_ii(a,b,c,d,x[i+8],6,1873313359); d=md5_ii(d,a,b,c,x[i+15],10,-30611744); c=md5_ii(c,d,a,b,x[i+6],15,-1560198380); b=md5_ii(b,c,d,a,x[i+13],21,1309151649);
+					a=md5_ii(a,b,c,d,x[i+4],6,-145523070); d=md5_ii(d,a,b,c,x[i+11],10,-1120210379); c=md5_ii(c,d,a,b,x[i+2],15,718787259); b=md5_ii(b,c,d,a,x[i+9],21,-343485551);
+					a=safe_add(a,olda); b=safe_add(b,oldb); c=safe_add(c,oldc); d=safe_add(d,oldd);
+				}
+				return Array(a,b,c,d);
+			}
+
+			function md5_cmn(q,a,b,x,s,t) { return safe_add(bit_rol(safe_add(safe_add(a,q),safe_add(x,t)),s),b); }
+			function md5_ff(a,b,c,d,x,s,t) { return md5_cmn((b&c)|((~b)&d),a,b,x,s,t); }
+			function md5_gg(a,b,c,d,x,s,t) { return md5_cmn((b&d)|(c&(~d)),a,b,x,s,t); }
+			function md5_hh(a,b,c,d,x,s,t) { return md5_cmn(b^c^d,a,b,x,s,t); }
+			function md5_ii(a,b,c,d,x,s,t) { return md5_cmn(c^(b|(~d)),a,b,x,s,t); }
+			function safe_add(x,y) { var lsw=(x&0xFFFF)+(y&0xFFFF); var msw=(x>>16)+(y>>16)+(lsw>>16); return (msw<<16)|(lsw&0xFFFF); }
+			function bit_rol(num,cnt) { return (num<<cnt)|(num>>>(32-cnt)); }
+			function str2binl(str) { var bin=Array(); var mask=(1<<8)-1; for(var i=0;i<str.length*8;i+=8) bin[i>>5]|=(str.charCodeAt(i/8)&mask)<<(i%32); return bin; }
+			function binl2hex(binarray) { var hex_tab='0123456789abcdefABCDEF'; var str=''; var j=0; for(var i=0;i<binarray.length*4;i++) { x1=(binarray[i>>2]>>((i%4)*8+4))&0xF; x2=(binarray[i>>2]>>((i%4)*8))&0xF; if(x1>9){j++; if(j%2) x1=x1+6; } if(x2>9){ j++; if(j%2) x2=x2+6; } str+=hex_tab.charAt(x1)+hex_tab.charAt(x2); } return str; }
+
+
+			function gp_validate_length(Len) {
+				Len=(parseInt(Len))?parseInt(Len):8;
+				if(Len<4) {
+					Len=4;
+				} else if(Len>32) {
+					Len=32;
+				}
+				return Len;
+			}
+
+			function gp_process_uri(URI) {
+
+				URI=URI.toLowerCase();
+				var HostNameIsolator=new RegExp('^(http|https|ftp|ftps|webdav|gopher|rtsp|irc|nntp|pop|imap|smtp)://([^/:]+)');
+				var HostName=URI.match(HostNameIsolator);
+
+				if(HostName&&HostName[2]!=null) {
+					HostName=HostName[2];
+				} else {
+					HostNameIsolator=new RegExp('^([^/:]+)');
+					HostName=URI.match(HostNameIsolator);
+					HostName=(HostName[1]!=null)?HostName[1]:URI;
+				}
+
+				HostNameIsolator=new RegExp('^([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})$');
+				HostName=(HostName.match(HostNameIsolator))?[HostName]:HostName.split('.');
+
+				if(HostName[2]==null) {
+					URI=HostName.join('.');
+				} else {
+					URI=HostName[HostName.length-2]+'.'+HostName[HostName.length-1];
+					var TLDList=['ab.ca','ac.ac','ac.at','ac.be','ac.cn','ac.il','ac.in','ac.jp','ac.kr','ac.nz','ac.th','ac.uk','ac.za','adm.br','adv.br','agro.pl','ah.cn','aid.pl','alt.za','am.br','arq.br','art.br','arts.ro','asn.au','asso.fr','asso.mc','atm.pl','auto.pl','bbs.tr','bc.ca','bio.br','biz.pl','bj.cn','br.com','cn.com','cng.br','cnt.br','co.ac','co.at','co.il','co.in','co.jp','co.kr','co.nz','co.th','co.uk','co.za','com.au','com.br','com.cn','com.ec','com.fr','com.hk','com.mm','com.mx','com.pl','com.ro','com.ru','com.sg','com.tr','com.tw','cq.cn','cri.nz','de.com','ecn.br','edu.au','edu.cn','edu.hk','edu.mm','edu.mx','edu.pl','edu.tr','edu.za','eng.br','ernet.in','esp.br','etc.br','eti.br','eu.com','eu.lv','fin.ec','firm.ro','fm.br','fot.br','fst.br','g12.br','gb.com','gb.net','gd.cn','gen.nz','gmina.pl','go.jp','go.kr','go.th','gob.mx','gov.br','gov.cn','gov.ec','gov.il','gov.in','gov.mm','gov.mx','gov.sg','gov.tr','gov.za','govt.nz','gs.cn','gsm.pl','gv.ac','gv.at','gx.cn','gz.cn','hb.cn','he.cn','hi.cn','hk.cn','hl.cn','hn.cn','hu.com','idv.tw','ind.br','inf.br','info.pl','info.ro','iwi.nz','jl.cn','jor.br','jpn.com','js.cn','k12.il','k12.tr','lel.br','ln.cn','ltd.uk','mail.pl','maori.nz','mb.ca','me.uk','med.br','med.ec','media.pl','mi.th','miasta.pl','mil.br','mil.ec','mil.nz','mil.pl','mil.tr','mil.za','mo.cn','muni.il','nb.ca','ne.jp','ne.kr','net.au','net.br','net.cn','net.ec','net.hk','net.il','net.in','net.mm','net.mx','net.nz','net.pl','net.ru','net.sg','net.th','net.tr','net.tw','net.za','nf.ca','ngo.za','nm.cn','nm.kr','no.com','nom.br','nom.pl','nom.ro','nom.za','ns.ca','nt.ca','nt.ro','ntr.br','nx.cn','odo.br','on.ca','or.ac','or.at','or.jp','or.kr','or.th','org.au','org.br','org.cn','org.ec','org.hk','org.il','org.mm','org.mx','org.nz','org.pl','org.ro','org.ru','org.sg','org.tr','org.tw','org.uk','org.za','pc.pl','pe.ca','plc.uk','ppg.br','presse.fr','priv.pl','pro.br','psc.br','psi.br','qc.ca','qc.com','qh.cn','re.kr','realestate.pl','rec.br','rec.ro','rel.pl','res.in','ru.com','sa.com','sc.cn','school.nz','school.za','se.com','se.net','sh.cn','shop.pl','sk.ca','sklep.pl','slg.br','sn.cn','sos.pl','store.ro','targi.pl','tj.cn','tm.fr','tm.mc','tm.pl','tm.ro','tm.za','tmp.br','tourism.pl','travel.pl','tur.br','turystyka.pl','tv.br','tw.cn','uk.co','uk.com','uk.net','us.com','uy.com','vet.br','web.za','web.com','www.ro','xj.cn','xz.cn','yk.ca','yn.cn','za.com'];
+					for(var i=0; i<TLDList.length; i++) {
+						if(URI==TLDList[i]) {
+							URI=HostName[HostName.length-3]+'.'+URI;
+							break;
+						}
+					}
+				}
+
+				return URI;
+
+			}
+
+			function gp_react(e) {
+
+				if(e.keyCode==8||e.keyCode==32||(e.keyCode>45&&e.keyCode<91)||(e.keyCode>95&&e.keyCode<112)||(e.keyCode>185&&e.keyCode<223)) {
+
+					if(e.target.getAttribute('id')=='Passwd') {
+						document.getElementById('PasswdField').style.backgroundColor='#fff';
+						document.getElementById('PasswdLabel').style.color='#000';
+					}
+
+					if(e.target.getAttribute('id')=='Domain') {
+						document.getElementById('DomainField').style.backgroundColor='#fff';
+						document.getElementById('DomainLabel').style.color='#000';
+					}
+
+					document.getElementById('Result').style.display='none';
+
+				}
+
+				return true;
+
+			}
+
+			function GPLocal() {
+
+				var Passwd=document.getElementById('Passwd').value;
+				var Domain=document.getElementById('Domain').value;
+				var Len=gp_validate_length(document.getElementById('Len').value);
+				var Case=0;
+
+				document.getElementById('Len').value=Len;
+
+				if(document.getElementById('Case1').checked) {
+					Case=1;
+				} else if(document.getElementById('Case2').checked) {
+					Case=2;
+				}
+
+				if(Domain) {
+
+					Domain=gp_process_uri(Domain);
+					document.getElementById('Domain').value=Domain;
+
+					if(Passwd) {
+
+						PassCand=hex_md5(Passwd+':'+Domain).substr(0, Len);
+
+						if(Case==0) {
+							PassCand=PassCand.toLowerCase();
+						} else if(Case==1) {
+							PassCand=PassCand.toUpperCase();
+						}
+
+						document.getElementById('Result').removeChild(document.getElementById('Result').firstChild);
+						document.getElementById('Result').appendChild(document.createTextNode(PassCand));
+						document.getElementById('Result').style.display='block';
+
+						if(allowsLocalStorage) {
+							localStorage.GPdomain = Domain;
+							localStorage.GPlen = Len;
+							localStorage.GPcase = Case;
+						}
+
+					} else {
+						document.getElementById('PasswdField').style.backgroundColor='#fcc';
+						document.getElementById('PasswdLabel').style.color='#600';
+					}
+
+				} else {
+
+					document.getElementById('DomainField').style.backgroundColor='#fcc';
+					document.getElementById('DomainLabel').style.color='#600';
+
+					if (!(Passwd)) {
+						document.getElementById('PasswdField').style.backgroundColor='#fcc';
+						document.getElementById('PasswdLabel').style.color='#600';
+					}
+
+				}
+
+				return false;
+
+			}
+
+		</script>
+
+		<title>GenPass</title>
+
+	</head>
+
+	<body>
+
+		<header>
+			<h1><a href="http://supergenpass.com/genpass/">GenPass</a></h1>
+		</header>
+
+		<noscript>
+			<section id="Warning">
+				<p><strong>Warning: JavaScript is disabled!</strong></p>
+			</section>
+		</noscript>
+
+		<section>
+
+			<form id="Mobile" onsubmit="GPLocal(); return false;" action="http://localhost:9/" method="POST">
+
+				<fieldset id="PasswdField" class="First" onclick="document.getElementById('Passwd').focus();">
+					<label id="PasswdLabel" for="Passwd">Master password</label>
+					<div class="Field">
+						<input id="Passwd" name="Passwd" type="password" autofocus="autofocus" onkeydown="gp_react(event);" onchange="gp_react(event);">
+					</div>
+				</fieldset>
+
+				<fieldset id="DomainField" onclick="document.getElementById('Domain').focus();">
+					<label id="DomainLabel" for="Domain">Domain / URL</label>
+					<div class="Field">
+						<input id="Domain" name="Domain" type="url" autocorrect="off" autocapitalize="off" onkeydown="gp_react(event);" onchange="gp_react(event);">
+					</div>
+				</fieldset>
+
+				<fieldset id="LenField" onclick="document.getElementById('Len').focus();">
+					<label id="LenLabel" for="Len">Password length</label>
+					<div class="Field">
+						<input id="Len" name="Len" type="number" min="4" max="32" value="8" onkeydown="gp_react(event);" onchange="gp_react(event);">
+					</div>
+				</fieldset>
+
+				<fieldset id="CaseField" class="Last">
+					<label id="CaseLabel" for="Case">Password case</label>
+					<input id="Case0" name="Case" type="radio" checked="checked" onchange="document.getElementById('Result').style.display='none';"> abc &#160;
+					<input id="Case1" name="Case" type="radio" onchange="document.getElementById('Result').style.display='none';"> ABC &#160;
+					<input id="Case2" name="Case" type="radio" onchange="document.getElementById('Result').style.display='none';"> AbC
+				</fieldset>
+
+				<div id="Generate">
+					<a href="#" id="GenerateLabel" onclick="GPLocal(); return false;">Generate</a>
+				</div>
+
+				<fieldset id="Result">&#160;</fieldset>
+
+			</form>
+
+		</section>
+
+		<script type="text/javascript">
+
+			var allowsLocalStorage = (('localStorage' in window) && window['localStorage'] !== null) ? true : false;
+
+			if (allowsLocalStorage) {
+
+				if(localStorage.GPdomain) {
+					document.getElementById('Domain').value = localStorage.GPdomain;
+				}
+
+				if(localStorage.GPlen) {
+					document.getElementById('Len').value = localStorage.GPlen;
+				}
+
+				if(localStorage.GPcase && localStorage.GPcase != 0) {
+
+					if(localStorage.GPcase==1) {
+						document.getElementById('Case1').checked = true;
+					} else if(localStorage.GPcase==2) {
+						document.getElementById('Case2').checked = true;
+					}
+
+				}
+
+			}
+
+		</script>
+
+	</body>
+
+</html>

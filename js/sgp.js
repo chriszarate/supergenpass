@@ -1,8 +1,9 @@
 (function ($) {
 
   // Configuration
-  var Version = 20131215,
-      Domain = 'https://mobile.supergenpass.com',
+  var Version = 20140415,
+      Domain = 'https://chriszarate.github.io',
+      Mobile = 'https://chriszarate.github.io/supergenpass/mobile.html',
       MinFrameArea = 100000,
 
   // Main
@@ -60,7 +61,7 @@
     // Create SGP elements.
     $Box = $('<div/>', {style: BoxStyle}),
     $TitleBar = $('<div/>', {style: TitleBarStyle}),
-    $Frame = $('<iframe/>', {src: Domain, scrolling: 'no', style: FrameStyle});
+    $Frame = $('<iframe/>', {src: Mobile, scrolling: 'no', style: FrameStyle});
 
     // Find largest viewport, looping through frames if applicable.
     $('frame').filter(IsLocalFrame).each(FindBiggestFrame);
@@ -68,7 +69,7 @@
 
     // If no target document is found, redirect to mobile version.
     if(!$Target) {
-      window.location = Domain;
+      window.location = Mobile;
     }
 
     // Provide "close window" feature.
@@ -173,7 +174,7 @@
 
     setTimeout(function() {
       if(!Ready) {
-        window.location = Domain;
+        window.location = Mobile;
       }
     }, 2000);
 

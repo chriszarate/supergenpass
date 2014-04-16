@@ -6,7 +6,7 @@ module.exports = {
       basepath: 'build/'
     },
     src: [
-      'build/index.html',
+      'build/mobile.html',
       'build/sgp.bookmarklet.js'
     ],
     dest: 'build/checksums.json'

@@ -3,7 +3,7 @@
 module.exports = {
   app: {
     files: {
-      'build/index.html': 'app/index.html'
+      'build/mobile.html': 'app/mobile.html'
     }
   }
 };

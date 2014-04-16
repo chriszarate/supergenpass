@@ -9,7 +9,7 @@ module.exports = {
       timestamp: true
     },
     src: [
-      'index.html'
+      'mobile.html'
     ],
     dest: 'build/cache.manifest'
   }

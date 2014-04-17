@@ -169,33 +169,6 @@ em.grey {
 }
 
 
-/* GitHub tag */
-
-#github {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 3.5em -3.5em 0 0;
-  font-size: 0.9em;
-  font-weight: bold;
-  color: #fff;
-  background-color: #333;
-  line-height: 1.2em;
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
-#github a {
-  display: inline-block;
-  padding: 0.2em 3em;
-  color: #fff;
-}
-
-#github span {
-  margin-right: 0.3em;
-}
-
-
 /* Tablet-y */
 
 @media only screen and (max-width: 770px) {

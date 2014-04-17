@@ -150,6 +150,11 @@ span.comment {
     font-size: 0.8em;
   }
 
+  header img {
+    width: 150px;
+    height: 100px;
+  }
+
 }
 
 

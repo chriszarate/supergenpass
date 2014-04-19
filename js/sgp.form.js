@@ -186,6 +186,9 @@
       }).trigger('change');
    }
 
+   // Set focus on password field.
+   $el.Passwd.trigger('focus');
+
    // Attach postMessage listener for bookmarklet.
    $(window).on('message', function (event) {
 
@@ -207,7 +210,6 @@
 
       // Populate domain field and call back with the browser height.
       $el.Domain.val(gp2_process_uri(Origin)).trigger('change');
-      $el.Passwd.trigger('focus');
       SendHeight();
 
    });

@@ -1,7 +1,4 @@
 .DS_Store
 node_modules
 lib
-build/app*
-build/cache*
-build/components*
-build/sgp.js
+build

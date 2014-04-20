@@ -1,7 +1,7 @@
 (function ($) {
 
   // Configuration
-  var Version = 20140415,
+  var Version = 20140420,
       Domain = 'https://chriszarate.github.io',
       Mobile = 'https://chriszarate.github.io/supergenpass/mobile.html',
       MinFrameArea = 100000,

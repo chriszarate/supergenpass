@@ -80,6 +80,9 @@
     // Apply scroll offset.
     $Box.css('top', $Target.scrollTop() + 'px');
 
+    // Blur any active form fields.
+    $(document.activeElement).blur();
+
     // Append SGP window to target document.
     $Box.append($TitleBar, $Frame).appendTo($('body', $Target));
 

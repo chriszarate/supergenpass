@@ -11,7 +11,7 @@
    Storage=window.LocalStorage||window.localStorage,
 
    // Selector cache
-   Sel=['PasswdField','Passwd','PasswdLabel','Salt','DomainField','Domain','DomainLabel','DisableTLD','Len','Generate','Output','Canvas','Options','Update'],
+   Sel=['PasswdField','Passwd','PasswdLabel','Salt','DomainField','Domain','DomainLabel','DisableTLD','Len','Generate','Mask','Output','Canvas','Options','Update'],
 
    // Send document height to bookmarklet.
    SendHeight=function() {
@@ -35,6 +35,7 @@
       Storage.setItem('DisableTLD',DisableTLD||'');
    },
 
+   // Get selected hash method.
    GetMethod=function() {
       return $('input:radio[name=Method]:checked').val() || 'md5';
    },
@@ -152,9 +153,22 @@
          SendPasswd(Passwd);
          SaveConfig(Salt,Len,Method,DisableTLD);
          $el.Generate.hide();
-         $el.Output.text(Passwd).show();
+         $el.Output.val(Passwd);
+         $el.Mask.show();
       }
 
+   });
+
+   // Show generated password on click/touch.
+   $el.Mask.on('click', function() {
+      $el.Mask.hide();
+      $el.Output.show().trigger('focus')[0].select();
+   });
+
+   // Hide generated password on click/touch elsewhere.
+   $el.Output.on('blur', function() {
+      $el.Output.hide();
+      $el.Mask.show();
    });
 
    // Adjust password length.
@@ -165,10 +179,11 @@
    });
 
    // Clear generated password when input changes.
-   $('input').on('keydown change', function (event) {
+   $('fieldset > input').on('keydown change', function (event) {
       var key=event.which;
       if(event.type=='change'||key==8||key==32||(key>45&&key<91)||(key>95&&key<112)||(key>185&&key<223)) {
-         $el.Output.text(String.fromCharCode(160)).hide();
+         $el.Mask.hide();
+         $el.Output.val('').hide();
          $el.Generate.show();
          $el.PasswdField.removeClass('Missing');
          $el.DomainField.removeClass('Missing');

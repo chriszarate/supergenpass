@@ -354,13 +354,24 @@ input[type="checkbox"]:checked + label:hover {
 
 /* Output field */
 
-#Output {
+#Output, #Mask {
    display: none;
    color: #fff;
    background-color: #666;
+   border: none;
    font-family: monospace;
    letter-spacing: 0.05em;
    word-wrap: break-word;
+}
+
+#Output::selection {
+   background-color: #fff;
+   color: #333;
+}
+
+#Output::-moz-selection {
+   background-color: #fff;
+   color: #333;
 }
 
 

@@ -1,8 +1,9 @@
-// Require jQuery, SuperGenPass, and hash libraries.
+// Load requirements.
 var $ = require('jquery');
 var sgp = require('supergenpass-lib');
 var md5 = require('crypto-js/md5');
 var sha512 = require('crypto-js/sha512');
+var identicon = require('../lib/identicon5');
 
 // Set default values.
 var messageOrigin = false;
@@ -157,11 +158,7 @@ var generateIdenticon = function (event) {
     var identiconHash = generateIdenticonHash(masterPassword + masterSecret, hashMethod);
 
     // Generate identicon.
-    identicon5({
-      canvas: $el.Canvas[0],
-      hash: identiconHash,
-      size: 16
-    });
+    identicon($el.Canvas[0], identiconHash, 16);
 
     // Show identicon.
     $el.Canvas.show();

@@ -4,6 +4,7 @@ var sgp = require('supergenpass-lib');
 var md5 = require('crypto-js/md5');
 var sha512 = require('crypto-js/sha512');
 var identicon = require('../lib/identicon5');
+var storage = require('../lib/localstorage-polyfill');
 
 // Set default values.
 var messageOrigin = false;
@@ -46,12 +47,11 @@ var selectors =
   ];
 
 // Retrieve user's configuration from local storage, if available.
-var storage = window.LocalStorage || window.localStorage;
 var config = {
-  passwordLength: storage.getItem('Len') || 10,
-  masterSecret:   storage.getItem('Salt') || '',
-  hashMethod:     storage.getItem('Method') || 'md5',
-  disableTLD:     storage.getItem('DisableTLD') || ''
+  passwordLength: storage.local.getItem('Len') || 10,
+  masterSecret:   storage.local.getItem('Salt') || '',
+  hashMethod:     storage.local.getItem('Method') || 'md5',
+  disableTLD:     storage.local.getItem('DisableTLD') || ''
 };
 
 // Listen for postMessage from bookmarklet.
@@ -104,10 +104,10 @@ var postMessageToBookmarklet = function (message) {
 
 // Save configuration to local storage.
 var saveConfiguration = function (masterSecret, passwordLength, hashMethod, disableTLD) {
-  storage.setItem('Salt', masterSecret);
-  storage.setItem('Len', passwordLength);
-  storage.setItem('Method', hashMethod);
-  storage.setItem('DisableTLD', disableTLD || '');
+  storage.local.setItem('Salt', masterSecret);
+  storage.local.setItem('Len', passwordLength);
+  storage.local.setItem('Method', hashMethod);
+  storage.local.setItem('DisableTLD', disableTLD || '');
 };
 
 // Get selected hash method.

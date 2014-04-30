@@ -293,7 +293,10 @@ var adjustPasswordLength = function (event) {
   var newPasswordLength = validatePasswordLength(passwordLength + increment, hashMethod);
 
   // Update form with new password length.
-  $el.Len.val(passwordLength).trigger('change');
+  $el.Len.val(newPasswordLength).trigger('change');
+
+  // Prevent event default action.
+  event.preventDefault();
 
 };
 

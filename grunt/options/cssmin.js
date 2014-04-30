@@ -3,8 +3,8 @@
 module.exports = {
   add_banner: {
     files: {
-      'build/app.min.css': [
-        'app/app.css'
+      'build/sgp.mobile.min.css': [
+        'src/mobile/sgp.mobile.css'
       ]
     }
   }

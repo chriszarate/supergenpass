@@ -1,6 +1,10 @@
 /* grunt-contrib-jshint */
 
 module.exports = {
-  app: ['js/sgp*.js'],
-  tests: ['test/*.js']
+  app: [
+    'src/**/*.js'
+  ],
+  tests: [
+    'test/*.js'
+  ]
 };

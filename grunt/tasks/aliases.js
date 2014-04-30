@@ -6,18 +6,23 @@ module.exports = function(grunt) {
     'default',
     [
       'jshint',
-      'uglify:app',
-      'uglify:bookmarklet',
-      'qunit',
+      'browserify',
+      'uglify',
       'cssmin',
       'staticinline',
       'bookmarklet',
+      'qunit',
       'manifest',
       'checksum'
     ]
   );
 
-  grunt.registerTask('components', ['uglify:components']);
-  grunt.registerTask('test', ['jshint:tests', 'qunit']);
+  grunt.registerTask(
+    'test',
+    [
+      'jshint:tests',
+      'qunit'
+    ]
+  );
 
 };

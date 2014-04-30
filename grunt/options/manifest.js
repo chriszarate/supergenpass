@@ -3,7 +3,7 @@
 module.exports = {
   generate: {
     options: {
-      basePath: 'build/',
+      basePath: 'dist/',
       network: ['*'],
       verbose: true,
       timestamp: true
@@ -11,6 +11,6 @@ module.exports = {
     src: [
       'mobile.html'
     ],
-    dest: 'build/cache.manifest'
+    dest: 'dist/cache.manifest'
   }
 };

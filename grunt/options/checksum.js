@@ -3,12 +3,12 @@
 module.exports = {
   app: {
     options: {
-      basepath: 'build/'
+      basepath: 'dist/'
     },
     src: [
-      'build/mobile.html',
-      'build/sgp.bookmarklet.js'
+      'dist/mobile.html',
+      'dist/sgp.bookmarklet.min.js'
     ],
-    dest: 'build/checksums.json'
+    dest: 'dist/checksums.json'
   }
 };

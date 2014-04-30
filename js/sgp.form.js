@@ -1,8 +1,8 @@
-// Require SuperGenPass and hash libraries.
+// Require jQuery, SuperGenPass, and hash libraries.
+var $ = require('jquery');
 var sgp = require('supergenpass-lib');
 var md5 = require('crypto-js/md5');
 var sha512 = require('crypto-js/sha512');
-
 
 // Set default values.
 var messageOrigin = false;

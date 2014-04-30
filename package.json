@@ -22,8 +22,7 @@
   "homepage": "http://supergenpass.com",
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "grunt test",
-    "postinstall": "git clone git://github.com/jquery/jquery.git lib/jquery-custom && cd lib/jquery-custom && npm install && grunt custom:-ajax,-deprecated,-effects,-offset,-deferred,-wrap,-event/alias,-core/ready"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",

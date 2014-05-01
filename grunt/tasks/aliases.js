@@ -11,8 +11,8 @@ module.exports = function(grunt) {
       'cssmin',
       'staticinline',
       'bookmarklet',
-      //'qunit',
       'clean',
+      'qunit',
       'manifest',
       'checksum'
     ]

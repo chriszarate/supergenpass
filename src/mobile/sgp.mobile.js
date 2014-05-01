@@ -116,7 +116,7 @@ var getHashMethod = function () {
 };
 
 // Validate password length.
-var validatePasswordLength = function (passwordLength, hashMethod) {
+var validatePasswordLength = function (passwordLength) {
 
   // Password length must be an integer.
   passwordLength = parseInt(passwordLength, 10) || 10;

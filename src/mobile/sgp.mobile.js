@@ -219,7 +219,7 @@ var generatePassword = function (event) {
 
     // Show generated password.
     $el.Generate.hide();
-    $el.Output.val(generatedPassword);
+    $el.Output.text(generatedPassword);
     $el.Mask.show();
 
   }
@@ -229,13 +229,7 @@ var generatePassword = function (event) {
 // Show generated password on click/touch.
 var showGeneratedPassword = function () {
   $el.Mask.hide();
-  $el.Output.show().trigger('focus')[0].select();
-};
-
-// Hide generated password on click/touch elsewhere.
-var hideGeneratedPassword = function () {
-  $el.Output.hide();
-  $el.Mask.show();
+  $el.Output.show().trigger('focus');
 };
 
 // Clear generated password when input changes.
@@ -256,7 +250,7 @@ var clearGeneratedPassword = function (event) {
 
     // Clear generated password.
     $el.Mask.hide();
-    $el.Output.val('').hide();
+    $el.Output.text('').hide();
 
     // Show generate button.
     $el.Generate.show();
@@ -360,7 +354,6 @@ $('#Up, #Down').on('click', adjustPasswordLength);
 // Bind to form events.
 $el.DisableTLD.on('change', showAlternateDomain);
 $el.DisableTLD.on('change', toggleTLDIndicator);
-$el.Output.on('blur', hideGeneratedPassword);
 $('#Passwd, #Salt, #MethodField').on('keyup change', generateIdenticon);
 $('fieldset > input').on('keydown change', clearGeneratedPassword);
 

@@ -2,7 +2,7 @@
   "name": "SuperGenPass",
   "version": "0.1.0",
   "dependencies": {
-    "supergenpass-lib": "^0.4.0",
+    "supergenpass-lib": "^0.5.0",
     "crypto-js": "^3.1.2-3",
     "jquery": "^2.1.0"
   },

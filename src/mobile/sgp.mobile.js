@@ -118,14 +118,11 @@ var getHashMethod = function () {
 // Validate password length.
 var validatePasswordLength = function (passwordLength, hashMethod) {
 
-  // Set maximum length based on hash method.
-	var maxLength = (hashMethod == 'sha512') ? 24 : 22;
-
   // Password length must be an integer.
   passwordLength = parseInt(passwordLength, 10) || 10;
 
   // Return a password length in the valid range.
-	return Math.max(4, Math.min(passwordLength, maxLength));
+	return Math.max(4, Math.min(passwordLength, 24));
 
 };
 

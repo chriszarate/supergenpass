@@ -3,7 +3,7 @@
 module.exports = {
   app: {
     files: {
-      'dist/mobile.html': 'src/mobile/index.html'
+      'dist/mobile/index.html': 'src/mobile/index.html'
     }
   }
 };

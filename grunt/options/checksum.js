@@ -6,8 +6,8 @@ module.exports = {
       basepath: 'dist/'
     },
     src: [
-      'dist/mobile.html',
-      'dist/sgp.bookmarklet.min.js'
+      'dist/mobile/index.html',
+      'dist/bookmarklet/sgp.bookmarklet.min.js'
     ],
     dest: 'dist/checksums.json'
   }

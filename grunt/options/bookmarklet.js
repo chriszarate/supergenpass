@@ -7,7 +7,7 @@ module.exports = {
       urlencode: true
     },
     files: {
-      'dist/sgp.bookmarklet.min.js': ['build/sgp.bookmarklet.min.js']
+      'dist/bookmarklet/sgp.bookmarklet.min.js': ['build/sgp.bookmarklet.min.js']
     }
   }
 };

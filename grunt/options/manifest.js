@@ -11,6 +11,6 @@ module.exports = {
     src: [
       'mobile.html'
     ],
-    dest: 'dist/cache.manifest'
+    dest: 'dist/mobile/cache.manifest'
   }
 };

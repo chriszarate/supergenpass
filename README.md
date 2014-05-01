@@ -1,5 +1,7 @@
 # SuperGenPass
 
+[![Build Status](https://travis-ci.org/chriszarate/supergenpass.svg?branch=master)](https://travis-ci.org/chriszarate/supergenpass)
+
 This is the official repository of [SuperGenPass][1]. Please see the homepage
 for project information and instructions for use.
 
@@ -29,9 +31,8 @@ Do you like the idea of using a slightly quirky password solution?
 SuperGenPass development requires [Grunt][2]:
 
 ```shell
-git clone https://github.com/chriszarate/supergenpass.git
-cd supergenpass && npm install
-grunt components
+git clone https://github.com/chriszarate/supergenpass.git && cd supergenpass
+npm install
 grunt
 ```
 

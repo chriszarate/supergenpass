@@ -11,7 +11,7 @@ var messageOrigin = false;
 var messageSource = false;
 var language = location.search.substring(1);
 var latestVersion = 20140420;
-var alterateDomain = '';
+var alternateDomain = '';
 
 // Localizations.
 var localizations = {

@@ -75,7 +75,7 @@ var listenForBookmarklet = function (event) {
   });
 
   // Populate domain field and call back with the browser height.
-  $el.Domain.val(sgp.isolateHostname(messageOrigin)).trigger('change');
+  $el.Domain.val(sgp.hostname(messageOrigin, {removeSubdomains: !config.disableTLD})).trigger('change');
   sendDocumentHeight();
 
 };
@@ -180,8 +180,8 @@ var generatePassword = function (event) {
   var disableTLD = $el.DisableTLD.is(':checked');
 
   // Process domain value.
-  domain = (domain) ? sgp.isolateHostname(domain, disableTLD) : '';
-  alternateDomain = (domain) ? sgp.isolateHostname(domain, !disableTLD) : '';
+  domain = (domain) ? sgp.hostname(domain, {removeSubdomains: !disableTLD}) : '';
+  alternateDomain = (domain) ? sgp.hostname(domain, {removeSubdomains: disableTLD}) : '';
 
   // Update form with validated input.
   $el.Domain.val(domain).trigger('change');
@@ -205,7 +205,7 @@ var generatePassword = function (event) {
       salt: masterSecret,
       length: passwordLength,
       method: hashMethod,
-      disableTld: disableTLD
+      removeSubdomains: !disableTLD
     };
 
     // Generate password.

@@ -140,7 +140,7 @@ label.placeholder {
 
 /* Text fields */
 
-#Passwd, #Salt, #Domain {
+#Passwd, #Secret, #Domain {
    width: 200px;
    height: 18px;
    margin: 0;

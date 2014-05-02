@@ -6,7 +6,7 @@ var $el = {};
 var selectors =
   [
     'Passwd',
-    'Salt',
+    'Secret',
     'Domain',
     'DisableTLD',
     'Len',
@@ -30,25 +30,47 @@ $iframe.on('load', function () {
 
   test('Password generation', function () {
 
-    expect(3);
+    expect(5);
 
+    // Set initial form values.
     $el.Passwd.val('test');
+    $el.Secret.val('secret');
     $el.Domain.val('example.com');
     $el.Len.val('10');
-    $el.MethodMD5.prop('checked',true);
-    $el.Generate[0].dispatchEvent(clickEvent);
+    $el.MethodMD5.prop('checked', true);
 
+    // Send click event and test output.
+    $el.Generate[0].dispatchEvent(clickEvent);
+    ok($el.Output.text() === 'iTbF7RViG5', 'Generated "iTbF7RViG5".');
+
+    // Clear secret password.
+    $el.Secret.val('');
+
+    // Send click event and test output.
+    $el.Generate[0].dispatchEvent(clickEvent);
     ok($el.Output.text() === 'w9UbG0NEk7', 'Generated "w9UbG0NEk7".');
 
+    // Change hash method to SHA-512.
     $el.MethodSHA512.prop('checked',true);
-    $el.Generate[0].dispatchEvent(clickEvent);
 
+    // Send click event and test output.
+    $el.Generate[0].dispatchEvent(clickEvent);
     ok($el.Output.text() === 'sJfoZg3nU8', 'Generated "sJfoZg3nU8".');
 
-    $el.Len.val('4');
-    $el.Generate[0].dispatchEvent(clickEvent);
+    // Change length to 2 (test input validation).
+    $el.Len.val('2');
 
+    // Send click event and test output.
+    $el.Generate[0].dispatchEvent(clickEvent);
     ok($el.Output.text() === 'aC81', 'Generated "aC81".');
+
+    // Change length to 100 (test input validation) and add secret password.
+    $el.Len.val('100');
+    $el.Secret.val('ssshh');
+
+    // Send click event and test output.
+    $el.Generate[0].dispatchEvent(clickEvent);
+    ok($el.Output.text() === 'fd35Ng0Xwne2Pb8f3XFu8r8y', 'Generated "fd35Ng0Xwne2Pb8f3XFu8r8y".');
 
   });
 

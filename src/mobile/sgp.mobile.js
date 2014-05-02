@@ -32,7 +32,7 @@ var selectors =
     'PasswdField',
     'Passwd',
     'PasswdLabel',
-    'Salt',
+    'Secret',
     'DomainField',
     'Domain',
     'DomainLabel',
@@ -146,7 +146,7 @@ var generateIdenticon = function (event) {
 
   // Get form input.
   var masterPassword = $el.Passwd.val();
-  var masterSecret = $el.Salt.val();
+  var masterSecret = $el.Secret.val();
   var hashMethod = getHashMethod();
 
   if(masterPassword || masterSecret) {
@@ -173,7 +173,7 @@ var generatePassword = function (event) {
 
   // Get form input.
   var masterPassword = $el.Passwd.val();
-  var masterSecret = $el.Salt.val();
+  var masterSecret = $el.Secret.val();
   var hashMethod = getHashMethod();
   var domain = $el.Domain.val().replace(/ /g, '');
   var passwordLength = validatePasswordLength($el.Len.val(), hashMethod);
@@ -202,7 +202,7 @@ var generatePassword = function (event) {
 
     // Compile SGP options hash.
     var options = {
-      salt: masterSecret,
+      secret: masterSecret,
       length: passwordLength,
       method: hashMethod,
       removeSubdomains: !disableTLD
@@ -326,7 +326,7 @@ $.each(selectors, function (i, val) {
 // Load user's configuration (or defaults) into form.
 $('input:radio[value=' + config.hashMethod + ']').prop('checked', true);
 $el.Len.val(validatePasswordLength(config.passwordLength, config.hashMethod));
-$el.Salt.val(config.masterSecret).trigger('change');
+$el.Secret.val(config.masterSecret).trigger('change');
 $el.DisableTLD.prop('checked', config.disableTLD).trigger('change');
 
 // Perform localization, if requested.
@@ -340,7 +340,7 @@ if (language && localizations.hasOwnProperty(language)) {
 
 // Provide fake input placeholders if browser does not support them.
 if ( !('placeholder' in document.createElement('input')) ) {
-  $('#Passwd, #Salt, #Domain').on('keyup change', function (event) {
+  $('#Passwd, #Secret, #Domain').on('keyup change', function (event) {
     $('label[for=' + $(this).attr('id') + ']').toggle($(this).val() === '');
   }).trigger('change');
 }
@@ -354,7 +354,7 @@ $('#Up, #Down').on('click', adjustPasswordLength);
 // Bind to form events.
 $el.DisableTLD.on('change', showAlternateDomain);
 $el.DisableTLD.on('change', toggleTLDIndicator);
-$('#Passwd, #Salt, #MethodField').on('keyup change', generateIdenticon);
+$('#Passwd, #Secret, #MethodField').on('keyup change', generateIdenticon);
 $('fieldset > input').on('keydown change', clearGeneratedPassword);
 
 // Set focus on password field.

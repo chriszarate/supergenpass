@@ -51,7 +51,7 @@ $iframe.on('load', function () {
     ok($el.Output.text() === 'w9UbG0NEk7', 'Generated "w9UbG0NEk7".');
 
     // Change hash method to SHA-512.
-    $el.MethodSHA512.prop('checked',true);
+    $el.MethodSHA512.prop('checked', true);
 
     // Send click event and test output.
     $el.Generate[0].dispatchEvent(clickEvent);
@@ -71,6 +71,16 @@ $iframe.on('load', function () {
     // Send click event and test output.
     $el.Generate[0].dispatchEvent(clickEvent);
     ok($el.Output.text() === 'fd35Ng0Xwne2Pb8f3XFu8r8y', 'Generated "fd35Ng0Xwne2Pb8f3XFu8r8y".');
+
+  });
+
+
+  test('Local storage', function () {
+
+    expect(3);
+    ok(localStorage.getItem('Len') === '24', 'Password length value stored.');
+    ok(localStorage.getItem('Salt') === 'ssshh', 'Secret password value stored.');
+    ok(localStorage.getItem('Method') === 'sha512', 'Hash method value stored.');
 
   });
 

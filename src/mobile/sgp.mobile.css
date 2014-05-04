@@ -314,6 +314,10 @@ input[type="checkbox"]:checked + label:hover {
    display: block;
 }
 
+.Advanced #Domain {
+   padding-right: 45px;
+}
+
 
 /* Field style for non-input elements */
 

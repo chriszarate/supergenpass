@@ -1,7 +1,7 @@
 /* Basic */
 
 body {
-   width: 280px;
+   max-width: 325px;
    margin: 0 auto;
    padding: 0;
    color: #333;
@@ -30,7 +30,6 @@ noscript {
 /* Container */
 
 #main {
-   width: 224px;
    margin: 50px auto;
    padding: 25px;
    background-color: #fff;
@@ -55,6 +54,7 @@ noscript {
 #Update a:hover {
    text-decoration: underline;
 }
+
 
 /* Canvas */
 
@@ -86,6 +86,9 @@ input {
    background-color: #fff;
    border: solid 2px #ccc;
    border-radius: 4px;
+   -moz-box-sizing: border-box;
+   -webkit-box-sizing: border-box;
+   box-sizing: border-box;
    -webkit-appearance: none;
    -moz-appearance: none;
 }
@@ -141,15 +144,14 @@ label.placeholder {
 /* Text fields */
 
 #Passwd, #Secret, #Domain {
-   width: 200px;
-   height: 18px;
+   width: 100%;
+   height: 38px;
    margin: 0;
    padding: 8px 10px;
    font-size: 15px;
 }
 
 #Passwd {
-   width: 180px;
    padding-right: 30px;
 }
 
@@ -160,24 +162,30 @@ label.placeholder {
 
 /* Length field */
 
-#LenField input, #LenField label {
+#LenField input {
    float: left;
-   width: 22px;
-   height: 14px;
+   width: 38px;
+   height: 31px;
+   margin: 0;
    padding: 5px;
    font-size: 14px;
    border-radius: 4px 0 0 4px;
 }
 
 #LenField label {
+   float: left;
+   width: 24px;
+   height: 16px;
    margin: 0;
-   padding: 5px 0;
+   padding: 6px 0;
    padding-bottom: 7px;
    color: #999;
    background-color: #ccc;
+   font-size: 14px;
    font-weight: bold;
    text-align: center;
    border-bottom: solid 2px #bbb;
+   border-radius: 4px 0 0 4px;
    cursor: pointer;
 }
 
@@ -208,10 +216,13 @@ input[type="radio"] {
 
 input[type="radio"] + label {
    float: right;
+   width: 48px;
+   height: 16px;
    margin: 0;
-   padding: 5px 8px;
+   padding: 6px 0;
    color: #999;
    background-color: #ccc;
+   text-align: center;
    border-bottom: solid 2px #999;
    cursor: pointer;
 }
@@ -303,16 +314,11 @@ input[type="checkbox"]:checked + label:hover {
    display: block;
 }
 
-.Advanced #Domain {
-   width: 165px;
-   padding-right: 45px;
-}
-
 
 /* Field style for non-input elements */
 
 .Field {
-   width: 224px;
+   width: 100%;
    height: 16px;
    margin-top: 10px;
    padding: 10px 0;
@@ -380,11 +386,10 @@ input[type="checkbox"]:checked + label:hover {
 @media only screen and (max-width: 280px) {
 
    body {
-      width: auto;
+      max-width: 280px;
    }
 
    #main {
-      width: 224px;
       margin: 0 auto;
       padding: 15px;
       border-radius: 0;

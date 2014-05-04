@@ -355,7 +355,7 @@ $('#Passwd, #Secret, #MethodField').on('keyup change', generateIdenticon);
 $('fieldset > input').on('keydown change', clearGeneratedPassword);
 
 // Set focus on password field.
-$el.Passwd.trigger('focus');
+$el.Passwd.trigger('focus').trigger('change');
 
 // Attach postMessage listener for bookmarklet.
 $(window).on('message', listenForBookmarklet);

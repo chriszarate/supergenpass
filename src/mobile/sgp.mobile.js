@@ -176,7 +176,7 @@ var generatePassword = function (event) {
   var masterSecret = $el.Secret.val();
   var hashMethod = getHashMethod();
   var domain = $el.Domain.val().replace(/ /g, '');
-  var passwordLength = validatePasswordLength($el.Len.val(), hashMethod);
+  var passwordLength = validatePasswordLength($el.Len.val());
   var disableTLD = $el.DisableTLD.is(':checked');
 
   // Process domain value.
@@ -273,15 +273,12 @@ var clearGeneratedPassword = function (event) {
 // Adjust password length.
 var adjustPasswordLength = function (event) {
 
-  // Get hash method.
-  var hashMethod = getHashMethod();
-
   // Get length increment.
   var increment = ( $(this).attr('id') == 'Up' ) ? 1 : -1;
 
   // Calculate new password length.
-  var passwordLength = validatePasswordLength($el.Len.val(), hashMethod);
-  var newPasswordLength = validatePasswordLength(passwordLength + increment, hashMethod);
+  var passwordLength = validatePasswordLength($el.Len.val());
+  var newPasswordLength = validatePasswordLength(passwordLength + increment);
 
   // Update form with new password length.
   $el.Len.val(newPasswordLength).trigger('change');
@@ -325,7 +322,7 @@ $.each(selectors, function (i, val) {
 
 // Load user's configuration (or defaults) into form.
 $('input:radio[value=' + config.hashMethod + ']').prop('checked', true);
-$el.Len.val(validatePasswordLength(config.passwordLength, config.hashMethod));
+$el.Len.val(validatePasswordLength(config.passwordLength));
 $el.Secret.val(config.masterSecret).trigger('change');
 $el.DisableTLD.prop('checked', config.disableTLD).trigger('change');
 

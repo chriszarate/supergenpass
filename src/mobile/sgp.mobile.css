@@ -385,7 +385,7 @@ input[type="checkbox"]:checked + label:hover {
 
 /* Bookmarklet view */
 
-@media only screen and (max-device-width: 500px) {
+@media only screen and (max-device-width: 800px) {
 
    body {
       width: 240px;

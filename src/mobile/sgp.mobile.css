@@ -1,7 +1,7 @@
 /* Basic */
 
 body {
-   max-width: 325px;
+   width: 320px;
    margin: 0 auto;
    padding: 0;
    color: #333;
@@ -30,7 +30,7 @@ noscript {
 /* Container */
 
 #main {
-   margin: 50px auto;
+   margin-top: 50px;
    padding: 25px;
    background-color: #fff;
    border-radius: 4px;
@@ -322,10 +322,9 @@ input[type="checkbox"]:checked + label:hover {
 /* Field style for non-input elements */
 
 .Field {
-   width: 100%;
    height: 16px;
    margin-top: 10px;
-   padding: 10px 0;
+   padding: 10px 5px;
    font-size: 16px;
    text-align: center;
    border-radius: 4px;
@@ -370,7 +369,6 @@ input[type="checkbox"]:checked + label:hover {
    background-color: #666;
    border: none;
    font-family: monospace;
-   letter-spacing: 0.05em;
    word-wrap: break-word;
 }
 
@@ -387,16 +385,21 @@ input[type="checkbox"]:checked + label:hover {
 
 /* Bookmarklet view */
 
-@media only screen and (max-width: 280px) {
+@media only screen and (max-device-width: 500px) {
 
    body {
-      max-width: 280px;
+      width: 240px;
+      background-color: #fff;
    }
 
    #main {
-      margin: 0 auto;
-      padding: 15px;
-      border-radius: 0;
+     margin: 0;
+     padding: 15px;
+     border-radius: 0;
+   }
+
+   #Output {
+     height: auto;
    }
 
 }

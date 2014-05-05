@@ -1,7 +1,8 @@
 /* Basic */
 
 body {
-   width: 320px;
+   width: auto;
+   max-width: 320px;
    margin: 0 auto;
    padding: 0;
    color: #333;
@@ -394,10 +395,9 @@ input[type="checkbox"]:checked + label:hover {
 
 /* Bookmarklet view */
 
-@media only screen and (max-device-width: 800px) {
+@media only screen and (max-width: 800px) {
 
    body {
-      width: 240px;
       background-color: #fff;
    }
 

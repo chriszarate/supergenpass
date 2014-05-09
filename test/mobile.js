@@ -17,8 +17,8 @@ var selectors =
     'Output'
   ];
 
-// Load tests only after iframe has loaded.
-$iframe.on('load', function () {
+
+var testMobileVersion = function () {
 
   // Populate selector cache.
   $.each(selectors, function (i, val) {
@@ -84,7 +84,6 @@ $iframe.on('load', function () {
 
   });
 
-
   test('Local storage', function () {
 
     expect(4);
@@ -95,4 +94,7 @@ $iframe.on('load', function () {
 
   });
 
-});
+};
+
+// Load tests only after iframe has loaded.
+$iframe.on('load', testMobileVersion);

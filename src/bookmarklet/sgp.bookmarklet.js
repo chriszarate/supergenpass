@@ -3,7 +3,7 @@
   // Configuration
   var Version = 20140420,
       Domain = 'https://chriszarate.github.io',
-      Mobile = 'https://chriszarate.github.io/supergenpass/mobile.html',
+      Mobile = 'https://chriszarate.github.io/supergenpass/mobile/',
       MinFrameArea = 100000,
 
   // Main

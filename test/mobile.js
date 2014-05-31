@@ -96,5 +96,5 @@ var testMobileVersion = function () {
 
 };
 
-// Load tests only after iframe has loaded.
-$iframe.on('load', testMobileVersion);
+// Load tests.
+testMobileVersion();

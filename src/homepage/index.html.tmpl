@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+
+    <title>SuperGenPass: A Free Bookmarklet Password Generator</title>
+
+  </head>
+
+  <body>
+
+    <header>
+      <p><a href="/"><img src="/assets/img/sgp.png" height="200" width="300" border="0" alt="Key"></a></p>
+    </header>
+
+    <section>
+
+      <p><strong>SuperGenPass</strong> is a different kind of password solution. Instead of storing your passwords on your hard disk or online—where they are vulnerable to theft and data loss—SuperGenPass uses a hash algorithm to transform a master password into unique, complex passwords for the Web sites you visit.</p>
+
+      <p>SuperGenPass is a bookmarklet and runs right in your Web browser. It <strong>never stores or transmits your passwords</strong>, so it’s ideal for use on multiple and public computers. It’s also completely free and <a href="https://github.com/chriszarate/supergenpass">open-sourced on GitHub</a>.
+
+      <div id="actions">
+
+        <div class="bookmarklet well">
+          <p><a rel="nofollow" href="<%= grunt.file.read('bookmarklet/bookmarklet.min.js') %>" onclick="return false;">SGP</a></p>
+          <p>Drag this to your bookmarks toolbar. (Or right-click and add to bookmarks.)</p>
+        </div>
+        <div class="mobile well">
+          <p><a id="mobile" href="https://chriszarate.github.io/supergenpass/mobile/">Mobile</a></p>
+          <p>Use on public computers and mobile devices. (Add it to your home screen!)</p>
+        </div>
+
+        <br clear="both">
+
+      </div>
+
+      <h3>Should I use SuperGenPass?</h3>
+      <p>Well, do you like bookmarklets? Do you like <em>not ever knowing</em> what your passwords are? (That’s a good thing!) Do you like the idea of using a slightly quirky password solution? You <em>do</em>?</p>
+
+      <h3>How does it work?</h3>
+      <p>Like this. (But you should <a href="https://github.com/chriszarate/supergenpass">read the source code</a>.)</p>
+      <pre><code><strong class="function">SGP</strong>(<span class="string">"password:example1.com"</span>) <span class="comment">// => zVNqyKdf7F</span>
+<strong class="function">SGP</strong>(<span class="string">"password:example2.com"</span>) <span class="comment">// => eYPtU3mfVw</span></code></pre>
+      <br clear="left">
+
+      <h3>Problems?</h3>
+      <p>Please <a href="https://github.com/chriszarate/supergenpass/issues">log an issue on GitHub</a>.</p>
+
+    </section>
+
+  </body>
+
+</html>

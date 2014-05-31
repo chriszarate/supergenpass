@@ -11,6 +11,7 @@ module.exports = function(grunt) {
       'cssmin',
       'staticinline',
       'bookmarklet',
+      'template',
       'clean',
       'qunit',
       'manifest',

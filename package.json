@@ -19,6 +19,7 @@
     "grunt-load-options": "^0.1.4",
     "grunt-manifest": "~0.4.0",
     "grunt-static-inline": "^0.1.4",
+    "grunt-template": "^0.2.3",
     "load-grunt-tasks": "^0.2.1"
   },
   "description": "A bookmarklet password generator.",

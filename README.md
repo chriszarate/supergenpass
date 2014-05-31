@@ -2,8 +2,9 @@
 
 [![Build Status](https://travis-ci.org/chriszarate/supergenpass.svg?branch=master)](https://travis-ci.org/chriszarate/supergenpass)
 
-This is the official repository of [SuperGenPass][1]. Please see the homepage
-for project information and instructions for use.
+This is the official repository of [SuperGenPass][sgp]. Please see the
+[homepage][sgp] to obtain the bookmarklet and the mobile version. For
+questions, please see the [FAQ][faq].
 
 ## About
 
@@ -23,12 +24,13 @@ public computers. It’s also completely free and open source.
 
 ## Should I use SuperGenPass?
 
-Do you like bookmarklets? Do you like *not knowing* what your passwords are?
-Do you like the idea of using a slightly quirky password solution?
+Maybe! Do you like bookmarklets? Do you like *not knowing* what your passwords
+are? Do you like the idea of using a slightly quirky password solution? You
+*do*?
 
 ## Develop locally
 
-SuperGenPass development requires [Grunt][2]:
+SuperGenPass development requires [Grunt][grunt]:
 
 ```shell
 git clone https://github.com/chriszarate/supergenpass.git && cd supergenpass
@@ -36,5 +38,12 @@ npm install
 grunt
 ```
 
-[1]: http://supergenpass.com
-[2]: http://gruntjs.com
+## Looking for GenPass?
+
+GenPass is maintained in its own repository: [chriszarate/genpass][gp].
+
+
+[sgp]: http://supergenpass.com
+[wiki]: https://github.com/chriszarate/supergenpass/wiki/FAQ
+[grunt]: http://gruntjs.com
+[gp]: https://github.com/chriszarate/genpass

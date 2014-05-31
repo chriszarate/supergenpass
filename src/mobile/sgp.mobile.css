@@ -46,17 +46,13 @@ noscript {
 
 #Update {
    display: none;
-   padding: 3px 5px;
-   background-color: #cef;
+   padding: 5px;
+   background-color: #fcc;
    text-align: center;
-   border-radius: 4px;
 }
 
 #Update a {
-   color: #134;
-}
-
-#Update a:hover {
+   color: #311;
    text-decoration: underline;
 }
 

@@ -10,7 +10,8 @@ var storage = require('./lib/localstorage-polyfill');
 var messageOrigin = false;
 var messageSource = false;
 var language = location.search.substring(1);
-var latestVersion = 20140420;
+var latestBookmarklet = '../bookmarklet/bookmarklet.min.js';
+var latestVersion = 20140531;
 var alternateDomain = '';
 
 // Localizations.
@@ -43,7 +44,8 @@ var selectors =
     'Output',
     'Canvas',
     'Options',
-    'Update'
+    'Update',
+    'Bookmarklet'
   ];
 
 // Retrieve user's configuration from local storage, if available.
@@ -52,6 +54,12 @@ var config = {
   masterSecret:   storage.local.getItem('Salt') || '',
   hashMethod:     storage.local.getItem('Method') || 'md5',
   disableTLD:     storage.local.getItem('DisableTLD') || ''
+};
+
+var showUpdateNotification = function (data) {
+  $el.Bookmarklet.attr('href', data);
+  $el.Update.show();
+  sendDocumentHeight();
 };
 
 // Listen for postMessage from bookmarklet.
@@ -67,7 +75,12 @@ var listenForBookmarklet = function (event) {
     switch (key) {
     case 'version':
       if(value < latestVersion) {
-        $el.Update.show();
+        // Fetch latest bookmarklet.
+        $.ajax({
+          url: latestBookmarklet,
+          success: showUpdateNotification,
+          dataType: 'html'
+        });
       }
       break;
     }

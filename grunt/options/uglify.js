@@ -3,14 +3,14 @@
 module.exports = {
   app: {
     files: {
-      'build/sgp.mobile.min.js': [
-        'build/sgp.mobile.js'
+      'build/mobile.min.js': [
+        'build/mobile.js'
       ]
     }
   },
   bookmarklet: {
     files: {
-      'build/sgp.bookmarklet.min.js': ['src/bookmarklet/sgp.bookmarklet.js']
+      'build/bookmarklet.min.js': ['src/bookmarklet/*.js']
     }
   }
 };

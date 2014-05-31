@@ -7,7 +7,7 @@ module.exports = {
     },
     src: [
       'dist/mobile/index.html',
-      'dist/bookmarklet/sgp.bookmarklet.min.js'
+      'dist/bookmarklet/bookmarklet.min.js'
     ],
     dest: 'dist/checksums.json'
   }

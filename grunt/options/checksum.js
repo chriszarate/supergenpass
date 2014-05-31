@@ -2,13 +2,10 @@
 
 module.exports = {
   app: {
-    options: {
-      basepath: 'dist/'
-    },
     src: [
-      'dist/mobile/index.html',
-      'dist/bookmarklet/bookmarklet.min.js'
+      'mobile/index.html',
+      'bookmarklet/bookmarklet.min.js'
     ],
-    dest: 'dist/checksums.json'
+    dest: 'checksums.json'
   }
 };

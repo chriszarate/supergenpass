@@ -7,7 +7,7 @@ module.exports = {
       urlencode: true
     },
     files: {
-      'dist/bookmarklet/bookmarklet.min.js': ['build/bookmarklet.min.js']
+      'bookmarklet/bookmarklet.min.js': ['build/bookmarklet.min.js']
     }
   }
 };

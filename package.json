@@ -1,0 +1,40 @@
+{
+  "name": "SuperGenPass",
+  "version": "0.2.6",
+  "dependencies": {
+    "supergenpass-lib": "^1.0.0",
+    "crypto-js": "^3.1.2",
+    "jquery": "^2.1.0"
+  },
+  "devDependencies": {
+    "browserify": "^4.0.0",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^2.1.0",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-concat": "^0.1.3",
+    "grunt-contrib-cssmin": "^0.6.2",
+    "grunt-contrib-jshint": "^0.2.0",
+    "grunt-contrib-qunit": "^0.3.0",
+    "grunt-contrib-uglify": "^0.1.2",
+    "grunt-load-options": "^0.1.4",
+    "grunt-manifest": "~0.4.0",
+    "grunt-static-inline": "^0.1.4",
+    "grunt-template": "^0.2.3",
+    "load-grunt-tasks": "^0.2.1"
+  },
+  "description": "A bookmarklet password generator.",
+  "homepage": "http://supergenpass.com",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chriszarate/supergenpass"
+  },
+  "author": {
+    "name": "Chris Zarate",
+    "url": "http://chris.zarate.org"
+  },
+  "license": "GPLv2"
+}

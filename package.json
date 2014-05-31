@@ -23,7 +23,7 @@
     "load-grunt-tasks": "^0.2.1"
   },
   "description": "A bookmarklet password generator.",
-  "homepage": "http://supergenpass.com",
+  "homepage": "http://www.supergenpass.com",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "grunt test"

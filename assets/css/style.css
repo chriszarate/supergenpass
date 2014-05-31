@@ -1,0 +1,173 @@
+/* Lato Web font */
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://themes.googleusercontent.com/static/fonts/lato/v6/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://themes.googleusercontent.com/static/fonts/lato/v6/qdgUG4U09HnJwhYI-uK18wLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
+}
+
+
+/* Document */
+
+body {
+  max-width: 35em;
+  margin: 0 auto 1em auto;
+  padding: 2em 3em;
+  padding-top: 0;
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
+  font-size: 1.3em;
+  background-color: #fff;
+  line-height: 1.5em;
+}
+
+header {
+  text-align: center;
+}
+
+h1, h2, h3 {
+  margin: 2em 0 1em 0;
+  line-height: 1.25em;
+}
+
+h1 {
+  margin-top: 1.5em;
+}
+
+h4 {
+  margin: 0.5em 0 0 0;
+}
+
+a {
+  color: #369;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+/* Actions */
+
+#actions {
+  margin: 2em 0;
+  padding: 1em 0;
+  border-top: solid 1px #ccc;
+  border-bottom: solid 1px #ccc;
+}
+
+.well {
+  width: 45%;
+}
+
+.bookmarklet {
+  float: left;
+}
+
+.mobile {
+  float: right;
+}
+
+.well p {
+  color: #666;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.well a {
+  display: inline-block;
+  width: 6em;
+  padding: 8px 0;
+  color: #fff;
+  background-color: #356;
+  font-weight: bold;
+  border-bottom: solid 2px #023;
+  border-radius: 4px;
+}
+
+.well a:hover {
+  text-decoration: none;
+  background-color: #467;
+  border-bottom: solid 2px #134;
+}
+
+
+/* Code */
+
+pre {
+  float: left;
+  margin: 0;
+  padding: 0.25em 0.75em;
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+  font-size: 1em;
+  line-height: 1.2em;
+  color: #666;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+}
+
+strong.function {
+  color: #333;
+}
+
+span.string {
+  color: #690;
+}
+
+span.comment {
+  color: #708090;
+}
+
+
+/* Tablet-y */
+
+@media only screen and (max-width: 770px) {
+
+  /* Tighten */
+
+  body {
+    padding: 0 2em 2em 2em;
+  }
+
+  h1, h2, h3 {
+    margin: 1.5em 0 0.75em 0;
+  }
+
+  h1 {
+    margin-top: 1em;
+  }
+
+  pre {
+    font-size: 0.8em;
+  }
+
+  header img {
+    width: 150px;
+    height: 100px;
+  }
+
+}
+
+
+/* Phone-y */
+
+@media only screen and (max-width: 550px) {
+
+  /* Tighten */
+
+  body {
+    margin: 0;
+    padding: 0 1em 1em 1em;
+    font-size: 1.1em;
+  }
+
+}

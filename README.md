@@ -43,7 +43,22 @@ grunt
 GenPass is maintained in its own repository: [chriszarate/genpass][gp].
 
 
+## License
+
+SuperGenPass is released under the [GNU General Public License version 2][gplv2].
+
+
+## Other implementations
+
+Since SuperGenPass is open-source, others have made their own versions for
+various platforms and with additional functionality. You can find a list on the
+[implementations wiki page][implementations]. Please note that these projects
+are not reviewed and compatibility is not guaranteed.
+
+
 [sgp]: http://supergenpass.com
 [faq]: https://github.com/chriszarate/supergenpass/wiki/FAQ
 [grunt]: http://gruntjs.com
 [gp]: https://github.com/chriszarate/genpass
+[gplv2]: http://www.gnu.org/licenses/gpl-2.0.html
+[implementations]: https://github.com/chriszarate/supergenpass/wiki/Implementations

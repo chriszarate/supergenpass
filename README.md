@@ -44,6 +44,6 @@ GenPass is maintained in its own repository: [chriszarate/genpass][gp].
 
 
 [sgp]: http://supergenpass.com
-[wiki]: https://github.com/chriszarate/supergenpass/wiki/FAQ
+[faq]: https://github.com/chriszarate/supergenpass/wiki/FAQ
 [grunt]: http://gruntjs.com
 [gp]: https://github.com/chriszarate/genpass

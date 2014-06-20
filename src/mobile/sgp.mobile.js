@@ -231,19 +231,25 @@ var generatePassword = function (event) {
     // Save form input to local storage.
     saveConfiguration(masterSecret, passwordLength, hashMethod, disableTLD);
 
-    // Show generated password.
+    // Blur input fields.
+    $el.Inputs.trigger('blur');
+
+    // Show masked generated password.
     $el.Generate.hide();
     $el.Output.text(generatedPassword);
     $el.Mask.show();
+
+    // Bind hotkey for revealing generated password.
+    shortcut.add('Ctrl+H', toggleGeneratedPassword);
 
   }
 
 };
 
-// Show generated password on click/touch.
-var showGeneratedPassword = function () {
-  $el.Mask.hide();
-  $el.Output.show().trigger('focus');
+// Toggle generated password on click/touch.
+var toggleGeneratedPassword = function () {
+  $el.Mask.toggle();
+  $el.Output.toggle();
 };
 
 // Clear generated password when input changes.
@@ -273,11 +279,13 @@ var clearGeneratedPassword = function (event) {
     $el.PasswdField.removeClass('Missing');
     $el.DomainField.removeClass('Missing');
 
+    // Unbind hotkey for revealing generated password.
+    shortcut.remove('Ctrl+H');
+
   }
 
   // Submit form on enter key.
   if (enterKey) {
-    $(this).trigger('blur');
     $el.Generate.trigger('click');
     event.preventDefault();
   }
@@ -302,14 +310,14 @@ var adjustPasswordLength = function (event) {
 
 };
 
-// Show advanced options.
-var showAdvancedOptions = function () {
+// Toggle advanced options.
+var toggleAdvancedOptions = function () {
   $('body').toggleClass('Advanced');
   sendDocumentHeight();
 };
 
-// Show alternate domain when TLD option is toggled.
-var showAlternateDomain = function (event) {
+// Toggle alternate domain when TLD option is toggled.
+var toggleAlternateDomain = function (event) {
 
   // Store current domain value.
   var currentDomain = $el.Domain.val();
@@ -330,6 +338,7 @@ var toggleTLDIndicator = function (event) {
 };
 
 // Populate selector cache.
+$el.Inputs = $('input');
 $.each(selectors, function (i, val) {
   $el[val] = $('#' + val);
 });
@@ -358,18 +367,18 @@ if ( !('placeholder' in document.createElement('input')) ) {
 
 // Bind to interaction events.
 $el.Generate.on('click', generatePassword);
-$el.Mask.on('click', showGeneratedPassword);
-$el.Options.on('click', showAdvancedOptions);
+$el.Mask.on('click', toggleGeneratedPassword);
+$el.Options.on('click', toggleAdvancedOptions);
 $('#Up, #Down').on('click', adjustPasswordLength);
 
 // Bind to form events.
-$el.DisableTLD.on('change', showAlternateDomain);
+$el.DisableTLD.on('change', toggleAlternateDomain);
 $el.DisableTLD.on('change', toggleTLDIndicator);
+$el.Inputs.on('keydown change', clearGeneratedPassword);
 $('#Passwd, #Secret, #MethodField').on('keyup change', generateIdenticon);
-$('fieldset > input').on('keydown change', clearGeneratedPassword);
 
 // Bind to hotkeys.
-shortcut.add('Ctrl+O', showAdvancedOptions);
+shortcut.add('Ctrl+O', toggleAdvancedOptions);
 shortcut.add('Ctrl+G', generatePassword);
 
 // Set focus on password field.

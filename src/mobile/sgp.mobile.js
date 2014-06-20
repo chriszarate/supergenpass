@@ -4,6 +4,7 @@ var sgp = require('supergenpass-lib');
 var md5 = require('crypto-js/md5');
 var sha512 = require('crypto-js/sha512');
 var identicon = require('./lib/identicon5');
+var shortcut = require('./lib/shortcut');
 var storage = require('./lib/localstorage-polyfill');
 
 // Set default values.
@@ -366,6 +367,10 @@ $el.DisableTLD.on('change', showAlternateDomain);
 $el.DisableTLD.on('change', toggleTLDIndicator);
 $('#Passwd, #Secret, #MethodField').on('keyup change', generateIdenticon);
 $('fieldset > input').on('keydown change', clearGeneratedPassword);
+
+// Bind to hotkeys.
+shortcut.add('Ctrl+O', showAdvancedOptions);
+shortcut.add('Ctrl+G', generatePassword);
 
 // Set focus on password field.
 $el.Passwd.trigger('focus').trigger('change');

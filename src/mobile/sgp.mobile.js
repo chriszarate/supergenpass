@@ -1,3 +1,5 @@
+'use strict';
+
 // Load requirements.
 var $ = require('jquery');
 var sgp = require('supergenpass-lib');
@@ -156,7 +158,7 @@ var generateIdenticonHash = function (seed, hashMethod) {
 };
 
 // Generate and show identicon if master password or secret is present.
-var generateIdenticon = function (event) {
+var generateIdenticon = function () {
 
   // Get form input.
   var masterPassword = $el.Passwd.val();
@@ -183,7 +185,7 @@ var generateIdenticon = function (event) {
 
 };
 
-var generatePassword = function (event) {
+var generatePassword = function () {
 
   // Get form input.
   var masterPassword = $el.Passwd.val();
@@ -223,7 +225,7 @@ var generatePassword = function (event) {
     };
 
     // Generate password.
-    generatedPassword = sgp(masterPassword, domain, options);
+    var generatedPassword = sgp(masterPassword, domain, options);
 
     // Send generated password to bookmarklet.
     sendGeneratedPassword(generatedPassword);
@@ -317,7 +319,7 @@ var toggleAdvancedOptions = function () {
 };
 
 // Toggle alternate domain when TLD option is toggled.
-var toggleAlternateDomain = function (event) {
+var toggleAlternateDomain = function () {
 
   // Store current domain value.
   var currentDomain = $el.Domain.val();
@@ -333,7 +335,7 @@ var toggleAlternateDomain = function (event) {
 };
 
 // Toggle indicator for TLD option.
-var toggleTLDIndicator = function (event) {
+var toggleTLDIndicator = function () {
   $el.DomainField.toggleClass('Advanced', $(this).is(':checked'));
 };
 
@@ -360,7 +362,7 @@ if (language && localizations.hasOwnProperty(language)) {
 
 // Provide fake input placeholders if browser does not support them.
 if ( !('placeholder' in document.createElement('input')) ) {
-  $('#Passwd, #Secret, #Domain').on('keyup change', function (event) {
+  $('#Passwd, #Secret, #Domain').on('keyup change', function () {
     $('label[for=' + $(this).attr('id') + ']').toggle($(this).val() === '');
   }).trigger('change');
 }

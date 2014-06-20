@@ -5,6 +5,8 @@
  */
 
 
+'use strict';
+
 /* Wrap storage API tests in try/catch to avoid browser errors. */
 
 var LocalStorage, SessionStorage;

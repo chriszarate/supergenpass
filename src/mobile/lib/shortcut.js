@@ -4,6 +4,10 @@
  * By Binny V A
  * License : BSD
  */
+
+
+'use strict';
+
 var shortcut = {
   'all_shortcuts':{},//All the shortcuts are stored in this array
   'add': function(shortcut_combination,callback,opt) {
@@ -24,7 +28,6 @@ var shortcut = {
 
     var ele = opt.target;
     if(typeof opt.target == 'string') ele = document.getElementById(opt.target);
-    var ths = this;
     shortcut_combination = shortcut_combination.toLowerCase();
 
     //The function to be called at keypress
@@ -41,6 +44,7 @@ var shortcut = {
       }
 
       //Find Which key is pressed
+      var code;
       if (e.keyCode) code = e.keyCode;
       else if (e.which) code = e.which;
       var character = String.fromCharCode(code).toLowerCase();

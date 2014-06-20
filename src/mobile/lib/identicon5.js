@@ -24,6 +24,9 @@
 
 */
 
+
+'use strict';
+
 /* fills a polygon based on a path */
 var fillPoly = function (ctx, path) {
   if (path.length >= 2) {

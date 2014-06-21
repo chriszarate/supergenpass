@@ -14,7 +14,7 @@ var messageOrigin = false;
 var messageSource = false;
 var language = location.search.substring(1);
 var latestBookmarklet = '../bookmarklet/bookmarklet.min.js';
-var latestVersion = 20140531;
+var latestVersion = 20140621;
 var alternateDomain = '';
 
 // Localizations.

@@ -1,7 +1,7 @@
 (function ($) {
 
   // Configuration
-  var version = 20140531;
+  var version = 20140621;
   var domain = 'https://chriszarate.github.io';
   var mobile = 'https://chriszarate.github.io/supergenpass/mobile/';
   var minFrameArea = 100000;

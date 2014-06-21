@@ -1,19 +1,19 @@
 (function ($) {
 
   // Configuration
-  var Version = 20140531,
-      Domain = 'https://chriszarate.github.io',
-      Mobile = 'https://chriszarate.github.io/supergenpass/mobile/',
-      MinFrameArea = 100000,
+  var version = 20140531;
+  var domain = 'https://chriszarate.github.io';
+  var mobile = 'https://chriszarate.github.io/supergenpass/mobile/';
+  var minFrameArea = 100000;
 
   // Main
-  LoadSGP = function($) {
+  var loadSGP = function($) {
 
     // Defaults
-    var $Target = $(document),
-        $LocalFrames = $Target,
-        Dragging = false,
-        MaxArea = 0,
+    var $target = $(document);
+    var $localFrames = $target;
+    var dragging = false;
+    var maxArea = 0;
 
     // Functions
 
@@ -23,7 +23,7 @@
       http://stackoverflow.com/questions/11872917/
     */
 
-    IsLocalFrame = function() {
+    var isLocalFrame = function() {
       // Expects frame element as context.
       // Try/catch helps avoid XSS freakouts.
       try {
@@ -31,70 +31,70 @@
             win = this.contentWindow;
         win[key] = key;
         if(win[key] === key) {
-          $LocalFrames.add(win.document);
+          $localFrames.add(win.document);
           return true;
         }
       }
       catch(e) {
         return false;
       }
-    },
+    };
 
-    FindBiggestFrame = function() {
+    var findBiggestFrame = function() {
       // Expects frame element as context.
       // Try/catch helps avoid XSS freakouts.
       try {
-        var Area = $(this).height() * $(this).width();
-        if(Area > MaxArea && Area > MinFrameArea) {
-          $Target = $(this.contentWindow.document);
-          MaxArea = Area;
+        var area = $(this).height() * $(this).width();
+        if(area > maxArea && area > minFrameArea) {
+          $target = $(this.contentWindow.document);
+          maxArea = area;
         }
       }
       catch(e) {}
-    },
+    };
 
     // Define CSS properties.
-    BoxStyle = 'z-index:99999;position:absolute;top:0;right:5px;width:258px;margin:0;padding:0;box-sizing:content-box;',
-    TitleBarStyle = 'overflow:hidden;width:258px;height:20px;margin:0;padding:0;background-color:#356;cursor:move;box-sizing:content-box;',
-    FrameStyle = 'position:static;width:258px;height:190px;border:none;overflow:hidden;pointer-events:auto;',
+    var boxStyle = 'z-index:99999;position:absolute;top:0;right:5px;width:258px;margin:0;padding:0;box-sizing:content-box;';
+    var titleBarStyle = 'overflow:hidden;width:258px;height:20px;margin:0;padding:0;background-color:#356;cursor:move;box-sizing:content-box;';
+    var frameStyle = 'position:static;width:258px;height:190px;border:none;overflow:hidden;pointer-events:auto;';
 
     // Create SGP elements.
-    $Box = $('<div/>', {style: BoxStyle}),
-    $TitleBar = $('<div/>', {style: TitleBarStyle}),
-    $Frame = $('<iframe/>', {src: Mobile, scrolling: 'no', style: FrameStyle});
+    var $box = $('<div/>', {style: boxStyle});
+    var $titleBar = $('<div/>', {style: titleBarStyle});
+    var $frame = $('<iframe/>', {src: mobile, scrolling: 'no', style: frameStyle});
 
     // Find largest viewport, looping through frames if applicable.
-    $('frame').filter(IsLocalFrame).each(FindBiggestFrame);
-    $('iframe', $Target).filter(IsLocalFrame).each(FindBiggestFrame);
+    $('frame').filter(isLocalFrame).each(findBiggestFrame);
+    $('iframe', $target).filter(isLocalFrame).each(findBiggestFrame);
 
     // If no target document is found, redirect to mobile version.
-    if(!$Target) {
-      window.location = Mobile;
+    if(!$target) {
+      window.location = mobile;
     }
 
     // Provide "close window" feature.
-    $TitleBar.on('dblclick', function () {
-      $Box.remove();
+    $titleBar.on('dblclick', function () {
+      $box.remove();
     });
 
     // Apply scroll offset.
-    $Box.css('top', $Target.scrollTop() + 'px');
+    $box.css('top', $target.scrollTop() + 'px');
 
     // Blur any active form fields.
     $(document.activeElement).blur();
 
     // Append SGP window to target document.
-    $Box.append($TitleBar, $Frame).appendTo($('body', $Target));
+    $box.append($titleBar, $frame).appendTo($('body', $target));
 
     // Attach postMessage listener for responses from SGP generator.
     $(window).on('message', function (e) {
       var post = e.originalEvent;
-      if(post.origin === Domain && typeof post.data !== 'undefined') {
+      if(post.origin === domain && typeof post.data !== 'undefined') {
         $.each(JSON.parse(post.data), function (key, value) {
           switch(key) {
             // Populate generated password into password fields.
             case 'result':
-              $('input:password:visible', $LocalFrames)
+              $('input:password:visible', $localFrames)
                 .css('background', '#9f9')
                 .val(value)
                 .trigger('change click')
@@ -105,7 +105,7 @@
               break;
             // Change iframe height to match SGP generator document height.
             case 'height':
-              $Frame.css('height', Math.max(parseInt(value, 10), 167) + 2);
+              $frame.css('height', Math.max(parseInt(value, 10), 167) + 2);
               break;
           }
         });
@@ -114,8 +114,8 @@
 
     // Send current bookmarklet version to SGP generator. (Also communicates
     // current URL and opens channel for response.)
-    $Frame.on('load', function () {
-      this.contentWindow.postMessage('{"version":'+Version+'}', Domain);
+    $frame.on('load', function () {
+      this.contentWindow.postMessage('{"version":' + version + '}', domain);
     });
 
     /*
@@ -124,31 +124,31 @@
       http://github.com/jaz303/jquery-console
     */
 
-    $TitleBar.on({
+    $titleBar.on({
       mousedown: function (e) {
-        var Offset = $Box.offset();
-        Dragging = [e.pageX - Offset.left, e.pageY - Offset.top];
-        $Frame.css('pointer-events', 'none');
+        var offset = $box.offset();
+        dragging = [e.pageX - offset.left, e.pageY - offset.top];
+        $frame.css('pointer-events', 'none');
         e.preventDefault();
       },
       mouseup: function () {
-        Dragging = false;
-        $Frame.css('pointer-events', 'auto');
+        dragging = false;
+        $frame.css('pointer-events', 'auto');
       }
     });
 
-    $Target.on('mousemove', function (e) {
-      if(Dragging) {
-        $Box.css({
-          left: e.pageX - Dragging[0],
-          top: e.pageY - Dragging[1]
+    $target.on('mousemove', function (e) {
+      if(dragging) {
+        $box.css({
+          left: e.pageX - dragging[0],
+          top: e.pageY - dragging[1]
         });
       }
     });
 
     return true;
 
-  },
+  };
 
   /*
     Look for jQuery 1.7+ (for ".on") and load it if it can't be found.
@@ -156,17 +156,17 @@
     http://pastie.org/462639
   */
 
-  Ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.7 && LoadSGP($);
+  var ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.7 && loadSGP($);
 
-  if(!Ready) {
+  if(!ready) {
 
     var s = document.createElement('script');
     s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
     s.onload = s.onreadystatechange = function() {
       var state = this.readyState;
       if(!state || state === 'loaded' || state === 'complete') {
-        Ready = true;
-        LoadSGP(jQuery.noConflict());
+        ready = true;
+        loadSGP(jQuery.noConflict());
       }
     };
 
@@ -176,8 +176,8 @@
     */
 
     setTimeout(function() {
-      if(!Ready) {
-        window.location = Mobile;
+      if(!ready) {
+        window.location = mobile;
       }
     }, 2000);
 

@@ -5,6 +5,7 @@
   var domain = 'https://chriszarate.github.io';
   var mobile = 'https://chriszarate.github.io/supergenpass/mobile/';
   var minFrameArea = 100000;
+  var loadedSGP = false;
 
   // Main
   var loadSGP = function($) {
@@ -116,6 +117,7 @@
     // current URL and opens channel for response.)
     $frame.on('load', function () {
       this.contentWindow.postMessage('{"version":' + version + '}', domain);
+      loadedSGP = true;
     });
 
     /*
@@ -156,33 +158,29 @@
     http://pastie.org/462639
   */
 
-  var ready = $ && $.fn && parseFloat($.fn.jquery) >= 1.7 && loadSGP($);
+  var hasJQuery = $ && $.fn && parseFloat($.fn.jquery) >= 1.7 && loadSGP($);
 
-  if(!ready) {
+  if(!hasJQuery) {
 
     var s = document.createElement('script');
     s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
     s.onload = s.onreadystatechange = function() {
       var state = this.readyState;
       if(!state || state === 'loaded' || state === 'complete') {
-        ready = true;
         loadSGP(jQuery.noConflict());
       }
     };
 
-    /*
-      Set timeout to see if it has loaded; otherwise assume that loading
-      was blocked by an origin policy or other content security setting.
-    */
-
-    setTimeout(function() {
-      if(!ready) {
-        window.location = mobile;
-      }
-    }, 2000);
-
     document.getElementsByTagName('head')[0].appendChild(s);
 
   }
+
+  // Set timeout to see if SGP has loaded; otherwise assume that loading was
+  // blocked by an origin policy or other content security setting.
+  setTimeout(function() {
+    if(!loadedSGP) {
+      window.location = mobile;
+    }
+  }, 2000);
 
 })(window.jQuery);

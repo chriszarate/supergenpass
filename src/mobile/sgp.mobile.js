@@ -17,6 +17,14 @@ var latestBookmarklet = '../bookmarklet/bookmarklet.min.js';
 var latestVersion = 20140621;
 var alternateDomain = '';
 
+// Major search engine referral hostnames.
+var searchEngines = [
+  'www.google.com',
+  'www.bing.com',
+  'duckduckgo.com',
+  'r.search.yahoo.com'
+];
+
 // Localizations.
 var localizations = {
   'en':    ['Master password', 'Domain / URL', 'Generate'],
@@ -63,6 +71,16 @@ var showUpdateNotification = function (data) {
   $el.Bookmarklet.attr('href', data);
   $el.Update.show();
   sendDocumentHeight();
+};
+
+// Populate domain with referrer, if available and not from a search engine.
+var populateReferrer = function (referrer) {
+  if (referrer) {
+    referrer = sgp.hostname(referrer, {removeSubdomains: false});
+    if (searchEngines.indexOf(referrer) === -1) {
+      $el.Domain.val(sgp.hostname(referrer, {removeSubdomains: !config.disableTLD}));
+    }
+  }
 };
 
 // Listen for postMessage from bookmarklet.
@@ -382,6 +400,9 @@ $('#Passwd, #Secret, #MethodField').on('keyup change', generateIdenticon);
 // Bind to hotkeys.
 shortcut.add('Ctrl+O', toggleAdvancedOptions);
 shortcut.add('Ctrl+G', generatePassword);
+
+// Populate domain with referrer, if available.
+populateReferrer(document.referrer);
 
 // Set focus on password field.
 $el.Passwd.trigger('focus').trigger('change');

@@ -54,14 +54,20 @@
       catch(e) {}
     };
 
+    var closeWindow = function() {
+      $box.remove();
+    };
+
     // Define CSS properties.
     var boxStyle = 'z-index:99999;position:absolute;top:0;right:5px;width:258px;margin:0;padding:0;box-sizing:content-box;';
-    var titleBarStyle = 'overflow:hidden;width:258px;height:20px;margin:0;padding:0;background-color:#356;cursor:move;box-sizing:content-box;';
+    var titleBarStyle = 'overflow:hidden;width:258px;height:20px;margin:0;padding:0;text-align:right;background-color:#356;cursor:move;box-sizing:content-box;';
+    var closeLinkStyle = 'padding:0 5px;color:#fff;font-size:18px;line-height:20px;cursor:pointer;';
     var frameStyle = 'position:static;width:258px;height:190px;border:none;overflow:hidden;pointer-events:auto;';
 
     // Create SGP elements.
     var $box = $('<div/>', {style: boxStyle});
     var $titleBar = $('<div/>', {style: titleBarStyle});
+    var $closeLink = $('<span/>', {style: closeLinkStyle}).append('×');
     var $frame = $('<iframe/>', {src: mobile, scrolling: 'no', style: frameStyle});
 
     // Find largest viewport, looping through frames if applicable.
@@ -74,9 +80,8 @@
     }
 
     // Provide "close window" feature.
-    $titleBar.on('dblclick', function () {
-      $box.remove();
-    });
+    $closeLink.on('click', closeWindow);
+    $titleBar.on('dblclick', closeWindow);
 
     // Apply scroll offset.
     $box.css('top', $target.scrollTop() + 'px');
@@ -85,6 +90,7 @@
     $(document.activeElement).blur();
 
     // Append SGP window to target document.
+    $titleBar.append($closeLink);
     $box.append($titleBar, $frame).appendTo($('body', $target));
 
     // Attach postMessage listener for responses from SGP generator.

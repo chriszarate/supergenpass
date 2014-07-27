@@ -329,7 +329,6 @@ input[type="checkbox"]:checked + label:hover {
 
 .Field {
    height: 16px;
-   margin-top: 10px;
    padding: 10px 5px;
    font-size: 16px;
    text-align: center;
@@ -342,6 +341,13 @@ input[type="checkbox"]:checked + label:hover {
 .Button:active {
    margin-top: 2px !important;
    border-bottom: 0 !important;
+}
+
+
+/* Result fields */
+
+#Result {
+   padding-top: 10px;
 }
 
 
@@ -362,20 +368,32 @@ input[type="checkbox"]:checked + label:hover {
    border-bottom: solid 2px #134;
 }
 
-#Generate:active {
-   margin-top: 12px !important;
+
+/* Password output fields */
+
+#Output {
+   display: none;
 }
 
-
-/* Output field */
-
-#Output, #Mask {
+#Mask {
    display: none;
+   height: 36px;
+   overflow: hidden;
+}
+
+#Output, #MaskText {
    color: #fff;
    background-color: #666;
    border: none;
    font-family: monospace;
    word-wrap: break-word;
+   overflow-wrap: break-word;
+}
+
+#MaskText {
+   height: 14px;
+   border-bottom: solid 2px #444;
+   cursor: pointer;
 }
 
 #Output::selection {
@@ -386,6 +404,40 @@ input[type="checkbox"]:checked + label:hover {
 #Output::-moz-selection {
    background-color: #fff;
    color: #333;
+}
+
+
+/* Copy-to-clipboard button */
+
+#CopyButton {
+   display: none;
+   float: right;
+   width: 24px;
+   height: 14px;
+   margin-top: 0;
+   background-color: #356;
+   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAZFJREFUeNrtm0FKAzEUhlvpUrHMqtADCC56AzdCb+CRPEwX3kDoRvAGeoJZdCUOzn78C1nZMElJXlLb74dHFk3SvG/evCRDMp0U1iCN/T6VSo7nanLhAgAA/O/pUraRtUNAvnf8mPqp7YewWufL0ptzPB3eqXiXNTEE/yatGCdTlPB/X7IHNf8MRcBzrPP/TI3zLRgB3ypuCzyR0hGwV6/mNyEAg+WAQvP8se1Tx8ssAIAL1yw1CXnUjSXRxCTZ584JFhGwNXxgr9lnldy7NTW/V/FmsJbwLmRSx589AtwAV7IX2S5DlzvX1yrkfJUI8NSfq0pn9C3hWsVPznWIRQ54NMwB6yJfbBJ3Yx+yxmBcjevbdDeaazu634I+yRYZHF+4vlqL7bhFDiiqU8wBLIUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ6ZZagel7/gQAQAAQN0cUPtMEBEAAACYA+jO2N8+BsD2jAEc3DfwnRS1Ou9fW3EXJw3O+9fW6H2DXwyV/bjOkCPhAAAAAElFTkSuQmCC');
+   background-repeat: no-repeat;
+   background-size: 16px 16px;
+   background-position: 50% 50%;
+   -webkit-transition: background 0.5s linear;
+   transition: background 0.5s linear;
+   border-left: solid 1px #999;
+   border-bottom: solid 2px #023;
+   border-top-left-radius: 0;
+   border-bottom-left-radius: 0;
+   cursor: pointer;
+}
+
+#CopyButton.Active {
+   border-top: solid 2px #fff;
+   border-bottom: 0;
+}
+
+#CopyButton.Success {
+   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAAAXNSR0IArs4c6QAAAglJREFUaN7tmc1LW0EQwCehVIRiQRRDQy2UQjAXLxZy9x9QULzmWCFQqCcPFfwncu2tCNFcBC8eKsYvhF6UlN4bTFuQBpUipfLrwXWpyQvvI8lswDent8Pszu/x5s3MMiIRhSYRbYkBegBAmjVq7Q4mpLTdV2ONtJf7DOehDooKAHBOthWgFOGgqABQbgVoqAJc+gaV30FBg9Lv3BigfwGCBmnQIOscoBwKoNx9gKx3ogqaaDoGECFNibqv8zolr1QbGcAqnoaqK0/CBrE/wGwogNnuA1QZDux+mGr3AaDGHClf5ynm/i/q3QSIJA8U4IJj9t0A/GKF5yIiLLoA2LrLFuS41geoMGj2PONMPwZO7NsPcKQfhFdk7I4PLv6CvLV/6+I3tNWfaf7qA/xg1Ni+bO0ZNABmbAk+dZEJPxq7BBsuUvFPRozdeze1YMFYTTUHnw7AprF57PX1ew9wcVt2RFjVKscNtvluVwVjMckfHYAiQyK8NqsDkiIiPOKzTkOybjUHwDUTZrWs1REVrCYPLJnnibu633uAotUMsExCRIQkh3o94VePFvydblM63rTjFb91Ad7cs0+wo92Wf7pnP+/iXpCz2jG+uQD4wgsREUapuLoZXbLLHjfx3fAhAagNOGKAvgPotcQAfQjQUPXvMbQqqwJ4jO3CzAM6Fa/BZeB5QKfSNE/4B+7t6AYuE5oKAAAAAElFTkSuQmCC');
+   -webkit-transition: background 0s linear;
+   transition: background 0s linear;
 }
 
 

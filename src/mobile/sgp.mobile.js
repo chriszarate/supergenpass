@@ -5,6 +5,8 @@ var $ = require('jquery');
 var sgp = require('supergenpass-lib');
 var md5 = require('crypto-js/md5');
 var sha512 = require('crypto-js/sha512');
+var zeroclipboard = require('zeroclipboard');
+var flashversion = require('./lib/flashversion');
 var identicon = require('./lib/identicon5');
 var shortcut = require('./lib/shortcut');
 var storage = require('./lib/localstorage-polyfill');
@@ -16,6 +18,13 @@ var language = location.search.substring(1);
 var latestBookmarklet = '../bookmarklet/bookmarklet.min.js';
 var latestVersion = 20140624;
 var alternateDomain = '';
+
+// ZeroClipboard configuration.
+var zeroClipboardConfig = {
+  bubbleEvents: false,
+  hoverClass: 'Hover',
+  activeClass: 'Active'
+};
 
 // Major search engine referral hostnames.
 var searchEngines = [
@@ -52,6 +61,8 @@ var selectors =
     'Len',
     'Generate',
     'Mask',
+    'MaskText',
+    'CopyButton',
     'Output',
     'Canvas',
     'Options',
@@ -357,6 +368,15 @@ var toggleTLDIndicator = function () {
   $el.DomainField.toggleClass('Advanced', $(this).is(':checked'));
 };
 
+// Update copy button to show successful clipboard copy. Remove success
+// indicator after a few seconds.
+var updateCopyButton = function () {
+  $el.CopyButton.addClass('Success');
+  setTimeout(function () {
+    $el.CopyButton.removeClass('Success');
+  }, 5000);
+};
+
 // Populate selector cache.
 $el.Inputs = $('input');
 $.each(selectors, function (i, val) {
@@ -385,9 +405,15 @@ if ( !('placeholder' in document.createElement('input')) ) {
   }).trigger('change');
 }
 
+// Activate copy-to-clipboard button if browser has Flash.
+if (flashversion >= 11) {
+  zeroclipboard.config(zeroClipboardConfig);
+  new zeroclipboard($el.CopyButton.show()).on('aftercopy', updateCopyButton);
+}
+
 // Bind to interaction events.
 $el.Generate.on('click', generatePassword);
-$el.Mask.on('click', toggleGeneratedPassword);
+$el.MaskText.on('click', toggleGeneratedPassword);
 $el.Options.on('click', toggleAdvancedOptions);
 $('#Up, #Down').on('click', adjustPasswordLength);
 

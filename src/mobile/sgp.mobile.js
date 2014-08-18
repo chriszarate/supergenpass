@@ -254,26 +254,31 @@ var generatePassword = function () {
     };
 
     // Generate password.
-    var generatedPassword = sgp(masterPassword, domain, options);
-
-    // Send generated password to bookmarklet.
-    sendGeneratedPassword(generatedPassword);
+    populateGeneratedPassword(sgp(masterPassword, domain, options));
 
     // Save form input to local storage.
     saveConfiguration(masterSecret, passwordLength, hashMethod, disableTLD);
 
-    // Blur input fields.
-    $el.Inputs.trigger('blur');
-
-    // Show masked generated password.
-    $el.Generate.hide();
-    $el.Output.text(generatedPassword);
-    $el.Mask.show();
-
-    // Bind hotkey for revealing generated password.
-    shortcut.add('Ctrl+H', toggleGeneratedPassword);
-
   }
+
+};
+
+// Populate generated password into password field.
+var populateGeneratedPassword = function (generatedPassword) {
+
+  // Send generated password to bookmarklet.
+  sendGeneratedPassword(generatedPassword);
+
+  // Blur input fields.
+  $el.Inputs.trigger('blur');
+
+  // Show masked generated password.
+  $el.Generate.hide();
+  $el.Output.text(generatedPassword);
+  $el.Mask.show();
+
+  // Bind hotkey for revealing generated password.
+  shortcut.add('Ctrl+H', toggleGeneratedPassword);
 
 };
 

@@ -258,7 +258,7 @@ var generatePassword = function () {
     };
 
     // Generate password.
-    populateGeneratedPassword(sgp(masterPassword, domain, options));
+    sgp(masterPassword, domain, options, populateGeneratedPassword);
 
     // Save form input to local storage.
     saveConfiguration(masterSecret, passwordLength, hashMethod, disableTLD);

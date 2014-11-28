@@ -1,6 +1,8 @@
 # SuperGenPass
 
-[![Build Status](https://travis-ci.org/chriszarate/supergenpass.svg?branch=master)](https://travis-ci.org/chriszarate/supergenpass)
+[![Build Status][build-status]][travis-ci]
+
+[![Sauce Status][sauce-status]][saucelabs]
 
 This is the official repository of [SuperGenPass][sgp]. Please see the
 [homepage][sgp] to obtain the bookmarklet and the mobile version. For
@@ -57,6 +59,10 @@ are not reviewed and compatibility is not guaranteed.
 
 
 [sgp]: http://supergenpass.com
+[build-status]: https://travis-ci.org/chriszarate/supergenpass.svg?branch=master
+[sauce-status]: https://saucelabs.com/browser-matrix/zarate.svg
+[travis-ci]: https://travis-ci.org/chriszarate/supergenpass
+[saucelabs]: https://saucelabs.com/u/zarate
 [faq]: https://github.com/chriszarate/supergenpass/wiki/FAQ
 [grunt]: http://gruntjs.com
 [gp]: https://github.com/chriszarate/genpass

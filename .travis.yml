@@ -2,3 +2,9 @@ language: node_js
 node_js:
   - "0.10"
 before_install: npm install -g grunt-cli
+addons:
+  sauce_connect: true
+env:
+  global:
+  - secure: llLIm+gEGvB8T0z7T3BuGz+DZeB4/R50Ti6y0un0ODGg/u0AfsxyxTh9lebWrt09R6R7bzeQ6Y2u/G62jhHGE2XV9q7gQYUy55hL4/+3qKGkK84JmACz6fW8aZcMyZ2PPlhPenEUtSMV59USI1DRu21gt7aafBvwBH4iQutVDTA=
+  - secure: VfuWIRleEgkIoYbX3UwBqKZ/ayCPYceZJXR4a5K3WUaT0Mc7bIgr+VwvSX3qXPF3q20OPcnBduopdgX9FGlIX2PuhmDTncqWNip8P3WZWrvZdflwBpbgF9SlsK+mBO/AXhT4g2xPYiS9jvMeMcTpNi8lPbjsX8HL+EZb0xWPlhE=

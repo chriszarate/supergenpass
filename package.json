@@ -21,6 +21,7 @@
     "grunt-manifest": "^0.4.0",
     "grunt-static-inline": "^0.1.4",
     "grunt-template": "^0.2.3",
+    "intern": "^2.1.1",
     "load-grunt-tasks": "^1.0.0",
     "qunitjs": "^1.15.0"
   },
@@ -28,7 +29,7 @@
   "homepage": "http://www.supergenpass.com",
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt qunit && [ \"$TRAVIS_PULL_REQUEST\" != \"true\" ] && node_modules/.bin/intern-runner config=test/intern/main"
   },
   "repository": {
     "type": "git",

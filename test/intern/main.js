@@ -8,16 +8,6 @@ define({
   // A fully qualified URL to the Intern proxy
   proxyUrl: 'http://localhost:9000/',
 
-  // Default desired capabilities for all environments. Individual capabilities can be overridden by any of the
-  // specified browser environments in the `environments` array below as well. See
-  // https://code.google.com/p/selenium/wiki/DesiredCapabilities for standard Selenium capabilities and
-  // https://saucelabs.com/docs/additional-config#desired-capabilities for Sauce Labs capabilities.
-  // Note that the `build` capability will be filled in with the current commit ID from the Travis CI environment
-  // automatically
-  capabilities: {
-    'selenium-version': '2.41.0'
-  },
-
   // Browsers to run integration testing against. Note that version numbers must be strings if used with Sauce
   // OnDemand. Options that will be permutated are browserName, version, platform, and platformVersion; any other
   // capabilities options specified for an environment will be copied as-is
@@ -25,8 +15,8 @@ define({
     { browserName: 'android', version: '4.4', platform: 'Linux' },
     { browserName: 'iphone', version: ['8.1', '7.1'], platform: 'OS X 10.9' },
     { browserName: 'internet explorer', version: '11', platform: 'Windows 8.1' },
-    { browserName: 'firefox', version: '33', platform: 'Linux' },
-    { browserName: 'chrome', version: '38', platform: 'Linux' },
+    { browserName: 'firefox', version: '33', platform: 'Windows 7' },
+    { browserName: 'chrome', version: '38', platform: 'Windows 7' },
     { browserName: 'safari', version: '8', platform: 'OS X 10.10' },
     { browserName: 'safari', version: '7', platform: 'OS X 10.9' },
     { browserName: 'safari', version: '6', platform: 'OS X 10.8' }
@@ -42,5 +32,5 @@ define({
   functionalSuites: [ 'test/intern/functional/mobile' ],
 
   // A regular expression matching URLs to files that should not be included in code coverage analysis
-  excludeInstrumentation: /^tests|bower_components|node_modules\//
+  excludeInstrumentation: /^bower_components|node_modules\//
 });

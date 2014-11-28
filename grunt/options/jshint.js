@@ -10,6 +10,6 @@ module.exports = {
     'src/**/*.js'
   ],
   tests: [
-    'test/*.js'
+    'test/**/*.js'
   ]
 };

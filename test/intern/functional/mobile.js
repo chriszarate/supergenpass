@@ -15,7 +15,7 @@ define([
           .get(require.toUrl(url))
           .findById('Generate').isDisplayed()
           .then(function (isDisplayed) {
-            assert.ok(isDisplayed, 'Mobile version should display a generate button.')
+            assert.ok(isDisplayed, 'Mobile version should display a generate button.');
           });
       },
 
@@ -24,7 +24,7 @@ define([
           .findById('Options').click().end()
           .findById('Secret').isDisplayed()
           .then(function (isDisplayed) {
-            assert.ok(isDisplayed, 'Advanced options should be visible.')
+            assert.ok(isDisplayed, 'Advanced options should be visible.');
           });
       },
 
@@ -100,7 +100,7 @@ define([
           .findById('Secret').clearValue().end()
           .findById('Generate').isDisplayed()
           .then(function (isDisplayed) {
-            assert.ok(isDisplayed, 'Changing a value should reset the form.')
+            assert.ok(isDisplayed, 'Changing a value should reset the form.');
           });
       },
 
@@ -164,7 +164,7 @@ define([
           .findById('Options').click().end()
           .findById('Secret').isDisplayed()
           .then(function (isDisplayed) {
-            assert.ok(!isDisplayed, 'Advanced options should be hidden.')
+            assert.ok(!isDisplayed, 'Advanced options should be hidden.');
           });
       }
 

@@ -13,17 +13,16 @@ define({
   // capabilities options specified for an environment will be copied as-is
   environments: [
     { browserName: 'android', version: '4.4', platform: 'Linux' },
-    { browserName: 'iphone', version: ['8.1', '7.1'], platform: 'OS X 10.9' },
-    { browserName: 'internet explorer', version: '11', platform: 'Windows 8.1' },
+    { browserName: 'iphone', version: '8.1', platform: 'OS X 10.9' },
+    { browserName: 'iphone', version: '7.1', platform: 'OS X 10.9' },
+    { browserName: 'internet explorer', version: '11', platform: 'Windows 8.1', requireWindowFocus: 'true' },
     { browserName: 'firefox', version: '33', platform: 'Windows 7' },
     { browserName: 'chrome', version: '38', platform: 'Windows 7' },
-    { browserName: 'safari', version: '8', platform: 'OS X 10.10' },
-    { browserName: 'safari', version: '7', platform: 'OS X 10.9' },
-    { browserName: 'safari', version: '6', platform: 'OS X 10.8' }
+    { browserName: 'safari', version: '8', platform: 'OS X 10.10' }
   ],
 
   // Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
-  maxConcurrency: 3,
+  maxConcurrency: 2,
 
   // Name of the tunnel class to use for WebDriver tests
   tunnel: "SauceLabsTunnel",

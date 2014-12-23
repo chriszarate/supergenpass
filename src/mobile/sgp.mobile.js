@@ -16,7 +16,7 @@ var messageOrigin = false;
 var messageSource = false;
 var language = location.search.substring(1);
 var latestBookmarklet = '../bookmarklet/bookmarklet.min.js';
-var latestVersion = 20140728;
+var latestVersion = 20141223;
 var alternateDomain = '';
 
 // ZeroClipboard configuration.

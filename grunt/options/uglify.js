@@ -7,10 +7,5 @@ module.exports = {
         'build/mobile.js'
       ]
     }
-  },
-  bookmarklet: {
-    files: {
-      'build/bookmarklet.min.js': ['src/bookmarklet/*.js']
-    }
   }
 };

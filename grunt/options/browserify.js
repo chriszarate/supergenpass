@@ -6,4 +6,4 @@ module.exports = {
       'build/mobile.js': ['src/mobile/*.js']
     }
   }
-}
+};

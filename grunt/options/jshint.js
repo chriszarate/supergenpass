@@ -9,6 +9,9 @@ module.exports = {
   app: [
     'src/**/*.js'
   ],
+  grunt: [
+    'grunt/**/*.js'
+  ],
   tests: [
     'test/**/*.js'
   ]

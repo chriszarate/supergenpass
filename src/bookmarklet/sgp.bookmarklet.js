@@ -130,9 +130,10 @@ void function ($) {
     };
 
     // Define CSS properties.
-    var boxStyle = 'z-index:99999;position:absolute;top:0;right:5px;width:258px;margin:0;padding:0;box-sizing:content-box;';
-    var titleBarStyle = 'overflow:hidden;width:258px;height:20px;margin:0;padding:0;text-align:right;background-color:#356;cursor:move;box-sizing:content-box;';
-    var closeLinkStyle = 'padding:0 5px;color:#fff;font-size:18px;line-height:20px;cursor:pointer;';
+    var fontStyle = 'font-family:sans-serif;font-size:18px;line-height:20px;';
+    var boxStyle = 'z-index:99999;position:absolute;top:0;right:5px;width:258px;margin:0;padding:0;box-sizing:content-box;' + fontStyle;
+    var titleBarStyle = 'overflow:hidden;width:258px;height:20px;margin:0;padding:0;text-align:right;background-color:#356;cursor:move;box-sizing:content-box;' + fontStyle;
+    var closeLinkStyle = 'padding:0 5px;color:#fff;cursor:pointer;' + fontStyle;
     var loadingIndicatorStyle = 'position:absolute;width:258px;height:190px;padding:15px;color:#333;background-color:#fff;font-family:monospace;font-size:15px;text-align:center;';
     var frameStyle = 'position:static;width:258px;height:190px;border:none;overflow:hidden;pointer-events:auto;';
 

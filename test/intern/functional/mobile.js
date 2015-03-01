@@ -147,15 +147,15 @@ define([
           });
       },
 
-      'change the TLD option': function () {
+      'change the subdomain option': function () {
         return this.remote
-          .findByCssSelector('label[for="DisableTLD"]').click().end()
+          .findByCssSelector('label[for="RemoveSubdomains"]').click().end()
           .findById('Domain').clearValue().click().pressKeys('login.example.com').end()
           .findById('Generate').click().end()
           .findById('MaskText').setFindTimeout(100).click().end()
           .findById('Output').getVisibleText()
           .then(function (value) {
-            assert.ok(value === 'iNerPM9Zu79a8gUIcLzC1QAA', 'Changing the TLD option should change the generated password.');
+            assert.ok(value === 'iNerPM9Zu79a8gUIcLzC1QAA', 'Changing the subdomain option should change the generated password.');
           });
       },
 

@@ -74,7 +74,7 @@ var config = {
   length: storage.local.getItem('Len') || 10,
   secret: storage.local.getItem('Salt') || '',
   method: storage.local.getItem('Method') || 'md5',
-  removeSubdomains: storage.local.getItem('DisableTLD') || ''
+  removeSubdomains: !storage.local.getItem('DisableTLD') || ''
 };
 
 // Save configuration to local storage.
@@ -97,7 +97,7 @@ var populateReferrer = function (referrer) {
   if (referrer) {
     referrer = sgp.hostname(referrer, {removeSubdomains: false});
     if (searchEngines.indexOf(referrer) === -1) {
-      $el.Domain.val(sgp.hostname(referrer, {removeSubdomains: !config.removeSubdomains}));
+      $el.Domain.val(sgp.hostname(referrer, {removeSubdomains: config.removeSubdomains}));
     }
   }
 };
@@ -130,7 +130,7 @@ var listenForBookmarklet = function (event) {
     });
 
     // Populate domain field and call back with the browser height.
-    $el.Domain.val(sgp.hostname(messageOrigin, {removeSubdomains: !config.removeSubdomains})).trigger('change');
+    $el.Domain.val(sgp.hostname(messageOrigin, {removeSubdomains: config.removeSubdomains})).trigger('change');
     sendDocumentHeight();
 
   }
@@ -169,7 +169,7 @@ var getCurrentFormInput = function () {
       secret: $el.Secret.val(),
       length: getPasswordLength(),
       method: getHashMethod(),
-      removeSubdomains: !removeSubdomains
+      removeSubdomains: removeSubdomains
     }
   };
 };
@@ -178,7 +178,7 @@ var getCurrentFormInput = function () {
 var getDomain = function (removeSubdomains) {
   var domain = $el.Domain.val().replace(/ /g, '');
   if (domain) {
-    domain = sgp.hostname(domain, {removeSubdomains: !removeSubdomains});
+    domain = sgp.hostname(domain, {removeSubdomains: removeSubdomains});
     $el.Domain.val(domain);
   }
   return domain;

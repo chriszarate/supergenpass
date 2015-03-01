@@ -39,7 +39,7 @@ var setupTest1 = function () {
   $el.Domain.val('https://login.example.com');
   $el.Len.val('10');
   $el.MethodMD5.prop('checked', true);
-  $el.RemoveSubdomains.prop('checked', false);
+  $el.RemoveSubdomains.prop('checked', true);
 };
 
 var setupTest2 = function () {
@@ -61,7 +61,7 @@ var setupTest5 = function () {
 
 var setupTest6 = function () {
   $el.Domain.val('https://login.example.com');
-  $el.RemoveSubdomains.prop('checked', true);
+  $el.RemoveSubdomains.prop('checked', false);
 };
 
 

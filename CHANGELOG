@@ -1,0 +1,11 @@
+# CHANGELOG
+
+## 0.3.6
+
+- BEHAVIOR CHANGE: SGP no longer automatically saves any changes to advanced
+  options whenever you generate a password. There is a new "save" button,
+  available when you are viewing the advanced options, that allows you to
+  manually save changes to advanced options.
+
+- Added hover text (title attributes) to some elements to provide functional
+  explanations.

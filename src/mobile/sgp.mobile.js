@@ -151,17 +151,31 @@ var postMessageToBookmarklet = function (message) {
   }
 };
 
-// Save configuration to local storage.
-var saveConfiguration = function (masterSecret, passwordLength, hashMethod, disableTLD) {
-  storage.local.setItem('Salt', masterSecret);
-  storage.local.setItem('Len', passwordLength);
-  storage.local.setItem('Method', hashMethod);
-  storage.local.setItem('DisableTLD', disableTLD || '');
+// Get current SGP input.
+var getCurrentInput = function () {
+  return {
+    password: $el.Passwd.val(),
+    domain: $el.Domain.val().replace(/ /g, '')
+  };
 };
 
-// Get selected hash method.
-var getHashMethod = function () {
-  return $('input:radio[name=Method]:checked').val() || 'md5';
+// Get current SGP advanced options.
+var getCurrentOptions = function () {
+  return {
+    secret: $el.Secret.val(),
+    length: validatePasswordLength($el.Len.val()),
+    method: $('input:radio[name=Method]:checked').val() || 'md5',
+    removeSubdomains: !$el.DisableTLD.is(':checked')
+  };
+};
+
+// Save configuration to local storage.
+var saveCurrentOptions = function () {
+  var options = getCurrentOptions();
+  storage.local.setItem('Salt', options.secret);
+  storage.local.setItem('Len', options.length);
+  storage.local.setItem('Method', options.method);
+  storage.local.setItem('DisableTLD', !options.removeSubdomains || '');
 };
 
 // Validate password length.
@@ -194,14 +208,13 @@ var generateIdenticonHash = function (seed, hashMethod) {
 var generateIdenticon = function () {
 
   // Get form input.
-  var masterPassword = $el.Passwd.val();
-  var masterSecret = $el.Secret.val();
-  var hashMethod = getHashMethod();
+  var input = getCurrentInput();
+  var options = getCurrentOptions();
 
-  if(masterPassword || masterSecret) {
+  if (input.password || options.secret) {
 
     // Compute identicon hash.
-    var identiconHash = generateIdenticonHash(masterPassword + masterSecret, hashMethod);
+    var identiconHash = generateIdenticonHash(input.password + options.secret, options.method);
 
     // Generate identicon.
     identicon($el.Canvas[0], identiconHash, 16);
@@ -221,48 +234,31 @@ var generateIdenticon = function () {
 var generatePassword = function () {
 
   // Get form input.
-  var masterPassword = $el.Passwd.val();
-  var masterSecret = $el.Secret.val();
-  var hashMethod = getHashMethod();
-  var domain = $el.Domain.val().replace(/ /g, '');
-  var passwordLength = validatePasswordLength($el.Len.val());
-  var disableTLD = $el.DisableTLD.is(':checked');
+  var input = getCurrentInput();
+  var options = getCurrentOptions();
 
   // Process domain value.
-  domain = (domain) ? sgp.hostname(domain, {removeSubdomains: !disableTLD}) : '';
-  alternateDomain = (domain) ? sgp.hostname(domain, {removeSubdomains: disableTLD}) : '';
+  input.domain = (input.domain) ? sgp.hostname(input.domain, {removeSubdomains: options.removeSubdomains}) : '';
+  alternateDomain = (input.domain) ? sgp.hostname(input.domain, {removeSubdomains: !options.removeSubdomains}) : '';
 
   // Update form with validated input.
-  $el.Domain.val(domain).trigger('change');
-  $el.Len.val(passwordLength).trigger('change');
+  $el.Domain.val(input.domain).trigger('change');
+  $el.Len.val(options.length).trigger('change');
 
   // Show user feedback for missing master password.
-  if(!masterPassword) {
+  if(!input.password) {
      $el.PasswdField.addClass('Missing');
   }
 
   // Show user feedback for missing domain.
-  if(!domain) {
+  if(!input.domain) {
      $el.DomainField.addClass('Missing');
   }
 
   // Generate password.
-  if(masterPassword && domain) {
-
-    // Compile SGP options hash.
-    var options = {
-      secret: masterSecret,
-      length: passwordLength,
-      method: hashMethod,
-      removeSubdomains: !disableTLD
-    };
-
-    // Generate password.
-    sgp(masterPassword, domain, options, populateGeneratedPassword);
-
-    // Save form input to local storage.
-    saveConfiguration(masterSecret, passwordLength, hashMethod, disableTLD);
-
+  if(input.password && input.domain) {
+    sgp(input.password, input.domain, options, populateGeneratedPassword);
+    saveCurrentOptions();
   }
 
 };

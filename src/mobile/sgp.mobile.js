@@ -56,7 +56,7 @@ var selectors =
     'DomainField',
     'Domain',
     'DomainLabel',
-    'DisableTLD',
+    'RemoveSubdomains',
     'Len',
     'Generate',
     'Mask',
@@ -71,10 +71,10 @@ var selectors =
 
 // Retrieve user's configuration from local storage, if available.
 var config = {
-  passwordLength: storage.local.getItem('Len') || 10,
-  masterSecret:   storage.local.getItem('Salt') || '',
-  hashMethod:     storage.local.getItem('Method') || 'md5',
-  disableTLD:     storage.local.getItem('DisableTLD') || ''
+  length: storage.local.getItem('Len') || 10,
+  secret: storage.local.getItem('Salt') || '',
+  method: storage.local.getItem('Method') || 'md5',
+  removeSubdomains: storage.local.getItem('DisableTLD') || ''
 };
 
 // Save configuration to local storage.
@@ -97,7 +97,7 @@ var populateReferrer = function (referrer) {
   if (referrer) {
     referrer = sgp.hostname(referrer, {removeSubdomains: false});
     if (searchEngines.indexOf(referrer) === -1) {
-      $el.Domain.val(sgp.hostname(referrer, {removeSubdomains: !config.disableTLD}));
+      $el.Domain.val(sgp.hostname(referrer, {removeSubdomains: !config.removeSubdomains}));
     }
   }
 };
@@ -130,7 +130,7 @@ var listenForBookmarklet = function (event) {
     });
 
     // Populate domain field and call back with the browser height.
-    $el.Domain.val(sgp.hostname(messageOrigin, {removeSubdomains: !config.disableTLD})).trigger('change');
+    $el.Domain.val(sgp.hostname(messageOrigin, {removeSubdomains: !config.removeSubdomains})).trigger('change');
     sendDocumentHeight();
 
   }
@@ -161,24 +161,24 @@ var postMessageToBookmarklet = function (message) {
 
 // Get current SGP input.
 var getCurrentFormInput = function () {
-  var disableTLD = $el.DisableTLD.is(':checked');
+  var removeSubdomains = $el.RemoveSubdomains.is(':checked');
   return {
     password: $el.Passwd.val(),
-    domain: getDomain(disableTLD),
+    domain: getDomain(removeSubdomains),
     options: {
       secret: $el.Secret.val(),
       length: getPasswordLength(),
       method: getHashMethod(),
-      removeSubdomains: !disableTLD
+      removeSubdomains: !removeSubdomains
     }
   };
 };
 
 // Get valid domain value and update form.
-var getDomain = function (disableTLD) {
+var getDomain = function (removeSubdomains) {
   var domain = $el.Domain.val().replace(/ /g, '');
   if (domain) {
-    domain = sgp.hostname(domain, {removeSubdomains: !disableTLD});
+    domain = sgp.hostname(domain, {removeSubdomains: !removeSubdomains});
     $el.Domain.val(domain);
   }
   return domain;
@@ -357,8 +357,8 @@ var toggleAdvancedOptions = function () {
   sendDocumentHeight();
 };
 
-// Toggle indicator for TLD option.
-var toggleTLDIndicator = function () {
+// Toggle indicator for removeSubdomains option.
+var toggleSubdomainIndicator = function () {
   var input = getCurrentFormInput();
   $el.DomainField.toggleClass('Advanced', !input.options.removeSubdomains);
 };
@@ -379,10 +379,10 @@ $.each(selectors, function (i, val) {
 });
 
 // Load user's configuration (or defaults) into form.
-$('input:radio[value=' + config.hashMethod + ']').prop('checked', true);
-$el.Len.val(validatePasswordLength(config.passwordLength));
-$el.Secret.val(config.masterSecret).trigger('change');
-$el.DisableTLD.prop('checked', config.disableTLD).trigger('change');
+$('input:radio[value=' + config.method + ']').prop('checked', true);
+$el.Len.val(validatePasswordLength(config.length));
+$el.Secret.val(config.secret).trigger('change');
+$el.RemoveSubdomains.prop('checked', config.removeSubdomains).trigger('change');
 
 // Perform localization, if requested.
 if (language && localizations.hasOwnProperty(language)) {
@@ -413,7 +413,7 @@ $el.Options.on('click', toggleAdvancedOptions);
 $('#Up, #Down').on('click', adjustPasswordLength);
 
 // Bind to form events.
-$el.DisableTLD.on('change', toggleTLDIndicator);
+$el.RemoveSubdomains.on('change', toggleSubdomainIndicator);
 $el.Inputs.on('keydown change', clearGeneratedPassword);
 $('#Passwd, #Secret, #MethodField').on('keyup change', generateIdenticon);
 

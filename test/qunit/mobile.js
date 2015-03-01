@@ -8,11 +8,10 @@ var selectors =
     'Passwd',
     'Secret',
     'Domain',
-    'DisableTLD',
+    'RemoveSubdomains',
     'Len',
     'MethodMD5',
     'MethodSHA512',
-    'DisableTLD',
     'Generate',
     'Output'
   ];
@@ -40,7 +39,7 @@ var setupTest1 = function () {
   $el.Domain.val('https://login.example.com');
   $el.Len.val('10');
   $el.MethodMD5.prop('checked', true);
-  $el.DisableTLD.prop('checked', false);
+  $el.RemoveSubdomains.prop('checked', false);
 };
 
 var setupTest2 = function () {
@@ -62,7 +61,7 @@ var setupTest5 = function () {
 
 var setupTest6 = function () {
   $el.Domain.val('https://login.example.com');
-  $el.DisableTLD.prop('checked', true);
+  $el.RemoveSubdomains.prop('checked', true);
 };
 
 
@@ -96,7 +95,7 @@ var nextTest = function () {
 var runTest = function () {
   sendClick();
   setTimeout(function () {
-    ok($el.Output.text() === testData[testIndex][1], 'Generated "' + testData[testIndex][1] + '".');
+    ok($el.Output.text() === testData[testIndex][1], 'Generated "' + $el.Output.text() + '" but expected "' + testData[testIndex][1] + '".');
     testIndex++;
     nextTest();
   }, 100);

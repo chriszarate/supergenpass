@@ -1,6 +1,5 @@
 'use strict';
 
-// Load requirements.
 var $ = require('jquery');
 var sgp = require('supergenpass-lib');
 var md5 = require('crypto-js/md5');
@@ -18,7 +17,6 @@ var language = location.search.substring(1);
 var latestBookmarklet = '../bookmarklet/bookmarklet.min.js';
 var latestVersion = 20150216;
 
-// ZeroClipboard configuration.
 var zeroClipboardConfig = {
   bubbleEvents: false,
   hoverClass: 'Hover',
@@ -33,7 +31,6 @@ var searchEngines = [
   'r.search.yahoo.com'
 ];
 
-// Localizations.
 var localizations = {
   'en':    ['Master password', 'Domain / URL', 'Generate'],
   'es':    ['Contraseña maestra', 'Dominio / URL', 'Enviar'],
@@ -137,14 +134,12 @@ var listenForBookmarklet = function (event) {
 
 };
 
-// Send document height to bookmarklet.
 var sendDocumentHeight = function () {
   postMessageToBookmarklet({
     height: $(document.body).height()
   });
 };
 
-// Send generated password to bookmarklet.
 var sendGeneratedPassword = function (generatedPassword) {
   postMessageToBookmarklet({
     result: generatedPassword
@@ -159,7 +154,6 @@ var postMessageToBookmarklet = function (message) {
   }
 };
 
-// Get current SGP input.
 var getCurrentFormInput = function () {
   var removeSubdomains = $el.RemoveSubdomains.is(':checked');
   return {
@@ -191,76 +185,52 @@ var getPasswordLength = function () {
   return passwordLength;
 };
 
-// Validate password length.
 var validatePasswordLength = function (passwordLength) {
   passwordLength = parseInt(passwordLength, 10) || 10;
   return Math.max(4, Math.min(passwordLength, 24));
 };
 
-// Get valid hash method.
 var getHashMethod = function () {
   return $('input:radio[name=Method]:checked').val() || 'md5';
 };
 
 // Generate hexadecimal hash for identicons.
 var generateIdenticonHash = function (seed, hashMethod) {
-
-  // Store reference to the hash function.
   var hashFunction = ( hashMethod == 'sha512' ) ? sha512 : md5;
-
-  // Loop four times over the seed.
   for (var i = 0; i <= 4; i++) {
     seed = hashFunction(seed).toString();
   }
-
   return seed;
-
 };
 
-// Generate and show identicon if master password or secret is present.
 var generateIdenticon = function () {
 
-  // Get form input.
   var input = getCurrentFormInput();
   var options = input.options;
 
   if (input.password || options.secret) {
-
-    // Compute identicon hash.
     var identiconHash = generateIdenticonHash(input.password + options.secret, options.method);
-
-    // Generate identicon.
     identicon($el.Canvas[0], identiconHash, 16);
-
-    // Show identicon.
     $el.Canvas.show();
-
   } else {
-
-    // Hide identicon if there is no form input.
     $el.Canvas.hide();
-
   }
 
 };
 
 var generatePassword = function () {
 
-  // Get form input.
   var input = getCurrentFormInput();
   var options = input.options;
 
-  // Show user feedback for missing master password.
   if(!input.password) {
      $el.PasswdField.addClass('Missing');
   }
 
-  // Show user feedback for missing domain.
   if(!input.domain) {
      $el.DomainField.addClass('Missing');
   }
 
-  // Generate password.
   if(input.password && input.domain) {
     sgp(input.password, input.domain, options, populateGeneratedPassword);
     saveCurrentOptions();
@@ -268,35 +238,22 @@ var generatePassword = function () {
 
 };
 
-// Populate generated password into password field.
 var populateGeneratedPassword = function (generatedPassword) {
-
-  // Send generated password to bookmarklet.
   sendGeneratedPassword(generatedPassword);
-
-  // Blur input fields.
   $el.Inputs.trigger('blur');
-
-  // Show masked generated password.
   $el.Generate.hide();
   $el.Output.text(generatedPassword);
   $el.Mask.show();
-
-  // Bind hotkey for revealing generated password.
   shortcut.add('Ctrl+H', toggleGeneratedPassword);
-
 };
 
-// Toggle generated password on click/touch.
 var toggleGeneratedPassword = function () {
   $el.Mask.toggle();
   $el.Output.toggle();
 };
 
-// Clear generated password when input changes.
 var clearGeneratedPassword = function (event) {
 
-  // Store reference to key press.
   var key = event.which;
 
   // Test for input key codes.
@@ -308,21 +265,12 @@ var clearGeneratedPassword = function (event) {
 
   // When user enters form input, reset form status.
   if ( event.type == 'change' || group1 || group2 || group3 || group4 ) {
-
-    // Clear generated password.
     $el.Mask.hide();
     $el.Output.text('').hide();
-
-    // Show generate button.
     $el.Generate.show();
-
-    // Clear feedback for missing form input.
     $el.PasswdField.removeClass('Missing');
     $el.DomainField.removeClass('Missing');
-
-    // Unbind hotkey for revealing generated password.
     shortcut.remove('Ctrl+H');
-
   }
 
   // Submit form on enter key.
@@ -333,31 +281,19 @@ var clearGeneratedPassword = function (event) {
 
 };
 
-// Adjust password length.
 var adjustPasswordLength = function (event) {
-
-  // Get length increment.
   var increment = ( $(this).attr('id') == 'Up' ) ? 1 : -1;
-
-  // Calculate new password length.
   var passwordLength = validatePasswordLength($el.Len.val());
   var newPasswordLength = validatePasswordLength(passwordLength + increment);
-
-  // Update form with new password length.
   $el.Len.val(newPasswordLength).trigger('change');
-
-  // Prevent event default action.
   event.preventDefault();
-
 };
 
-// Toggle advanced options.
 var toggleAdvancedOptions = function () {
   $('body').toggleClass('Advanced');
   sendDocumentHeight();
 };
 
-// Toggle indicator for removeSubdomains option.
 var toggleSubdomainIndicator = function () {
   var input = getCurrentFormInput();
   $el.DomainField.toggleClass('Advanced', !input.options.removeSubdomains);

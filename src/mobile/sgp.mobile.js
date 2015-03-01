@@ -62,25 +62,27 @@ var selectors =
     'Output',
     'Canvas',
     'Options',
+    'SaveDefaults',
     'Update',
     'Bookmarklet'
   ];
 
-// Retrieve user's configuration from local storage, if available.
-var config = {
+// Retrieve defaults from local storage.
+var defaults = {
   length: storage.local.getItem('Len') || 10,
   secret: storage.local.getItem('Salt') || '',
   method: storage.local.getItem('Method') || 'md5',
   removeSubdomains: !storage.local.getItem('DisableTLD') || ''
 };
 
-// Save configuration to local storage.
-var saveCurrentOptions = function () {
+// Save current options to local storage as defaults.
+var saveCurrentOptionsAsDefaults = function (e) {
   var input = getCurrentFormInput();
   storage.local.setItem('Len', input.options.length);
   storage.local.setItem('Salt', input.options.secret);
   storage.local.setItem('Method', input.options.method);
   storage.local.setItem('DisableTLD', !input.options.removeSubdomains || '');
+  showButtonSuccess(e);
 };
 
 var showUpdateNotification = function (data) {
@@ -94,7 +96,7 @@ var populateReferrer = function (referrer) {
   if (referrer) {
     referrer = sgp.hostname(referrer, {removeSubdomains: false});
     if (searchEngines.indexOf(referrer) === -1) {
-      $el.Domain.val(sgp.hostname(referrer, {removeSubdomains: config.removeSubdomains}));
+      $el.Domain.val(sgp.hostname(referrer, {removeSubdomains: defaults.removeSubdomains}));
     }
   }
 };
@@ -127,7 +129,7 @@ var listenForBookmarklet = function (event) {
     });
 
     // Populate domain field and call back with the browser height.
-    $el.Domain.val(sgp.hostname(messageOrigin, {removeSubdomains: config.removeSubdomains})).trigger('change');
+    $el.Domain.val(sgp.hostname(messageOrigin, {removeSubdomains: defaults.removeSubdomains})).trigger('change');
     sendDocumentHeight();
 
   }
@@ -233,7 +235,6 @@ var generatePassword = function () {
 
   if(input.password && input.domain) {
     sgp(input.password, input.domain, options, populateGeneratedPassword);
-    saveCurrentOptions();
   }
 
 };
@@ -299,12 +300,11 @@ var toggleSubdomainIndicator = function () {
   $el.DomainField.toggleClass('Advanced', !input.options.removeSubdomains);
 };
 
-// Update copy button to show successful clipboard copy. Remove success
-// indicator after a few seconds.
-var updateCopyButton = function () {
-  $el.CopyButton.addClass('Success');
+// Update button to show a success indicator. Remove indicator after 5 seconds.
+var showButtonSuccess = function (e) {
+  $(e.target).addClass('Success');
   setTimeout(function () {
-    $el.CopyButton.removeClass('Success');
+    $(e.target).removeClass('Success');
   }, 5000);
 };
 
@@ -314,11 +314,11 @@ $.each(selectors, function (i, val) {
   $el[val] = $('#' + val);
 });
 
-// Load user's configuration (or defaults) into form.
-$('input:radio[value=' + config.method + ']').prop('checked', true);
-$el.Len.val(validatePasswordLength(config.length));
-$el.Secret.val(config.secret).trigger('change');
-$el.RemoveSubdomains.prop('checked', config.removeSubdomains).trigger('change');
+// Load defaults into form.
+$('input:radio[value=' + defaults.method + ']').prop('checked', true);
+$el.Len.val(validatePasswordLength(defaults.length));
+$el.Secret.val(defaults.secret).trigger('change');
+$el.RemoveSubdomains.prop('checked', defaults.removeSubdomains).trigger('change');
 
 // Perform localization, if requested.
 if (language && localizations.hasOwnProperty(language)) {
@@ -339,13 +339,14 @@ if ( !('placeholder' in document.createElement('input')) ) {
 // Activate copy-to-clipboard button if browser has Flash.
 if (flashversion >= 11) {
   zeroclipboard.config(zeroClipboardConfig);
-  new zeroclipboard($el.CopyButton.show()).on('aftercopy', updateCopyButton);
+  new zeroclipboard($el.CopyButton.show()).on('aftercopy', showButtonSuccess);
 }
 
 // Bind to interaction events.
 $el.Generate.on('click', generatePassword);
 $el.MaskText.on('click', toggleGeneratedPassword);
 $el.Options.on('click', toggleAdvancedOptions);
+$el.SaveDefaults.on('click', saveCurrentOptionsAsDefaults);
 $('#Up, #Down').on('click', adjustPasswordLength);
 
 // Bind to form events.

@@ -12,9 +12,13 @@ var selectors =
     'Len',
     'MethodMD5',
     'MethodSHA512',
+    'SaveDefaults',
     'Generate',
     'Output'
   ];
+
+// Clear local storage.
+localStorage.clear();
 
 // Create click event.
 var clickEvent = document.createEvent('Event');
@@ -102,6 +106,7 @@ var runTest = function () {
 };
 
 var testLocalStorage = function () {
+  $el.SaveDefaults[0].dispatchEvent(clickEvent);
   ok(localStorage.getItem('Len') === '24', 'Password length value stored.');
   ok(localStorage.getItem('Salt') === 'ssshh', 'Secret password value stored.');
   ok(localStorage.getItem('Method') === 'sha512', 'Hash method setting stored.');

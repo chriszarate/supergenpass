@@ -17,7 +17,6 @@ var messageSource = false;
 var language = location.search.substring(1);
 var latestBookmarklet = '../bookmarklet/bookmarklet.min.js';
 var latestVersion = 20150216;
-var alternateDomain = '';
 
 // ZeroClipboard configuration.
 var zeroClipboardConfig = {
@@ -76,6 +75,15 @@ var config = {
   masterSecret:   storage.local.getItem('Salt') || '',
   hashMethod:     storage.local.getItem('Method') || 'md5',
   disableTLD:     storage.local.getItem('DisableTLD') || ''
+};
+
+// Save configuration to local storage.
+var saveCurrentOptions = function () {
+  var input = getCurrentFormInput();
+  storage.local.setItem('Len', input.options.length);
+  storage.local.setItem('Salt', input.options.secret);
+  storage.local.setItem('Method', input.options.method);
+  storage.local.setItem('DisableTLD', !input.options.removeSubdomains || '');
 };
 
 var showUpdateNotification = function (data) {
@@ -152,41 +160,46 @@ var postMessageToBookmarklet = function (message) {
 };
 
 // Get current SGP input.
-var getCurrentInput = function () {
+var getCurrentFormInput = function () {
+  var disableTLD = $el.DisableTLD.is(':checked');
   return {
     password: $el.Passwd.val(),
-    domain: $el.Domain.val().replace(/ /g, '')
+    domain: getDomain(disableTLD),
+    options: {
+      secret: $el.Secret.val(),
+      length: getPasswordLength(),
+      method: getHashMethod(),
+      removeSubdomains: !disableTLD
+    }
   };
 };
 
-// Get current SGP advanced options.
-var getCurrentOptions = function () {
-  return {
-    secret: $el.Secret.val(),
-    length: validatePasswordLength($el.Len.val()),
-    method: $('input:radio[name=Method]:checked').val() || 'md5',
-    removeSubdomains: !$el.DisableTLD.is(':checked')
-  };
+// Get valid domain value and update form.
+var getDomain = function (disableTLD) {
+  var domain = $el.Domain.val().replace(/ /g, '');
+  if (domain) {
+    domain = sgp.hostname(domain, {removeSubdomains: !disableTLD});
+    $el.Domain.val(domain);
+  }
+  return domain;
 };
 
-// Save configuration to local storage.
-var saveCurrentOptions = function () {
-  var options = getCurrentOptions();
-  storage.local.setItem('Salt', options.secret);
-  storage.local.setItem('Len', options.length);
-  storage.local.setItem('Method', options.method);
-  storage.local.setItem('DisableTLD', !options.removeSubdomains || '');
+// Get valid password length and update form.
+var getPasswordLength = function () {
+  var passwordLength = validatePasswordLength($el.Len.val());
+  $el.Len.val(passwordLength);
+  return passwordLength;
 };
 
 // Validate password length.
 var validatePasswordLength = function (passwordLength) {
-
-  // Password length must be an integer.
   passwordLength = parseInt(passwordLength, 10) || 10;
+  return Math.max(4, Math.min(passwordLength, 24));
+};
 
-  // Return a password length in the valid range.
-	return Math.max(4, Math.min(passwordLength, 24));
-
+// Get valid hash method.
+var getHashMethod = function () {
+  return $('input:radio[name=Method]:checked').val() || 'md5';
 };
 
 // Generate hexadecimal hash for identicons.
@@ -208,8 +221,8 @@ var generateIdenticonHash = function (seed, hashMethod) {
 var generateIdenticon = function () {
 
   // Get form input.
-  var input = getCurrentInput();
-  var options = getCurrentOptions();
+  var input = getCurrentFormInput();
+  var options = input.options;
 
   if (input.password || options.secret) {
 
@@ -234,16 +247,8 @@ var generateIdenticon = function () {
 var generatePassword = function () {
 
   // Get form input.
-  var input = getCurrentInput();
-  var options = getCurrentOptions();
-
-  // Process domain value.
-  input.domain = (input.domain) ? sgp.hostname(input.domain, {removeSubdomains: options.removeSubdomains}) : '';
-  alternateDomain = (input.domain) ? sgp.hostname(input.domain, {removeSubdomains: !options.removeSubdomains}) : '';
-
-  // Update form with validated input.
-  $el.Domain.val(input.domain).trigger('change');
-  $el.Len.val(options.length).trigger('change');
+  var input = getCurrentFormInput();
+  var options = input.options;
 
   // Show user feedback for missing master password.
   if(!input.password) {
@@ -352,25 +357,10 @@ var toggleAdvancedOptions = function () {
   sendDocumentHeight();
 };
 
-// Toggle alternate domain when TLD option is toggled.
-var toggleAlternateDomain = function () {
-
-  // Store current domain value.
-  var currentDomain = $el.Domain.val();
-
-  // If we have stored an alternate value for the domain, load it.
-  if (alternateDomain) {
-    $el.Domain.val(alternateDomain);
-  }
-
-  // Store the current value as an alternate value in case the user toggles back.
-  alternateDomain = currentDomain;
-
-};
-
 // Toggle indicator for TLD option.
 var toggleTLDIndicator = function () {
-  $el.DomainField.toggleClass('Advanced', $(this).is(':checked'));
+  var input = getCurrentFormInput();
+  $el.DomainField.toggleClass('Advanced', !input.options.removeSubdomains);
 };
 
 // Update copy button to show successful clipboard copy. Remove success
@@ -423,7 +413,6 @@ $el.Options.on('click', toggleAdvancedOptions);
 $('#Up, #Down').on('click', adjustPasswordLength);
 
 // Bind to form events.
-$el.DisableTLD.on('change', toggleAlternateDomain);
 $el.DisableTLD.on('change', toggleTLDIndicator);
 $el.Inputs.on('keydown change', clearGeneratedPassword);
 $('#Passwd, #Secret, #MethodField').on('keyup change', generateIdenticon);

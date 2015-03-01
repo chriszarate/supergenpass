@@ -253,9 +253,9 @@ input[type="radio"]:checked + label {
 }
 
 
-/* TLD toggle */
+/* Subdomains toggle */
 
-#TLDField {
+#SubdomainsField {
    position: absolute;
    top: 0;
    right: 9px;

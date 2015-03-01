@@ -39,7 +39,7 @@
 
 			<h1>
 				SGP
-				<span id="Options" title="Open advanced options"></span>
+				<span id="Options" title="Toggle advanced options"></span>
 			</h1>
 
 			<noscript>Requires JavaScript!</noscript>
@@ -61,22 +61,22 @@
 
 				<fieldset id="MethodField" class="Option">
 					<input id="MethodSHA512" name="Method" type="radio" value="sha512">
-					<label for="MethodSHA512" class="Button">SHA</label>
+					<label for="MethodSHA512" class="Button" title="Use SHA-512 algorithm">SHA</label>
 					<input id="MethodMD5" name="Method" type="radio" value="md5" checked="checked">
-					<label for="MethodMD5" class="Button">MD5</label>
+					<label for="MethodMD5" class="Button" title="Use MD5 algorithm">MD5</label>
 				</fieldset>
 
 				<fieldset id="LenField" class="Option">
 					<input id="Len" type="text" pattern="[0-9]*" value="10" maxlength="2">
-					<label id="Down" class="Button">–</label><label id="Up" class="Button">+</label>
+					<label id="Down" class="Button" title="Adjust password length">–</label><label id="Up" class="Button" title="Adjust password length">+</label>
 				</fieldset>
 
 				<fieldset id="DomainField">
 					<input id="Domain" type="url" placeholder="Domain / URL" autocorrect="off" autocapitalize="off">
 					<label for="Domain" class="placeholder">Domain / URL</label>
-					<fieldset id="TLDField" class="Option">
+					<fieldset id="SubdomainsField" class="Option">
 						<input id="RemoveSubdomains" type="checkbox" value="disabled" checked="checked">
-						<label for="RemoveSubdomains">TLD</label>
+						<label for="RemoveSubdomains" title="Toggle subdomain removal">TLD</label>
 					</fieldset>
 				</fieldset>
 

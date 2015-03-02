@@ -138,7 +138,7 @@ var listenForBookmarklet = function (event) {
 
 var sendDocumentHeight = function () {
   postMessageToBookmarklet({
-    height: $(document.body).height()
+    height: $el.Body.height()
   });
 };
 
@@ -291,7 +291,7 @@ var adjustPasswordLength = function (event) {
 };
 
 var toggleAdvancedOptions = function () {
-  $('body').toggleClass('Advanced');
+  $el.Body.toggleClass('Advanced');
   sendDocumentHeight();
 };
 
@@ -310,6 +310,7 @@ var showButtonSuccess = function (e) {
 
 // Populate selector cache.
 $el.Inputs = $('input');
+$el.Body = $(document.body);
 $.each(selectors, function (i, val) {
   $el[val] = $('#' + val);
 });

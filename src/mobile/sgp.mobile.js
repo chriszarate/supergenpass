@@ -72,7 +72,8 @@ var defaults = {
   length: storage.local.getItem('Len') || 10,
   secret: storage.local.getItem('Salt') || '',
   method: storage.local.getItem('Method') || 'md5',
-  removeSubdomains: !storage.local.getItem('DisableTLD') || ''
+  removeSubdomains: !storage.local.getItem('DisableTLD') || false,
+  advanced: storage.local.getItem('Advanced') || false
 };
 
 // Save current options to local storage as defaults.
@@ -291,7 +292,9 @@ var adjustPasswordLength = function (event) {
 };
 
 var toggleAdvancedOptions = function () {
-  $el.Body.toggleClass('Advanced');
+  var advanced = !$el.Body.hasClass('Advanced');
+  $el.Body.toggleClass('Advanced', advanced);
+  storage.local.setItem('Advanced', advanced || '');
   sendDocumentHeight();
 };
 
@@ -320,6 +323,7 @@ $('input:radio[value=' + defaults.method + ']').prop('checked', true);
 $el.Len.val(validatePasswordLength(defaults.length));
 $el.Secret.val(defaults.secret).trigger('change');
 $el.RemoveSubdomains.prop('checked', defaults.removeSubdomains).trigger('change');
+$el.Body.toggleClass('Advanced', defaults.advanced);
 
 // Perform localization, if requested.
 if (language && localizations.hasOwnProperty(language)) {

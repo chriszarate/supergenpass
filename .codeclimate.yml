@@ -1,0 +1,6 @@
+exclude_paths:
+  - bookmarklet/*
+  - grunt/*
+  - src/mobile/lib/*
+languages:
+  JavaScript: true

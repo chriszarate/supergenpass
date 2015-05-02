@@ -1,5 +1,7 @@
 /* Bookmarklet task */
 
+'use strict';
+
 var bookmarkleter = require('bookmarkleter');
 
 module.exports = function (grunt) {

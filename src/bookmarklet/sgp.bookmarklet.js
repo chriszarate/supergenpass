@@ -1,4 +1,8 @@
-void function ($) {
+'use strict';
+
+/*jshint browser: true, devel: true, jquery: true*/
+
+void (function ($) {
 
   // Configuration
   var version = 20150216;
@@ -20,7 +24,7 @@ void function ($) {
   };
 
   // Main
-  var loadSGP = function($) {
+  var loadSGP = function ($) {
 
     // Defaults
     var $target = $(document);
@@ -36,34 +40,34 @@ void function ($) {
       http://stackoverflow.com/questions/11872917/
     */
 
-    var isLocalFrame = function() {
+    var isLocalFrame = function () {
       // Expects frame element as context.
       // Try/catch helps avoid XSS freakouts.
       try {
-        var key = '_' + new Date().getTime(),
-            win = this.contentWindow;
+        var key = '_' + new Date().getTime();
+        var win = this.contentWindow;
         win[key] = key;
-        if(win[key] === key) {
+        if (win[key] === key) {
           $localFrames.add(win.document);
           return true;
         }
       }
-      catch(e) {
+      catch (e) {
         return false;
       }
     };
 
-    var findBiggestFrame = function() {
+    var findBiggestFrame = function () {
       // Expects frame element as context.
       // Try/catch helps avoid XSS freakouts.
       try {
         var area = $(this).height() * $(this).width();
-        if(area > maxArea && area > minFrameArea) {
+        if (area > maxArea && area > minFrameArea) {
           $target = $(this.contentWindow.document);
           maxArea = area;
         }
       }
-      catch(e) {}
+      catch (e) {}
     };
 
     var removeLoadingIndicator = function () {
@@ -79,14 +83,14 @@ void function ($) {
       // current URL and opens channel for response.)
       try {
         this.contentWindow.postMessage('{"version":' + version + '}', domain);
-      } catch(e) {
+      } catch (e) {
         linkMobileVersion();
       }
     };
 
     var receiveMessage = function (e) {
       var post = e.originalEvent;
-      if(post.origin === domain && typeof post.data !== 'undefined') {
+      if (post.origin === domain && typeof post.data !== 'undefined') {
         removeLoadingIndicator();
         clearTimeout(loadTimeoutID);
         processMessage(JSON.parse(post.data));
@@ -95,7 +99,7 @@ void function ($) {
 
     var processMessage = function (data) {
       $.each(data, function (key, value) {
-        switch(key) {
+        switch (key) {
           case 'result':
             populatePassword(value);
             break;
@@ -149,7 +153,7 @@ void function ($) {
     $('iframe', $target).filter(isLocalFrame).each(findBiggestFrame);
 
     // If no target document is found, offer mobile version.
-    if(!$target) {
+    if (!$target) {
       offerMobileVersion();
     }
 
@@ -194,7 +198,7 @@ void function ($) {
     });
 
     $target.on('mousemove', function (e) {
-      if(dragging) {
+      if (dragging) {
         $box.css({
           left: e.pageX - dragging[0],
           top: e.pageY - dragging[1]
@@ -210,7 +214,7 @@ void function ($) {
     http://pastie.org/462639
   */
 
-  if($ && $.fn && parseFloat($.fn.jquery) >= 1.7) {
+  if ($ && $.fn && parseFloat($.fn.jquery) >= 1.7) {
 
     loadSGP($);
 
@@ -218,9 +222,9 @@ void function ($) {
 
     var s = document.createElement('script');
     s.src = '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
-    s.onload = s.onreadystatechange = function() {
+    s.onload = s.onreadystatechange = function () {
       var state = this.readyState;
-      if(!state || state === 'loaded' || state === 'complete') {
+      if (!state || state === 'loaded' || state === 'complete') {
         loadSGP(jQuery.noConflict());
       }
     };
@@ -231,4 +235,4 @@ void function ($) {
 
   }
 
-}(window.jQuery);
+})(window.jQuery);

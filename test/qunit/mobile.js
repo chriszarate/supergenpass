@@ -1,3 +1,7 @@
+'use strict';
+
+/*jshint browser: true, jquery: true, latedef: false, qunit: true*/
+
 module('SuperGenPass mobile version');
 
 // Enumerate jQuery selectors for caching.
@@ -100,7 +104,7 @@ var runTest = function () {
   sendClick();
   setTimeout(function () {
     ok($el.Output.text() === testData[testIndex][1], 'Generated "' + $el.Output.text() + '" but expected "' + testData[testIndex][1] + '".');
-    testIndex++;
+    testIndex = testIndex + 1;
     nextTest();
   }, 100);
 };

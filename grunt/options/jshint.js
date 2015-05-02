@@ -2,9 +2,10 @@
 
 module.exports = {
   options: {
-    browser: true,
-    node: true,
-    unused: true
+    ignores: [
+      'src/mobile/lib/**/*.js'
+    ],
+    jshintrc: true
   },
   app: [
     'src/**/*.js'

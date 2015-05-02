@@ -1,3 +1,7 @@
+'use strict';
+
+/*global define*/
+
 // Learn more about configuring this file at <https://github.com/theintern/intern/wiki/Configuring-Intern>.
 // These default settings work OK for most people. The options that *must* be changed below are the
 // packages, suites, excludeInstrumentation, and (if you want functional tests) functionalSuites.
@@ -25,10 +29,10 @@ define({
   maxConcurrency: 2,
 
   // Name of the tunnel class to use for WebDriver tests
-  tunnel: "SauceLabsTunnel",
+  tunnel: 'SauceLabsTunnel',
 
   // Functional test suite(s) to run in each browser once non-functional tests are completed
-  functionalSuites: [ 'test/intern/functional/mobile' ],
+  functionalSuites: ['test/intern/functional/mobile'],
 
   // A regular expression matching URLs to files that should not be included in code coverage analysis
   excludeInstrumentation: /^bower_components|node_modules\//

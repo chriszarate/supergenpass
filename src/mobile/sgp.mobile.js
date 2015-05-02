@@ -1,10 +1,12 @@
 'use strict';
 
+/*jshint browser: true, latedef: false*/
+
 var $ = require('jquery');
 var sgp = require('supergenpass-lib');
 var md5 = require('crypto-js/md5');
 var sha512 = require('crypto-js/sha512');
-var zeroclipboard = require('zeroclipboard');
+var Zeroclipboard = require('zeroclipboard');
 var flashversion = require('./lib/flashversion');
 var identicon = require('./lib/identicon5');
 var shortcut = require('./lib/shortcut');
@@ -117,7 +119,7 @@ var listenForBookmarklet = function (event) {
     $.each(JSON.parse(post.data), function (key, value) {
       switch (key) {
       case 'version':
-        if(value < latestVersion) {
+        if (value < latestVersion) {
           // Fetch latest bookmarklet.
           $.ajax({
             url: latestBookmarklet,
@@ -152,7 +154,7 @@ var sendGeneratedPassword = function (generatedPassword) {
 // Send message using HTML5 postMessage API. Only post a message if we are in
 // communication with the bookmarklet.
 var postMessageToBookmarklet = function (message) {
-  if(messageSource && messageOrigin) {
+  if (messageSource && messageOrigin) {
     messageSource.postMessage(JSON.stringify(message), messageOrigin);
   }
 };
@@ -199,8 +201,8 @@ var getHashMethod = function () {
 
 // Generate hexadecimal hash for identicons.
 var generateIdenticonHash = function (seed, hashMethod) {
-  var hashFunction = ( hashMethod == 'sha512' ) ? sha512 : md5;
-  for (var i = 0; i <= 4; i++) {
+  var hashFunction = (hashMethod === 'sha512') ? sha512 : md5;
+  for (var i = 0; i <= 4; i = i + 1) {
     seed = hashFunction(seed).toString();
   }
   return seed;
@@ -226,15 +228,15 @@ var generatePassword = function () {
   var input = getCurrentFormInput();
   var options = input.options;
 
-  if(!input.password) {
-     $el.PasswdField.addClass('Missing');
+  if (!input.password) {
+    $el.PasswdField.addClass('Missing');
   }
 
-  if(!input.domain) {
-     $el.DomainField.addClass('Missing');
+  if (!input.domain) {
+    $el.DomainField.addClass('Missing');
   }
 
-  if(input.password && input.domain) {
+  if (input.password && input.domain) {
     sgp(input.password, input.domain, options, populateGeneratedPassword);
   }
 
@@ -263,10 +265,10 @@ var clearGeneratedPassword = function (event) {
   var group2 = (key > 45 && key < 91);
   var group3 = (key > 95 && key < 112);
   var group4 = (key > 185 && key < 223);
-  var enterKey = (key == 13);
+  var enterKey = (key === 13);
 
   // When user enters form input, reset form status.
-  if ( event.type == 'change' || group1 || group2 || group3 || group4 ) {
+  if (event.type === 'change' || group1 || group2 || group3 || group4) {
     $el.Mask.hide();
     $el.Output.text('').hide();
     $el.Generate.show();
@@ -284,7 +286,7 @@ var clearGeneratedPassword = function (event) {
 };
 
 var adjustPasswordLength = function (event) {
-  var increment = ( $(this).attr('id') == 'Up' ) ? 1 : -1;
+  var increment = ($(this).attr('id') === 'Up') ? 1 : -1;
   var passwordLength = validatePasswordLength($el.Len.val());
   var newPasswordLength = validatePasswordLength(passwordLength + increment);
   $el.Len.val(newPasswordLength).trigger('change');
@@ -335,7 +337,7 @@ if (language && localizations.hasOwnProperty(language)) {
 }
 
 // Provide fake input placeholders if browser does not support them.
-if ( !('placeholder' in document.createElement('input')) ) {
+if (!('placeholder' in document.createElement('input'))) {
   $('#Passwd, #Secret, #Domain').on('keyup change', function () {
     $('label[for=' + $(this).attr('id') + ']').toggle($(this).val() === '');
   }).trigger('change');
@@ -343,8 +345,8 @@ if ( !('placeholder' in document.createElement('input')) ) {
 
 // Activate copy-to-clipboard button if browser has Flash.
 if (flashversion >= 11) {
-  zeroclipboard.config(zeroClipboardConfig);
-  new zeroclipboard($el.CopyButton.show()).on('aftercopy', showButtonSuccess);
+  Zeroclipboard.config(zeroClipboardConfig);
+  new Zeroclipboard($el.CopyButton.show()).on('aftercopy', showButtonSuccess);
 }
 
 // Bind to interaction events.

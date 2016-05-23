@@ -17,12 +17,11 @@ define({
   // capabilities options specified for an environment will be copied as-is
   environments: [
     { browserName: 'android', version: '4.4', platform: 'Linux' },
-    { browserName: 'iphone', version: '8.1', platform: 'OS X 10.9' },
-    { browserName: 'iphone', version: '7.1', platform: 'OS X 10.9' },
-    { browserName: 'internet explorer', version: '11', platform: 'Windows 8.1', requireWindowFocus: 'true' },
-    { browserName: 'firefox', version: '33', platform: 'Windows 7' },
-    { browserName: 'chrome', version: '38', platform: 'Windows 7' },
-    { browserName: 'safari', version: '8', platform: 'OS X 10.10' }
+    { browserName: 'iphone', version: '9.2', platform: 'OS X 10.10' },
+    { browserName: 'internet explorer', version: '11.0', platform: 'Windows 7', requireWindowFocus: 'true' },
+    { browserName: 'firefox', version: '45.0', platform: 'Windows 7' },
+    { browserName: 'chrome', version: '50.0', platform: 'Windows 7' },
+    { browserName: 'safari', version: '8.0', platform: 'OS X 10.10' }
   ],
 
   // Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service

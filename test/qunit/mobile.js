@@ -2,7 +2,7 @@
 
 /*jshint browser: true, jquery: true, latedef: false, qunit: true*/
 
-module('SuperGenPass mobile version');
+QUnit.module('SuperGenPass mobile version');
 
 // Enumerate jQuery selectors for caching.
 var $iframe = $('#SGP');
@@ -39,85 +39,88 @@ var sendClick = function () {
 };
 
 
-/* Test setup */
+/* Tests */
 
-var setupTest1 = function () {
-  $el.Passwd.val('test');
-  $el.Secret.val('secret');
-  $el.Domain.val('https://login.example.com');
-  $el.Len.val('10');
-  $el.MethodMD5.prop('checked', true);
-  $el.RemoveSubdomains.prop('checked', true);
-};
-
-var setupTest2 = function () {
-  $el.Secret.val('');
-};
-
-var setupTest3 = function () {
-  $el.MethodSHA512.prop('checked', true);
-};
-
-var setupTest4 = function () {
-  $el.Len.val('2');
-};
-
-var setupTest5 = function () {
-  $el.Len.val('100');
-  $el.Secret.val('ssshh');
-};
-
-var setupTest6 = function () {
-  $el.Domain.val('https://login.example.com');
-  $el.RemoveSubdomains.prop('checked', false);
-};
-
-
-/* Test data */
-
-var testData = [
-  [setupTest1, 'iTbF7RViG5'],
-  [setupTest2, 'w9UbG0NEk7'],
-  [setupTest3, 'sJfoZg3nU8'],
-  [setupTest4, 'aC81'],
-  [setupTest5, 'fd35Ng0Xwne2Pb8f3XFu8r8y'],
-  [setupTest6, 'alrcP2cLv1lDddHXjExlS0H9']
+var suite = [
+  {
+    name: 'initial input',
+    setup: function () {
+      $el.Passwd.val('test');
+      $el.Secret.val('secret');
+      $el.Domain.val('https://login.example.com');
+      $el.Len.val('10');
+      $el.MethodMD5.prop('checked', true);
+      $el.RemoveSubdomains.prop('checked', true);
+    },
+    expect: 'iTbF7RViG5'
+  },
+  {
+    name: 'remove secret',
+    setup: function () {
+      $el.Secret.val('');
+    },
+    expect: 'w9UbG0NEk7'
+  },
+  {
+    name: 'using SHA512',
+    setup: function () {
+      $el.MethodSHA512.prop('checked', true);
+    },
+    expect: 'sJfoZg3nU8'
+  },
+  {
+    name: 'change length to 2',
+    setup: function () {
+      $el.Len.val('2');
+    },
+    expect: 'aC81'
+  },
+  {
+    name: 'change secret and length to 100',
+    setup: function () {
+      $el.Len.val('100');
+      $el.Secret.val('ssshh');
+    },
+    expect: 'fd35Ng0Xwne2Pb8f3XFu8r8y'
+  },
+  {
+    name: 'change domain and subdomain removal',
+    setup: function () {
+      $el.Domain.val('https://login.example.com');
+      $el.RemoveSubdomains.prop('checked', false);
+    },
+    expect: 'alrcP2cLv1lDddHXjExlS0H9'
+  },
+  {
+    name: 'check local storage',
+    setup: function () {
+      $el.SaveDefaults[0].dispatchEvent(clickEvent);
+    },
+    expect: function (assert, done) {
+      assert.ok(localStorage.getItem('Len') === '24', 'Password length value stored.');
+      assert.ok(localStorage.getItem('Salt') === 'ssshh', 'Secret password value stored.');
+      assert.ok(localStorage.getItem('Method') === 'sha512', 'Hash method setting stored.');
+      assert.ok(localStorage.getItem('DisableTLD') === 'true', 'Subdomain removal setting stored.');
+      done();
+    }
+  }
 ];
 
-var testLength = testData.length;
-var testIndex = 0;
+suite.forEach(function (test) {
+  QUnit.test(test.name, function (assert) {
+    var done = assert.async();
+    test.setup();
 
+    sendClick();
 
-/* Chain tests */
+    if (typeof test.expect === 'function') {
+      test.expect(assert, done);
+      return;
+    }
 
-var nextTest = function () {
-  if (testIndex < testLength) {
-    testData[testIndex][0].call();
-    runTest();
-  } else if (testIndex === testLength) {
-    testLocalStorage();
-    start();
-  }
-};
-
-var runTest = function () {
-  sendClick();
-  setTimeout(function () {
-    ok($el.Output.text() === testData[testIndex][1], 'Generated "' + $el.Output.text() + '" but expected "' + testData[testIndex][1] + '".');
-    testIndex = testIndex + 1;
-    nextTest();
-  }, 100);
-};
-
-var testLocalStorage = function () {
-  $el.SaveDefaults[0].dispatchEvent(clickEvent);
-  ok(localStorage.getItem('Len') === '24', 'Password length value stored.');
-  ok(localStorage.getItem('Salt') === 'ssshh', 'Secret password value stored.');
-  ok(localStorage.getItem('Method') === 'sha512', 'Hash method setting stored.');
-  ok(localStorage.getItem('DisableTLD') === 'true', 'Subdomain removal setting stored.');
-};
-
-asyncTest('Password generation', function () {
-  expect(10);
-  nextTest();
+    setTimeout(function () {
+      assert.equal($el.Output.text(), test.expect);
+      done();
+    }, 100);
+  });
 });

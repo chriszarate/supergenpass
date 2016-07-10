@@ -42,8 +42,8 @@ var localizations = {
   'zh-hk': ['主密碼', '域名 / URL', '提交'],
   'hu':    ['Mesterjelszó', 'Tartomány / Internetcím', 'OK'],
   'ru':    ['Мастер-пароль', 'Домена / URL', 'Подтвердить'],
-  'nl':    ["Hoofd wachtwoord", "Domein / URL", "Genereer"],
-  'fy':    ["Haad wachtwurd", "Domein / URL", "Ferwurkje"]
+  'nl':    ['Hoofd wachtwoord', 'Domein / URL', 'Genereer'],
+  'fy':    ['Haad wachtwurd', 'Domein / URL', 'Ferwurkje']
 };
 
 // Enumerate jQuery selectors for caching.

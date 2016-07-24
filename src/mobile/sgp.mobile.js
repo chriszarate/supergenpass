@@ -239,7 +239,7 @@ var generatePassword = function () {
   }
 
   if (input.password && input.domain) {
-    sgp(input.password, input.domain, options, populateGeneratedPassword);
+    sgp.generate(input.password, input.domain, options, populateGeneratedPassword);
   }
 
 };

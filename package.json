@@ -3,12 +3,12 @@
   "version": "0.3.9",
   "dependencies": {
     "crypto-js": "^3.1.6",
-    "jquery": "^2.1.4",
+    "jquery": "^3.1.0",
     "supergenpass-lib": "^3.0.0"
   },
   "devDependencies": {
     "bookmarkleter": "^0.2.2",
-    "browserify": "^13.0.1",
+    "browserify": "^13.1.0",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
@@ -16,14 +16,14 @@
     "grunt-contrib-cssmin": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-qunit": "^1.2.0",
-    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-uglify": "^2.0.0",
     "grunt-load-options": "^0.2.1",
     "grunt-manifest": "^0.4.4",
     "grunt-static-inline": "^0.1.9",
-    "grunt-template": "^0.2.3",
-    "intern": "^3.2.1",
+    "grunt-template": "^1.0.0",
+    "intern": "^3.2.3",
     "load-grunt-tasks": "^3.5.0",
-    "qunitjs": "^2.0.0-rc1"
+    "qunitjs": "^2.0.1"
   },
   "description": "A bookmarklet password generator.",
   "homepage": "https://chriszarate.github.io/supergenpass/",

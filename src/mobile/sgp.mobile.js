@@ -6,8 +6,6 @@ var $ = require('jquery');
 var sgp = require('supergenpass-lib');
 var md5 = require('crypto-js/md5');
 var sha512 = require('crypto-js/sha512');
-var Zeroclipboard = require('zeroclipboard');
-var flashversion = require('./lib/flashversion');
 var identicon = require('./lib/identicon5');
 var shortcut = require('./lib/shortcut');
 var storage = require('./lib/localstorage-polyfill');
@@ -18,12 +16,6 @@ var messageSource = false;
 var language = location.search.substring(1);
 var latestBookmarklet = '../bookmarklet/bookmarklet.min.js';
 var latestVersion = 20150216;
-
-var zeroClipboardConfig = {
-  bubbleEvents: false,
-  hoverClass: 'Hover',
-  activeClass: 'Active'
-};
 
 // Major search engine referral hostnames.
 var searchEngines = [
@@ -59,8 +51,8 @@ var selectors =
     'DomainLabel',
     'RemoveSubdomains',
     'Len',
+    'Result',
     'Generate',
-    'Mask',
     'MaskText',
     'CopyButton',
     'Output',
@@ -247,15 +239,13 @@ var generatePassword = function () {
 var populateGeneratedPassword = function (generatedPassword) {
   sendGeneratedPassword(generatedPassword);
   $el.Inputs.trigger('blur');
-  $el.Generate.hide();
   $el.Output.text(generatedPassword);
-  $el.Mask.show();
+  $el.Result.addClass('Offer').removeClass('Reveal');
   shortcut.add('Ctrl+H', toggleGeneratedPassword);
 };
 
 var toggleGeneratedPassword = function () {
-  $el.Mask.toggle();
-  $el.Output.toggle();
+  $el.Result.toggleClass('Reveal');
 };
 
 var clearGeneratedPassword = function (event) {
@@ -271,9 +261,8 @@ var clearGeneratedPassword = function (event) {
 
   // When user enters form input, reset form status.
   if (event.type === 'change' || group1 || group2 || group3 || group4) {
-    $el.Mask.hide();
-    $el.Output.text('').hide();
-    $el.Generate.show();
+    $el.Output.text('');
+    $el.Result.removeClass('Offer');
     $el.PasswdField.removeClass('Missing');
     $el.DomainField.removeClass('Missing');
     shortcut.remove('Ctrl+H');
@@ -345,11 +334,31 @@ if (!('placeholder' in document.createElement('input'))) {
   }).trigger('change');
 }
 
-// Activate copy-to-clipboard button if browser has Flash.
-if (flashversion >= 11) {
-  Zeroclipboard.config(zeroClipboardConfig);
-  new Zeroclipboard($el.CopyButton.show()).on('aftercopy', showButtonSuccess);
-}
+// Copy to clipboard if possible.
+// https://developers.google.com/web/updates/2015/04/cut-and-copy-commands?hl=en
+$el.CopyButton.on('click', function (e) {
+  var range = document.createRange();
+  var selection = window.getSelection();
+  var success = false;
+
+  range.selectNodeContents($el.Output.get(0));
+  selection.removeAllRanges();
+  selection.addRange(range);
+
+  try {
+    success = document.execCommand('copy');
+  } catch (err) {}
+
+  selection.removeAllRanges();
+
+  if (success) {
+    showButtonSuccess(e);
+    $el.Result.removeClass('Reveal');
+    return;
+  }
+
+  $el.CopyButton.hide();
+});
 
 // Bind to interaction events.
 $el.Generate.on('click', generatePassword);

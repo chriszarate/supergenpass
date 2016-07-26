@@ -4,8 +4,7 @@
   "dependencies": {
     "crypto-js": "^3.1.6",
     "jquery": "^2.1.4",
-    "supergenpass-lib": "^3.0.0",
-    "zeroclipboard": "^2.2.0"
+    "supergenpass-lib": "^3.0.0"
   },
   "devDependencies": {
     "bookmarkleter": "^0.2.2",

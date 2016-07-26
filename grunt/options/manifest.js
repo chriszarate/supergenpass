@@ -9,8 +9,7 @@ module.exports = {
       timestamp: true
     },
     src: [
-      'index.html',
-      'ZeroClipboard.swf'
+      'index.html'
     ],
     dest: 'mobile/cache.manifest'
   }

@@ -111,7 +111,7 @@ label {
 
 /* Placeholders */
 
-label.placeholder {
+.placeholder {
    display: none;
    position: absolute;
    top: 11px;
@@ -380,6 +380,15 @@ input[type="checkbox"]:checked + label:hover {
    padding-top: 10px;
 }
 
+.Offer #Generate {
+   display: none;
+}
+
+.Offer #Mask,
+.Offer #Output {
+   display: block;
+}
+
 
 /* Generate button */
 
@@ -409,20 +418,22 @@ input[type="checkbox"]:checked + label:hover {
    display: none;
    height: 36px;
    overflow: hidden;
+   position: relative;
 }
 
 #Output, #MaskText {
    color: #fff;
    background-color: #666;
    border: none;
+   border-bottom: solid 2px #666;
    font-family: monospace;
+   height: 14px;
    word-wrap: break-word;
    overflow-wrap: break-word;
 }
 
 #MaskText {
-   height: 14px;
-   border-bottom: solid 2px #444;
+   border-color: #444;
    cursor: pointer;
 }
 
@@ -436,11 +447,18 @@ input[type="checkbox"]:checked + label:hover {
    color: #333;
 }
 
+.Reveal #MaskText {
+   display: none;
+}
+
+.Reveal #Output {
+   display: block;
+}
+
 
 /* Copy-to-clipboard button */
 
 #CopyButton {
-   display: none;
    float: right;
    width: 24px;
    height: 14px;

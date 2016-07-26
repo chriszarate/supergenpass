@@ -47,7 +47,7 @@
 
 			<div id="Update">Updated bookmarklet: <a id="Bookmarklet" href="#">SGP</a></div>
 
-			<form action="#" novalidate="novalidate">
+			<form action="#" novalidate="novalidate" autocomplete="off">
 
 				<fieldset id="PasswdField">
 					<input id="Passwd" type="password" placeholder="Master password">
@@ -86,11 +86,10 @@
 					<div id="Generate" class="Field Button">Generate</div>
 
 					<div id="Mask">
-						<div id="CopyButton" class="Field Button" data-clipboard-target="Output"></div>
+						<div id="CopyButton" class="Field Button"></div>
 						<div id="MaskText" class="Field Button">**************</div>
+						<div id="Output" class="Field"></div>
 					</div>
-
-					<div id="Output" class="Field"></div>
 
 				</div>
 

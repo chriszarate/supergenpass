@@ -1,6 +1,6 @@
 {
   "name": "SuperGenPass",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "dependencies": {
     "crypto-js": "^3.1.6",
     "jquery": "^3.1.0",

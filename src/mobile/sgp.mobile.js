@@ -17,8 +17,9 @@ var language = location.search.substring(1);
 var latestBookmarklet = '../bookmarklet/bookmarklet.min.js';
 var latestVersion = 20150216;
 
-// Major search engine referral hostnames.
-var searchEngines = [
+// Hostnames that should not be populated into the domain field on referral.
+var noReferral = [
+  'chriszarate.github.io',
   'www.google.com',
   'www.bing.com',
   'duckduckgo.com',
@@ -88,11 +89,11 @@ var showUpdateNotification = function (data) {
   sendDocumentHeight();
 };
 
-// Populate domain with referrer, if available and not from a search engine.
+// Populate domain with referrer, if available and not from the blacklist.
 var populateReferrer = function (referrer) {
   if (referrer) {
     referrer = sgp.hostname(referrer, {removeSubdomains: false});
-    if (searchEngines.indexOf(referrer) === -1) {
+    if (noReferral.indexOf(referrer) === -1) {
       $el.Domain.val(sgp.hostname(referrer, {removeSubdomains: defaults.removeSubdomains}));
     }
   }

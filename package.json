@@ -1,10 +1,10 @@
 {
   "name": "SuperGenPass",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "dependencies": {
     "crypto-js": "^3.1.6",
     "jquery": "^3.1.0",
-    "supergenpass-lib": "^3.0.0"
+    "supergenpass-lib": "^3.0.1"
   },
   "devDependencies": {
     "bookmarkleter": "^0.2.2",

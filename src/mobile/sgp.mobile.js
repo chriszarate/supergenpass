@@ -37,6 +37,7 @@ var localizations = {
   'ru':    ['Мастер-пароль', 'Домена / URL', 'Подтвердить'],
   'nl':    ['Hoofd wachtwoord', 'Domein / URL', 'Genereer'],
   'fy':    ['Haad wachtwurd', 'Domein / URL', 'Ferwurkje']
+  'tr':    ['Ana Şifre', 'Alan Adı / URL', 'Üret']
 };
 
 // Enumerate jQuery selectors for caching.

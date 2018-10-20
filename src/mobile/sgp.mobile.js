@@ -36,7 +36,7 @@ var localizations = {
   'hu':    ['Mesterjelszó', 'Tartomány / Internetcím', 'OK'],
   'ru':    ['Мастер-пароль', 'Домена / URL', 'Подтвердить'],
   'nl':    ['Hoofd wachtwoord', 'Domein / URL', 'Genereer'],
-  'fy':    ['Haad wachtwurd', 'Domein / URL', 'Ferwurkje']
+  'fy':    ['Haad wachtwurd', 'Domein / URL', 'Ferwurkje'],
   'tr':    ['Ana Şifre', 'Alan Adı / URL', 'Üret']
 };
 
